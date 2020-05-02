@@ -8,19 +8,28 @@
  */
 import { WebGLRenderer, PerspectiveCamera, Vector3 } from 'three';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
-import { SeedScene } from 'scenes';
+import { SeedScene, GameScene } from 'scenes';
+import * as THREE from 'three';
 
 // Initialize core ThreeJS components
-const scene = new SeedScene();
-const camera = new PerspectiveCamera();
-const renderer = new WebGLRenderer({ antialias: true });
+const scene = new GameScene();
+// const camera = new PerspectiveCamera();
+// antialiasing, transparent backdrop
+const renderer = new WebGLRenderer({ antialias: true, alpha: true }); 
 
 // Set up camera
-camera.position.set(6, 3, -10);
-camera.lookAt(new Vector3(0, 0, 0));
+const camera = new PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 1000);
+camera.position.y = 2.5;
+camera.position.z = 4.5;
+// camera.position.set(6, 3, -10);
+// camera.lookAt(new Vector3(0, 0, 0));
 
 // Set up renderer, canvas, and minor CSS adjustments
 renderer.setPixelRatio(window.devicePixelRatio);
+// enable shadow
+renderer.shadowMap.enabled = true;
+renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+// renderer.setSize(innerWidth, innerHeight);
 const canvas = renderer.domElement;
 canvas.style.display = 'block'; // Removes padding below canvas
 document.body.style.margin = 0; // Removes margin around page
