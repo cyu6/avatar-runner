@@ -19,8 +19,8 @@ const renderer = new WebGLRenderer({ antialias: true, alpha: true });
 
 // Set up camera
 const camera = new PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 1000);
-camera.position.y = 2.5;
-camera.position.z = 4.5;
+camera.position.y = 1;
+camera.position.z = 3;
 // camera.position.set(6, 3, -10);
 // camera.lookAt(new Vector3(0, 0, 0));
 

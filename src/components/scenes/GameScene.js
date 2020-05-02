@@ -11,13 +11,13 @@ class GameScene extends Scene {
 
         // Init state
         this.state = {
-        //     gui: new Dat.GUI(), // Create GUI for scene
-        //     rotationSpeed: 1,
+            // gui: new Dat.GUI(), // Create GUI for scene
+            // rotationSpeed: 1,
             updateList: [],
         };
 
         // Set background to a nice color
-        // this.background = new Color(0x7ec0ee);
+        this.background = new Color(0xf0fff0);
 
         // Add meshes to scene
         // const land = new Land();
@@ -26,15 +26,21 @@ class GameScene extends Scene {
         // this.add(land, flower, lights);
 
         // Populate GUI
-        // this.state.gui.add(this.state, 'rotationSpeed', -5, 5);
+        // this.fog = new FogExp2(0xf0fff0, 0.14);
 
-        this.fog = new FogExp2( 0xf0fff0, 0.14 );
+        // "infinite" plane
+        var planeGeometry = new THREE.PlaneGeometry(7, 1000000);
+        var planeMaterial = new THREE.MeshBasicMaterial({ color: 0x909A94, side: THREE.DoubleSide });
+        var plane = new THREE.Mesh(planeGeometry, planeMaterial);
+        plane.position.set(0, -.3, 0);
+        plane.rotation.set(-Math.PI / 2, Math.PI / 2000, Math.PI);
+        this.add(plane);
 
-        var heroGeometry = new DodecahedronGeometry( 0.2 , 1);
-	    var heroMaterial = new MeshStandardMaterial( { color: 0xe5f2f2, shading: THREE.FlatShading } )
-        var hero = new Mesh( heroGeometry, heroMaterial );
-        hero.castShadow=true;
-        hero.receiveShadow=false;
+        var heroGeometry = new DodecahedronGeometry(0.3, 1);
+        var heroMaterial = new MeshStandardMaterial({ color: 0xe5f2f2, shading: THREE.FlatShading })
+        var hero = new Mesh(heroGeometry, heroMaterial);
+        hero.castShadow = true;
+        hero.receiveShadow = false;
 
         this.add(hero, lights);
     }
@@ -45,15 +51,16 @@ class GameScene extends Scene {
 
     update(timeStamp) {
         // const { rotationSpeed, updateList } = this.state;
-        // this.rotation.y = (rotationSpeed * timeStamp) / 10000;
 
         // // Call update for each object in the updateList
         // for (const obj of updateList) {
         //     obj.update(timeStamp);
         // }
+        // this.plane.position.x = position.x;
+		// this.plane.y = position.y;
 
         const { updateList } = this.state;
-
+        
         // Call update for each object in the updateList
         for (const obj of updateList) {
             obj.update(timeStamp);

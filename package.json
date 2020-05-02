@@ -2,7 +2,7 @@
   "name": "lower-case-dashed-name-of-project",
   "repository": "avatar-runner",
   "version": "0.1.0",
-  "title": "PROJECT TITLE HERE",
+  "title": "Avatar: The Last Infinite Runner",
   "description": "SHORT DESCRIPTION OF PROJECT HERE. ONE TO TWO SENTENCES MAX",
   "keywords": [
     "Princeton",
@@ -10,9 +10,11 @@
     "three.js",
     "COS 426",
     "ivy league",
-    "keyword1",
-    "keyword2",
-    "...",
+    "Avatar",
+    "Avatar: The Last Airbender",
+    "Infinite Runner",
+    "Elements",
+    "Bending",
     "this last entry CANNOT have a comma after it ->"
   ],
   "scripts": {
