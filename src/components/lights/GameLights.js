@@ -17,7 +17,8 @@ class GameLights extends Group {
         var hemi = new HemisphereLight(0xfffafa, 0x000000, .9);
         // scene.add(hemisphereLight);
         var sun = new DirectionalLight(0xcdc1c5, 0.9);
-        sun.position.set(12, 6, -7);
+        // where to point the light so it's pointing behind the avatar?
+        sun.position.set(50, 6, -7);
         sun.castShadow = true;
         // scene.add(sun);
 

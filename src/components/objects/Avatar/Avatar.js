@@ -4,7 +4,7 @@ import {AnimationMixer} from 'three/src/animation/AnimationMixer.js';
 import MODEL from './avatar.gltf';
 
 class Avatar extends Group{
-    constructor() {
+    constructor(parent) {
         // Call parent Group() constructor
         super();
 
@@ -23,7 +23,17 @@ class Avatar extends Group{
 
             this.add(gltf.scene);
         });
+
+        parent.addToUpdateList(this);
+
+
+    }
+
+    update(timeStamp) {
+
+        if (this.mixer) this.mixer.update(timeStamp / 1000000);
     }
 }
+
 
 export default Avatar;
