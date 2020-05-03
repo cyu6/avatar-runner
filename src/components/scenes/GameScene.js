@@ -66,7 +66,8 @@ class GameScene extends Scene {
         for (const obj of updateList) {
             obj.update(timeStamp);
         }
-        if (this.avatar.mixer) this.avatar.mixer.update(timeStamp / 10000000);
+        var delta = this.avatar.clock.getDelta();
+        if (this.avatar.mixer) this.avatar.mixer.update(delta);
     }
 }
 

@@ -1,4 +1,4 @@
-import { Group} from 'three';
+import { Group, Clock} from 'three';
 import { GLTFLoader} from 'three/examples/jsm/loaders/GLTFLoader.js';
 import {AnimationMixer} from 'three/src/animation/AnimationMixer.js';
 import MODEL from './avatar.gltf';
@@ -13,6 +13,7 @@ class Avatar extends Group{
         this.name = 'avatar';
         this.mixer;
 
+        this.clock = new Clock();
         const loader = new GLTFLoader();
         loader.load(MODEL, (gltf) => {
         	this.mixer = new AnimationMixer(gltf.scene);
