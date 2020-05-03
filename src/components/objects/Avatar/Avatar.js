@@ -4,7 +4,7 @@ import {AnimationMixer} from 'three/src/animation/AnimationMixer.js';
 import MODEL from './avatar.gltf';
 
 class Avatar extends Group{
-    constructor() {
+    constructor(parent) {
         // Call parent Group() constructor
         super();
 
@@ -24,7 +24,15 @@ class Avatar extends Group{
 
             this.add(gltf.scene);
         });
+
+        parent.addToUpdateList(this);
+    }
+
+    update() {
+        var delta = this.clock.getDelta();
+        if (this.mixer) this.mixer.update(delta);
     }
 }
+
 
 export default Avatar;
