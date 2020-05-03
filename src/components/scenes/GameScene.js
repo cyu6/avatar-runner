@@ -41,11 +41,15 @@ class GameScene extends Scene {
         function handleKeyDown(event) {
             // debugger
             if (event.key == "ArrowLeft") {
-                avatar.position.x -= 0.5;
+                avatar.move = true;
+                avatar.left = true;
+                avatar.right = false;
             } else if (event.key == "ArrowRight") {
-                avatar.position.x += 0.5
+                avatar.move = true;
+                avatar.left = false;
+                avatar.right = true
             }
-            return;
+            avatar.moveAvatar();
         };
         window.addEventListener('keydown', handleKeyDown, false);
     }
