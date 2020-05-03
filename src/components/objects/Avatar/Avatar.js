@@ -8,13 +8,15 @@ class Avatar extends Group{
         // Call parent Group() constructor
         super();
 
-        const loader = new GLTFLoader();
-
+        // set position of runner (increasing z moves runner closer to viewer)
+        this.position.set(0, 0, 1);
         this.name = 'avatar';
         this.mixer;
 
+        const loader = new GLTFLoader();
         loader.load(MODEL, (gltf) => {
         	this.mixer = new AnimationMixer(gltf.scene);
+            gltf.scene.rotation.y = 3;
         	this.mixer.timescale = 0.01
         	var action = this.mixer.clipAction(gltf.animations[0]);
         	action.play();

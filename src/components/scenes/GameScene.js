@@ -27,7 +27,7 @@ class GameScene extends Scene {
         // this.add(land, flower, lights);
 
         // Populate GUI
-        // this.fog = new FogExp2(0xf0fff0, 0.14);
+        this.fog = new FogExp2(0xf0fff0, 0.07);
 
         // "infinite" plane
         var planeGeometry = new THREE.PlaneGeometry(7, 1000000);
@@ -37,13 +37,13 @@ class GameScene extends Scene {
         plane.rotation.set(-Math.PI / 2, Math.PI / 2000, Math.PI);
         this.add(plane);
 
-        var heroGeometry = new DodecahedronGeometry(0.3, 1);
-        var heroMaterial = new MeshStandardMaterial({ color: 0xe5f2f2, shading: THREE.FlatShading })
-        var hero = new Mesh(heroGeometry, heroMaterial);
-        hero.castShadow = true;
-        hero.receiveShadow = false;
+        // var heroGeometry = new DodecahedronGeometry(0.3, 1);
+        // var heroMaterial = new MeshStandardMaterial({ color: 0xe5f2f2, shading: THREE.FlatShading })
+        // var hero = new Mesh(heroGeometry, heroMaterial);
+        // hero.castShadow = true;
+        // hero.receiveShadow = false;
 
-        this.add(hero, lights, this.avatar);
+        this.add(lights, this.avatar);
     }
 
     addToUpdateList(object) {
