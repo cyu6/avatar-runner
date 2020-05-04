@@ -42,6 +42,7 @@ class Ground extends Group {
         var plane = new THREE.Mesh(planeGeometry, planeMaterial);
         plane.position.set(0, -.3, 0);
         plane.rotation.set(-Math.PI / 2, Math.PI / 2000, Math.PI);
+        plane.receiveShadow = true;
         this.add(plane);
 
         // Add self to parent's update list
