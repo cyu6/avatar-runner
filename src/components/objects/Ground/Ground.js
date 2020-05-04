@@ -30,9 +30,17 @@ class Ground extends Group {
         //     this.add(gltf.scene);
         // });
 
+        var loader = new THREE.TextureLoader();
+
+        var groundTexture = loader.load('/src/images/stone.jpg', function(texture) {
+            texture.wrapS = texture.wrapT = THREE.RepeatWrapping;
+            texture.offset.set(0, 0);
+            texture.repeat.set(1, 1000);
+        });
+
         this.name = 'ground';
         var planeGeometry = new THREE.PlaneGeometry(7, 10000);
-        var planeMaterial = new THREE.MeshBasicMaterial({ color: 0x909A94, side: THREE.DoubleSide });
+        var planeMaterial = new THREE.MeshBasicMaterial({ color: 0x909A94, side: THREE.DoubleSide, map: groundTexture });
         var plane = new THREE.Mesh(planeGeometry, planeMaterial);
         plane.position.set(0, -.3, 0);
         plane.rotation.set(-Math.PI / 2, Math.PI / 2000, Math.PI);
