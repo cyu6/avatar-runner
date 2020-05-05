@@ -30,6 +30,13 @@ class Avatar extends Group {
             var action = this.mixer.clipAction(gltf.animations[0]);
             action.play();
 
+            gltf.scene.traverse(function(node) {
+                if (node.isMesh) {
+                    console.log("true");
+                    node.castShadow = true;
+                }
+
+            });
             this.add(gltf.scene);
         });
 

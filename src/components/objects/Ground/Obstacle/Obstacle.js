@@ -23,6 +23,7 @@ class Obstacle extends Group {
         var obsGeometry = new THREE.BoxBufferGeometry(3, 0.5);
         var obsMaterial = new THREE.MeshStandardMaterial({ color: 0xa39cb4, flatShading: true })
         var obs = new THREE.Mesh(obsGeometry, obsMaterial);
+        obs.castShadow = true;
         obs.position.z = -5;
         this.add(obs);
 

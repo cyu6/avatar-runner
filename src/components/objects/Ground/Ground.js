@@ -22,17 +22,15 @@ class Ground extends Group {
             clock: new THREE.Clock(),
         };
 
-        // Load object
-        // const loader = new GLTFLoader();
-
-        // this.name = 'flower';
-        // loader.load(MODEL, (gltf) => {
-        //     this.add(gltf.scene);
-        // });
-
         var loader = new THREE.TextureLoader();
 
-        var groundTexture = loader.load('/src/images/stone.jpg', function(texture) {
+        // credits: https://3dtextures.me/2020/01/14/rock-038/
+        var groundTexture = loader.load('/src/images/ground.jpg', function(texture) {
+            texture.wrapS = texture.wrapT = THREE.RepeatWrapping;
+            texture.offset.set(0, 0);
+            texture.repeat.set(1, 1000);
+        });
+        var groundNormal = loader.load('/src/images/ground_normal.jpg', function(texture) {
             texture.wrapS = texture.wrapT = THREE.RepeatWrapping;
             texture.offset.set(0, 0);
             texture.repeat.set(1, 1000);
@@ -40,10 +38,11 @@ class Ground extends Group {
 
         this.name = 'ground';
         var planeGeometry = new THREE.PlaneGeometry(7, 10000);
-        var planeMaterial = new THREE.MeshBasicMaterial({ color: 0x909A94, side: THREE.DoubleSide, map: groundTexture });
+        var planeMaterial = new THREE.MeshStandardMaterial({ color: 0x909A94, side: THREE.DoubleSide, map: groundTexture, normalMap: groundNormal });
         var plane = new THREE.Mesh(planeGeometry, planeMaterial);
         plane.position.set(0, -.3, 0);
         plane.rotation.set(-Math.PI / 2, Math.PI / 2000, Math.PI);
+        plane.receiveShadow = true;
         this.add(plane);
 
         // Add self to parent's update list
