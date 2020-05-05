@@ -1,6 +1,6 @@
-import { Group } from 'three';
+import { Group, Bone } from 'three';
 import * as THREE from 'three';
-import Obstacle from './Obstacle/Obstacle';
+import { Obstacle, Ice, Gap, Bonfire } from './Obstacle';
 // import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
 // import { TWEEN } from 'three/examples/jsm/libs/tween.module.min.js';
 
@@ -51,6 +51,18 @@ class Ground extends Group {
         // Add obstacle
         const obs = new Obstacle(this);
         this.add(obs);
+
+        // Add ice block
+        // const ice = new Ice();
+        // this.add(ice);
+
+        // Add gap
+        const gap = new Gap();
+        this.add(gap);
+
+        // Add fire
+        const fire = new Bonfire();
+        this.add(fire);
 
         // Populate GUI
         // this.state.gui.add(this.state, 'bob');
