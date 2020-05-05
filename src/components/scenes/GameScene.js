@@ -3,6 +3,7 @@ import { Scene, Color, FogExp2 } from 'three';
 import { Ground, Avatar } from 'objects';
 import { GameLights } from 'lights';
 import * as THREE from 'three';
+import Background from '../objects/Background/Background';
 
 class GameScene extends Scene {
     constructor() {
@@ -29,13 +30,9 @@ class GameScene extends Scene {
         const ground = new Ground(this);
         this.add(ground);
 
-        // makeshift "hero"
-        // var heroGeometry = new DodecahedronGeometry(0.3, 1);
-        // var heroMaterial = new MeshStandardMaterial({ color: 0xe5f2f2, flatShading: true })
-        // var hero = new Mesh(heroGeometry, heroMaterial);
-        // hero.castShadow = true;
-        // hero.receiveShadow = false;
-        // this.add(hero);
+        // scenery
+        const scenery = new Background();
+        this.add(scenery);
 
         // Basic keyboard controls - should these be in the avatar constructor?
         function handleKeyDown(event) {
@@ -48,6 +45,8 @@ class GameScene extends Scene {
                 avatar.move = true;
                 avatar.left = false;
                 avatar.right = true
+            } else {
+                return;
             }
             avatar.moveAvatar();
         };
