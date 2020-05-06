@@ -12,10 +12,8 @@ class Avatar extends Group {
 
         // set position of runner (increasing z moves runner closer to viewer)
         this.state = {
-            move: false,
-            left: false,
-            right: false,
-            speed: 0,
+            moveLeft: false,
+            moveRight: false,
         }
         this.position.set(0, 0, 6);
         this.name = 'avatar';
@@ -30,7 +28,7 @@ class Avatar extends Group {
             var action = this.mixer.clipAction(gltf.animations[0]);
             action.play();
 
-            gltf.scene.traverse(function(node) {
+            gltf.scene.traverse(function (node) {
                 if (node.isMesh) {
                     console.log("true");
                     node.castShadow = true;
@@ -44,23 +42,22 @@ class Avatar extends Group {
     }
 
     moveAvatar() {
-        if (this.move == true) {
-            if (this.left == true) {
-                if (this.position.x == -2.5) return;
-                let targetx = this.position.x - 2;
-                if (targetx < -2.5) targetx = -2.5;
-            
-                const goLeft = new TWEEN.Tween(this.position).to({ x: targetx }, 1000).easing(TWEEN.Easing.Quadratic.Out);
-                goLeft.start();
-            }
-            else if (this.right == true) {
-                if (this.position.x == 2.5) return;
-                let targetx = this.position.x + 2;
-                if (targetx > 2.5) targetx = 2.5;
-                const goRight = new TWEEN.Tween(this.position).to({ x: targetx }, 1000).easing(TWEEN.Easing.Quadratic.Out);
-                goRight.start();
-            }
+        if (this.moveLeft == true) {
+            if (this.position.x == -2.5) return;
+            let targetx = this.position.x - 2;
+            if (targetx < -2.5) targetx = -2.5;
+
+            const goLeft = new TWEEN.Tween(this.position).to({ x: targetx }, 1000).easing(TWEEN.Easing.Quadratic.Out);
+            goLeft.start();
         }
+        else if (this.moveRight == true) {
+            if (this.position.x == 2.5) return;
+            let targetx = this.position.x + 2;
+            if (targetx > 2.5) targetx = 2.5;
+            const goRight = new TWEEN.Tween(this.position).to({ x: targetx }, 1000).easing(TWEEN.Easing.Quadratic.Out);
+            goRight.start();
+        }
+
     }
 
     update() {

@@ -1,6 +1,8 @@
 import { Group, Bone } from 'three';
 import * as THREE from 'three';
-import { Obstacle, Ice, Gap, Bonfire } from './Obstacle';
+import { Obstacle, Ice, Gap } from './Obstacle'
+// import { VolumetricFire } from '/src/components/objects/VolumetricFire/VolumetricFire.js'
+
 // import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
 // import { TWEEN } from 'three/examples/jsm/libs/tween.module.min.js';
 
@@ -55,6 +57,24 @@ class Ground extends Group {
         // Add ice block
         // const ice = new Ice();
         // this.add(ice);
+
+        // Add fire
+        // var fireWidth  = 2;
+        // var fireHeight = 4;
+        // var fireDepth  = 2;
+        // var sliceSpacing = 0.5;
+        
+        // var fire = new VolumetricFire(
+        //   fireWidth,
+        //   fireHeight,
+        //   fireDepth,
+        //   sliceSpacing,
+        //   camera
+        // );
+        // this.add(fire.mesh);
+        // // you can set position, rotation and scale
+        // // fire.mesh accepts THREE.mesh features
+        // fire.mesh.position.set( 0, fireHeight / 2, 0 );
 
         // Add gap
         const gap = new Gap();
