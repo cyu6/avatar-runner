@@ -1,9 +1,8 @@
 import * as Dat from 'dat.gui';
 import { Scene, Color, FogExp2 } from 'three';
-import { Ground, Avatar } from 'objects';
+import { Ground, Avatar, Background } from 'objects';
 import { GameLights } from 'lights';
 import * as THREE from 'three';
-import Background from '../objects/Background/Background';
 
 class GameScene extends Scene {
     constructor() {
@@ -15,6 +14,7 @@ class GameScene extends Scene {
             // gui: new Dat.GUI(), // Create GUI for scene
             // rotationSpeed: 1,
             updateList: [],
+            obstacles: [],
         };
 
         // Set background and fog
@@ -29,6 +29,7 @@ class GameScene extends Scene {
         // "infinite" plane
         const ground = new Ground(this);
         this.add(ground);
+        this.state.obstacles = ground.state.objects;
 
         // scenery
         const scenery = new Background(this);
@@ -36,7 +37,6 @@ class GameScene extends Scene {
 
         // Basic keyboard controls - should these be in the avatar constructor?
         function handleKeyDown(event) {
-            // debugger
             if (event.key == "ArrowLeft") {
                 avatar.move = true;
                 avatar.left = true;
@@ -45,6 +45,12 @@ class GameScene extends Scene {
                 avatar.move = true;
                 avatar.left = false;
                 avatar.right = true
+            } else if (event.keyCode === 87) {
+                avatar.useWater();
+                return;
+            } else if (event.keyCode === 70) {
+                avatar.useFire();
+                return;
             } else {
                 return;
             }
@@ -58,11 +64,11 @@ class GameScene extends Scene {
     }
 
     update(timeStamp) {
-        const { updateList } = this.state;
+        const { updateList, obstacles } = this.state;
         
         // Call update for each object in the updateList
         for (const obj of updateList) {
-            obj.update(timeStamp);
+            obj.update(timeStamp, obstacles);
         }
     }
 }

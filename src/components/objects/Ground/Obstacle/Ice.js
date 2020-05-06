@@ -31,7 +31,7 @@ class Ice extends Group {
         var obsMaterial = new THREE.MeshBasicMaterial({ color: 0xffffff, flatShading: true, map: obsTexture });
         var obs = new THREE.Mesh(obsGeometry, obsMaterial);
         obs.castShadow = true;
-        obs.position.y = 2.25;
+        obs.position.y = 2.5;
         obs.position.z = -10;
         this.add(obs);
 

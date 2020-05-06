@@ -20,6 +20,7 @@ class Ground extends Group {
             // twirl: 0,
             updateList: [],
             clock: new THREE.Clock(),
+            objects: [],
         };
 
         var loader = new THREE.TextureLoader();
@@ -58,13 +59,18 @@ class Ground extends Group {
 
         const rock = new Rock(this);
         this.add(rock);
+        this.state.objects.push(rock);
+
         // Add ice block
-        // const ice = new Ice();
-        // this.add(ice);
+        const ice = new Ice();
+        this.add(ice);
+        this.state.objects.push(ice);
 
         // Add gap
         const gap = new Gap();
-        this.add(gap);
+        // this.add(gap);
+        // this.state.objects.push(gap);
+
 
         // Populate GUI
         // this.state.gui.add(this.state, 'bob');
@@ -76,22 +82,39 @@ class Ground extends Group {
         this.state.updateList.push(object);
     }
 
-    update(timeStamp) {
+    update(timeStamp, obstacles) {
 
         this.position.z += 0.03;
 
-        const { updateList, clock } = this.state;
+        const { updateList, clock, objects } = this.state;
         
         // Call update for each object in the updateList
         for (const obj of updateList) {
             obj.update(timeStamp);
         }
 
-        if (clock.getElapsedTime() > 15.0) {
+        // empty objects list?
+
+        // Add another obstacle
+        if (clock.getElapsedTime() > 10.0) {
             clock.start();
-            const new_rock = new Rock(this);
-            new_rock.children[0].position.z -= this.position.z;
-            this.add(new_rock);
+            let index = Math.floor(Math.random() * 3 );
+            if (index == 0) {
+                const new_rock = new Rock(this);
+                new_rock.children[0].position.z -= this.position.z;
+                this.add(new_rock);
+                objects.push(new_rock);
+            } else if (index == 1) {
+                const new_obs = new Ice(this);
+                new_obs.children[0].position.z -= this.position.z;
+                this.add(new_obs);
+                objects.push(new_obs);
+            } else {
+                const new_obs = new Gap(this);
+                new_obs.children[0].position.z -= this.position.z;
+                this.add(new_obs);
+                objects.push(new_obs)
+            }
         }
 
         // if (this.state.bob) {
