@@ -60,10 +60,6 @@ class Ground extends Group {
         const gap = new Gap();
         this.add(gap);
 
-        // Add fire
-        const fire = new Bonfire();
-        this.add(fire);
-
         // Populate GUI
         // this.state.gui.add(this.state, 'bob');
         // this.state.gui.add(this.state, 'spin');
