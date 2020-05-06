@@ -1,85 +1,78 @@
-import { Group, Vector3 } from 'three';
+import { Group, Object3D, Clock } from 'three';
 import { OBJLoader } from 'three/examples/jsm/loaders/OBJLoader.js';
 import { MTLLoader } from 'three/examples/jsm/loaders/MTLLoader.js';
-import * as THREE from 'three';
-// import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
-// import { TWEEN } from 'three/examples/jsm/libs/tween.module.min.js';
+import MODEL from './files/mount.blend1.obj';
+import MAT from './files/mount.blend1.mtl';
 
 class Background extends Group {
-    constructor() {
+    constructor(parent) {
         // Call parent Group() constructor
         super();
 
         // Init state
-        // Idea for later: can choose between different textures for the ground
-        // Add this to GUI maybe?
-
+        // idea for later: keep list of all added objects, delete the ones at the beginning when 2 new ones are added
         this.state = {
-            // gui: parent.state.gui,
-            // bob: true,
-            // spin: this.spin.bind(this),
-            // twirl: 0,
-            // updateList: [],
-            // clock: new THREE.Clock(),
+            obj: new Object3D(),
+            clock: new Clock(),
+            left: true,
         };
 
-        var self = this;
+        // Moving plane
+        // this.name = 'scenery_plane';
+        // var planeGeometry = new PlaneBufferGeometry(100, 100);
+        // var planeMaterial = new MeshStandardMaterial({ color: 0x909A94 });
+        // var plane = new Mesh(planeGeometry, planeMaterial);
+        // plane.position.set(0, -3, 0);
+        // plane.rotation.set(-Math.PI / 2, Math.PI / 2000, Math.PI);
+        // this.add(plane);
+        // this.state.plane = plane;
 
-        new MTLLoader()
-            .setPath('/src/components/objects/Background/files/')
-            .load( 'mount.blend1.mtl', function ( materials ) {
-
-                materials.preload();
-
-                new OBJLoader()
-                    .setMaterials( materials )
-                    .setPath('/src/components/objects/Background/files/')
-                    .load( 'mount.blend1.obj', function ( object ) {
-                        object.position.x = -9;
-                        object.position.y = -3;
-                        for (let child in object.children) {
-                            // debugger
-                            object.children[child].scale.set(2, 2, 2);
-                        }
-                        self.add( object );
-                        let clone = object.clone();
-                        clone.position.x = 10;
-                        clone.position.z = -5;
-                        self.add(clone);
-
-                    }, 
-                    function ( xhr ) {
-                        console.log( ( xhr.loaded / xhr.total * 100 ) + '% loaded' );
-                    },
-                    function ( error ) {
-                        console.log( 'An error happened' );
-                    } 
-                    );
-        } );
+        const loader = new OBJLoader();
+        const mtlLoader = new MTLLoader();
+        this.name = 'background';
+        mtlLoader.setResourcePath('src/components/objects/Background/files/');
+        mtlLoader.load(MAT, (material) => {
+          material.preload();
+          loader.setMaterials(material).load(MODEL, (obj) => {
+            obj.position.x = -9;
+            obj.position.y = -3;
+            for (let child in obj.children) {
+                obj.children[child].scale.set(2, 2, 2);
+            }
+            let clone = obj.clone();
+            clone.position.x = 8;
+            this.add(obj);
+            this.add(clone);
+            this.state.obj = obj.clone();
+          });
+        });
 
         // Add self to parent's update list
-        // parent.addToUpdateList(this);
+        parent.addToUpdateList(this);
 
     }
 
     update(timeStamp) {
 
-        // this.position.z += 0.03;
+        this.position.z += 0.02;
 
-        // const { updateList, clock } = this.state;
+        const { obj, clock } = this.state;
         
-        // // Call update for each object in the updateList
+        // Call update for each object in the updateList
         // for (const obj of updateList) {
         //     obj.update(timeStamp);
         // }
 
-        // // Add another obstacle
-        // if (clock.getElapsedTime() > 10.0) {
-        //     clock.start();
-        //     const new_obs = new Obstacle(this);
-        //     new_obs.children[0].position.z -= this.position.z;
-        //     this.add(new_obs);
-        // }
+        // Add another mountain
+        if (clock.getElapsedTime() > 4) {
+            clock.start();
+            const new_obs = obj.clone();
+            new_obs.position.z = new_obs.position.z - this.position.z - 3;
+            let clone = new_obs.clone();
+            clone.position.x = 8;
+            this.add(new_obs);
+            this.add(clone);
+        }
     }
 }
 

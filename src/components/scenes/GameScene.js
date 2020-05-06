@@ -31,7 +31,7 @@ class GameScene extends Scene {
         this.add(ground);
 
         // scenery
-        const scenery = new Background();
+        const scenery = new Background(this);
         this.add(scenery);
 
         // Basic keyboard controls - should these be in the avatar constructor?
