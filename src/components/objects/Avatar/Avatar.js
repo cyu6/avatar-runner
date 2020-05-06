@@ -32,7 +32,6 @@ class Avatar extends Group {
 
             gltf.scene.traverse(function(node) {
                 if (node.isMesh) {
-                    console.log("true");
                     node.castShadow = true;
                 }
 

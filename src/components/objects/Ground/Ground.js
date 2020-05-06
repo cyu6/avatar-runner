@@ -1,6 +1,6 @@
 import { Group, Bone } from 'three';
 import * as THREE from 'three';
-import { Obstacle, Ice, Gap, Bonfire } from './Obstacle';
+import { Obstacle, Rock, Ice, Gap} from './Obstacle';
 // import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
 // import { TWEEN } from 'three/examples/jsm/libs/tween.module.min.js';
 
@@ -35,10 +35,18 @@ class Ground extends Group {
             texture.offset.set(0, 0);
             texture.repeat.set(1, 1000);
         });
+        var groundDisplacement = loader.load('/src/images/ground_displacement.png', function(texture) {
+            texture.wrapS = texture.wrapT = THREE.RepeatWrapping;
+            texture.offset.set(0, 0);
+            texture.repeat.set(1, 1000);
+        });
 
         this.name = 'ground';
-        var planeGeometry = new THREE.PlaneGeometry(7, 10000);
-        var planeMaterial = new THREE.MeshStandardMaterial({ color: 0x909A94, side: THREE.DoubleSide, map: groundTexture, normalMap: groundNormal });
+        var planeGeometry = new THREE.PlaneGeometry(7, 10000, 7, 10000);
+        // var planeMaterial = new THREE.MeshStandardMaterial({ color: 0x909A94, displacementMap: groundDisplacement,
+        //     displacementScale: 1});
+        var planeMaterial = new THREE.MeshStandardMaterial({ color: 0x909A94, side: THREE.DoubleSide, 
+            map: groundTexture, normalMap: groundNormal, displacementMap: groundDisplacement});
         var plane = new THREE.Mesh(planeGeometry, planeMaterial);
         plane.position.set(0, -.3, 0);
         plane.rotation.set(-Math.PI / 2, Math.PI / 2000, Math.PI);
@@ -49,9 +57,11 @@ class Ground extends Group {
         parent.addToUpdateList(this);
 
         // Add obstacle
-        const obs = new Obstacle(this);
-        this.add(obs);
+        // const obs = new Obstacle(this);
+        // this.add(obs);
 
+        const rock = new Rock(this);
+        this.add(rock);
         // Add ice block
         // const ice = new Ice();
         // this.add(ice);
@@ -59,10 +69,6 @@ class Ground extends Group {
         // Add gap
         const gap = new Gap();
         this.add(gap);
-
-        // Add fire
-        const fire = new Bonfire();
-        this.add(fire);
 
         // Populate GUI
         // this.state.gui.add(this.state, 'bob');
@@ -86,11 +92,18 @@ class Ground extends Group {
         }
 
         // Add another obstacle
-        if (clock.getElapsedTime() > 10.0) {
+        // if (clock.getElapsedTime() > 10.0) {
+        //     clock.start();
+        //     const new_obs = new Obstacle(this);
+        //     new_obs.children[0].position.z -= this.position.z;
+        //     this.add(new_obs);
+        // }
+
+        if (clock.getElapsedTime() > 15.0) {
             clock.start();
-            const new_obs = new Obstacle(this);
-            new_obs.children[0].position.z -= this.position.z;
-            this.add(new_obs);
+            const new_rock = new Rock(this);
+            new_rock.children[0].position.z -= this.position.z;
+            this.add(new_rock);
         }
 
         // if (this.state.bob) {
