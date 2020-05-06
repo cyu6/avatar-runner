@@ -56,10 +56,6 @@ class Ground extends Group {
         // Add self to parent's update list
         parent.addToUpdateList(this);
 
-        // Add obstacle
-        // const obs = new Obstacle(this);
-        // this.add(obs);
-
         const rock = new Rock(this);
         this.add(rock);
         // Add ice block
@@ -90,14 +86,6 @@ class Ground extends Group {
         for (const obj of updateList) {
             obj.update(timeStamp);
         }
-
-        // Add another obstacle
-        // if (clock.getElapsedTime() > 10.0) {
-        //     clock.start();
-        //     const new_obs = new Obstacle(this);
-        //     new_obs.children[0].position.z -= this.position.z;
-        //     this.add(new_obs);
-        // }
 
         if (clock.getElapsedTime() > 15.0) {
             clock.start();

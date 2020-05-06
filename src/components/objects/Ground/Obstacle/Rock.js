@@ -3,7 +3,7 @@ import * as THREE from 'three';
 // import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
 // import { TWEEN } from 'three/examples/jsm/libs/tween.module.min.js';
 
-class Obstacle extends Group {
+class Rock extends Group {
     constructor(parent) {
         // Call parent Group() constructor
         super();
@@ -17,10 +17,17 @@ class Obstacle extends Group {
         };
 
         this.name = 'rock';
-        var rockGeometry = new THREE.DodecahedronGeometry(1.2 , 2);
-        var rockMaterial = new THREE.MeshStandardMaterial({ color: 0xa39cb4, flatShading: true })
+        const radius = 1.2
+        var rockGeometry = new THREE.DodecahedronGeometry(radius , 2);
+
+        var loader = new THREE.TextureLoader();
+        var rockTexture = loader.load('/src/images/ground.jpg');
+        var rockNormal = loader.load('/src/images/ground_normal.jpg');
+        var rockDisplacement = loader.load('/src/images/ground_displacement.png');
+        var rockMaterial = new THREE.MeshStandardMaterial({map: rockTexture, normalMap: rockNormal, displacementMap: rockDisplacement, displacementScale: 0.5});
         var rock = new THREE.Mesh(rockGeometry, rockMaterial);
         rock.castShadow = true;
+        rock.position.y = radius;
         rock.position.z = -5;
         this.add(rock);
 
@@ -29,19 +36,9 @@ class Obstacle extends Group {
     }
 
     update(timeStamp) {
-        // if (this.state.bob) {
-        //     // Bob back and forth
-            this.rotation.z = 0.05 * Math.sin(timeStamp / 300);
-        // }
-        // if (this.state.twirl > 0) {
-        //     // Lazy implementation of twirl
-        //     this.state.twirl -= Math.PI / 8;
-        //     this.rotation.y += Math.PI / 8;
-        // }
-
-        // Advance tween animations, if any exist
-        // TWEEN.update();
+        this.position.z += 0.08;
+        //quaternion = new THREE.Quaternion().setFromAxisAngle(, 0.1);
     }
 }
 
-export default Obstacle;
+export default Rock;
