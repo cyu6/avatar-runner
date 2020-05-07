@@ -29,21 +29,21 @@ class Ground extends Group {
         var groundTexture = loader.load('/src/images/ground.jpg', function(texture) {
             texture.wrapS = texture.wrapT = THREE.RepeatWrapping;
             texture.offset.set(0, 0);
-            texture.repeat.set(1, 1000);
+            texture.repeat.set(1, 30);
         });
         var groundNormal = loader.load('/src/images/ground_normal.jpg', function(texture) {
             texture.wrapS = texture.wrapT = THREE.RepeatWrapping;
             texture.offset.set(0, 0);
-            texture.repeat.set(1, 1000);
+            texture.repeat.set(1, 30);
         });
         var groundDisplacement = loader.load('/src/images/ground_displacement.png', function(texture) {
             texture.wrapS = texture.wrapT = THREE.RepeatWrapping;
             texture.offset.set(0, 0);
-            texture.repeat.set(1, 1000);
+            texture.repeat.set(1, 30);
         });
 
         this.name = 'ground';
-        var planeGeometry = new THREE.PlaneGeometry(7, 10000, 7, 10000);
+        var planeGeometry = new THREE.PlaneGeometry(7, 150, 7, 150);
         // var planeMaterial = new THREE.MeshStandardMaterial({ color: 0x909A94, displacementMap: groundDisplacement,
         //     displacementScale: 1});
         var planeMaterial = new THREE.MeshStandardMaterial({ color: 0x909A94, side: THREE.DoubleSide, 
@@ -67,7 +67,7 @@ class Ground extends Group {
         this.state.objects.push(ice);
 
         // Add gap
-        const gap = new Gap();
+        // const gap = new Gap();
         // this.add(gap);
         // this.state.objects.push(gap);
 
@@ -84,7 +84,7 @@ class Ground extends Group {
 
     update(timeStamp, obstacles) {
 
-        this.position.z += 0.03;
+        this.position.z += 0.09;
 
         const { updateList, clock, objects } = this.state;
         

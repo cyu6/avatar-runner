@@ -14,7 +14,8 @@ class GameScene extends Scene {
             // rotationSpeed: 1,
             updateList: [],
             obstacles: [],
-            // ground: null,
+            ground: null,
+            nextGround: null,
         };
 
         // Set background and fog
@@ -33,7 +34,7 @@ class GameScene extends Scene {
         const ground = new Ground(this);
         this.add(ground);
         this.state.obstacles = ground.state.objects;
-        // this.state.ground = ground;
+        this.state.ground = ground;
 
         // scenery
         const scenery = new Background(this);
@@ -74,8 +75,17 @@ class GameScene extends Scene {
         // Call update for each object in the updateList
         for (const obj of updateList) {
             obj.update(timeStamp, obstacles);
-            if (obj instanceof Ground) {
-                // this.state.ground = obj;
+            if (obj === this.state.ground) {
+                if (obj.position.z >= 175) {
+                    this.state.ground = this.state.nextGround;
+                    this.state.nextGround = null;
+                }
+                else if (obj.position.z > 20 && this.state.nextGround == null) {
+                    const ground = new Ground(this);
+                    ground.position.z = -135
+                    this.add(ground);
+                    this.state.nextGround = ground;
+                }
                 this.state.obstacles = obj.state.objects;
             }
         }

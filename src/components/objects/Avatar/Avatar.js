@@ -120,13 +120,12 @@ class Avatar extends Group {
 
         const { updateList, mesh } = this.state;
 
-        this.handleCollisions(obstacles, mesh);
+        // this.handleCollisions(obstacles, mesh);
 
         // Call update for each object in the updateList
         for (const obj of updateList) {
             obj.update(timeStamp, obstacles);
         }
-
 
     }
 }
