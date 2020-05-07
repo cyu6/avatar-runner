@@ -93,7 +93,11 @@ class Ground extends Group {
             obj.update(timeStamp);
         }
 
-        // empty objects list?
+        // debugger
+        // remove if not visible
+        var temp = [];
+        temp = objects.filter(function(e) { return e.visible });
+
 
         // Add another obstacle
         if (clock.getElapsedTime() > 10.0) {
@@ -103,32 +107,21 @@ class Ground extends Group {
                 const new_rock = new Rock(this);
                 new_rock.children[0].position.z -= this.position.z;
                 this.add(new_rock);
-                objects.push(new_rock);
+                temp.push(new_rock);
             } else if (index == 1) {
                 const new_obs = new Ice(this);
                 new_obs.children[0].position.z -= this.position.z;
                 this.add(new_obs);
-                objects.push(new_obs);
+                temp.push(new_obs);
             } else {
                 const new_obs = new Gap(this);
                 new_obs.children[0].position.z -= this.position.z;
                 this.add(new_obs);
-                objects.push(new_obs)
+                temp.push(new_obs)
             }
         }
 
-        // if (this.state.bob) {
-        //     // Bob back and forth
-        //     this.rotation.z = 0.05 * Math.sin(timeStamp / 300);
-        // }
-        // if (this.state.twirl > 0) {
-        //     // Lazy implementation of twirl
-        //     this.state.twirl -= Math.PI / 8;
-        //     this.rotation.y += Math.PI / 8;
-        // }
-
-        // Advance tween animations, if any exist
-        // TWEEN.update();
+        this.state.objects = temp;
     }
 }
 

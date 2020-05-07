@@ -8,8 +8,9 @@
  */
 import { WebGLRenderer, PerspectiveCamera, Vector3 } from 'three';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
-import { SeedScene, GameScene } from 'scenes';
+import { GameScene } from 'scenes';
 import * as THREE from 'three';
+import game from './game';
 
 // Initialize core ThreeJS components
 const scene = new GameScene();
@@ -46,6 +47,9 @@ controls.update();
 
 // Render loop
 const onAnimationFrameHandler = (timeStamp) => {
+    if (!game.inPlay) {
+        return;
+    }
     controls.update();
     renderer.render(scene, camera);
     scene.update && scene.update(timeStamp);
@@ -62,3 +66,23 @@ const windowResizeHandler = () => {
 };
 windowResizeHandler();
 window.addEventListener('resize', windowResizeHandler, false);
+
+// global constants for game
+// maybe scene constructor / deconstructor if have time
+// https://stackoverflow.com/questions/38034787/three-js-and-buttons-for-start-and-pause-animation
+function onPauseHandler(event) {
+    if (!(event.keyCode === 80)) {
+        return;
+    }
+
+    if (game.inPlay) {
+        // want to pause
+        game.inPlay = false;
+    } else {
+        // want to restart
+        game.inPlay = true;
+        window.requestAnimationFrame(onAnimationFrameHandler);
+    }
+    return;
+}
+window.addEventListener('keydown', onPauseHandler);

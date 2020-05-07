@@ -5,7 +5,7 @@ import { TWEEN } from 'three/examples/jsm/libs/tween.module.min.js';
 import MODEL from './avatar.gltf';
 import { Water } from './Water';
 import { Fire } from './Fire';
-
+import game from '../../../game';
 
 class Avatar extends Group {
     constructor(parent) {
@@ -19,7 +19,7 @@ class Avatar extends Group {
             right: false,
             speed: 0,
             updateList: [],
-            mesh: new Mesh(),
+            mesh: null,
         }
         this.position.set(0, 0, 6);
         this.name = 'avatar';
@@ -40,7 +40,6 @@ class Avatar extends Group {
                     node.castShadow = true;
                     self.state.mesh = node;
                 }
-
             });
             this.add(gltf.scene);
         });
@@ -50,6 +49,10 @@ class Avatar extends Group {
 
     addToUpdateList(object) {
         this.state.updateList.push(object);
+    }
+
+    removeFromUpdateList(object) {
+        this.state.updateList = this.state.updateList.filter(function(e) { return e !== object });
     }
 
     moveAvatar() {
@@ -82,7 +85,61 @@ class Avatar extends Group {
         this.add(fireball);
     }
 
-    // handleCollisions(obstacles, mesh) {
+    handleCollisions(obstacles, mesh) {
+
+        if (mesh == null) {
+            return;
+        }
+        
+        function detectBoxCollision(object1, object2) {
+            object1.geometry.computeBoundingBox(); 
+            object2.geometry.computeBoundingBox();
+            object1.updateMatrixWorld();
+            object2.updateMatrixWorld();
+            
+            var box1 = object1.geometry.boundingBox.clone();
+            box1.applyMatrix4(object1.matrixWorld);
+    
+            var box2 = object2.geometry.boundingBox.clone();
+            box2.applyMatrix4(object2.matrixWorld);
+    
+            return box1.intersectsBox(box2);
+        }
+
+        for (var obs in obstacles) {
+            var collision = detectBoxCollision(obstacles[obs].children[0], mesh);
+            if (collision) {
+                // console.log("stop");
+                // could just fade in a game over screen
+                game.inPlay = false;
+            }
+        }
+    }
+
+    update(timeStamp, obstacles) {
+        var delta = this.clock.getDelta();
+        if (this.mixer) this.mixer.update(delta);
+
+        TWEEN.update();
+
+        const { updateList, mesh } = this.state;
+
+        this.handleCollisions(obstacles, mesh);
+
+        // Call update for each object in the updateList
+        for (const obj of updateList) {
+            obj.update(timeStamp, obstacles);
+        }
+
+        
+    }
+}
+
+
+export default Avatar;
+
+// raycasting try of handling collisions
+  // handleCollisions(obstacles, mesh) {
     //     debugger
     //     if (this.children.length == 0) {
     //         return;
@@ -111,23 +168,3 @@ class Avatar extends Group {
     //         }
     //     } 
     // }
-
-    update(timeStamp, obstacles) {
-        var delta = this.clock.getDelta();
-        if (this.mixer) this.mixer.update(delta);
-
-        TWEEN.update();
-
-        const { updateList, mesh } = this.state;
-
-        // Call update for each object in the updateList
-        for (const obj of updateList) {
-            obj.update();
-        }
-
-        // this.handleCollisions(obstacles, mesh);
-    }
-}
-
-
-export default Avatar;

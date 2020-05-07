@@ -1,6 +1,7 @@
 import { Group, SphereGeometry, MeshBasicMaterial, Mesh } from 'three';
 import * as THREE from 'three';
 import { OBJLoader } from 'three/examples/jsm/loaders/OBJLoader.js';
+import { Ice } from '../../Ground/Obstacle';
 // import MODEL from './comet.obj';
 
 class Fire extends Group {
@@ -89,15 +90,50 @@ class Fire extends Group {
     //     } 
     // }   
 
-    update() {
+    handleCollisions(obstacles)  {
+
+        // debugger
+        var mesh = this.children[0];
+        
+        function detectBoxCollision(object1, object2) {
+            object1.geometry.computeBoundingBox(); 
+            object2.geometry.computeBoundingBox();
+            object1.updateMatrixWorld();
+            object2.updateMatrixWorld();
+            
+            var box1 = object1.geometry.boundingBox.clone();
+            box1.applyMatrix4(object1.matrixWorld);
+    
+            var box2 = object2.geometry.boundingBox.clone();
+            box2.applyMatrix4(object2.matrixWorld);
+    
+            return box1.intersectsBox(box2);
+        }
+
+        for (var obs in obstacles) {
+            var collision = detectBoxCollision(obstacles[obs].children[0], mesh);
+            if (collision && (obstacles[obs] instanceof Ice)) {
+                // console.log("hit");
+                // debugger
+                obstacles[obs].visible = false;
+                this.visible = false;
+                this.parent.removeFromUpdateList(this);
+                return;
+            }            
+        }
+    }
+
+    update(timeStamp, obstacles) {
 
         const { clock, animated } = this.state;
         var delta = clock.getDelta(); 
         animated.update(1000 * delta);
 
+        // NOTE:: fire ball moves along with the avator. might want to change this!
         this.position.z -= 0.04;
 
-        // this.handleCollision();
+        this.handleCollisions(obstacles);
+      
         
     }
 }
