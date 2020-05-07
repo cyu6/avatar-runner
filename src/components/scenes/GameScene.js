@@ -42,13 +42,11 @@ class GameScene extends Scene {
         // Basic keyboard controls - should these be in the avatar constructor?
         function handleKeyDown(event) {
             if (event.key == "ArrowLeft") {
-                avatar.move = true;
-                avatar.left = true;
-                avatar.right = false;
+                avatar.moveLeft = true;
+                avatar.moveRight = false;
             } else if (event.key == "ArrowRight") {
-                avatar.move = true;
-                avatar.left = false;
-                avatar.right = true
+                avatar.moveLeft = false;
+                avatar.moveRight = true;
             } else if (event.keyCode === 87) {
                 avatar.useWater();
                 return;

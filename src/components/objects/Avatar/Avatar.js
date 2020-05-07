@@ -14,10 +14,8 @@ class Avatar extends Group {
 
         // set position of runner (increasing z moves runner closer to viewer)
         this.state = {
-            move: false,
-            left: false,
-            right: false,
-            speed: 0,
+            moveLeft: false,
+            moveRight: false,
             updateList: [],
             mesh: null,
         }
@@ -35,7 +33,7 @@ class Avatar extends Group {
             var action = this.mixer.clipAction(gltf.animations[0]);
             action.play();
 
-            gltf.scene.traverse(function(node) {
+            gltf.scene.traverse(function (node) {
                 if (node.isMesh) {
                     node.castShadow = true;
                     self.state.mesh = node;
@@ -52,26 +50,24 @@ class Avatar extends Group {
     }
 
     removeFromUpdateList(object) {
-        this.state.updateList = this.state.updateList.filter(function(e) { return e !== object });
+        this.state.updateList = this.state.updateList.filter(function (e) { return e !== object });
     }
 
     moveAvatar() {
-        if (this.move == true) {
-            if (this.left == true) {
-                if (this.position.x == -2.5) return;
-                let targetx = this.position.x - 2;
-                if (targetx < -2.5) targetx = -2.5;
-            
-                const goLeft = new TWEEN.Tween(this.position).to({ x: targetx }, 1000).easing(TWEEN.Easing.Quadratic.Out);
-                goLeft.start();
-            }
-            else if (this.right == true) {
-                if (this.position.x == 2.5) return;
-                let targetx = this.position.x + 2;
-                if (targetx > 2.5) targetx = 2.5;
-                const goRight = new TWEEN.Tween(this.position).to({ x: targetx }, 1000).easing(TWEEN.Easing.Quadratic.Out);
-                goRight.start();
-            }
+        if (this.moveLeft == true) {
+            if (this.position.x == -2.5) return;
+            let targetx = this.position.x - 2;
+            if (targetx < -2.5) targetx = -2.5;
+
+            const goLeft = new TWEEN.Tween(this.position).to({ x: targetx }, 1000).easing(TWEEN.Easing.Quadratic.Out);
+            goLeft.start();
+        }
+        else if (this.moveRight == true) {
+            if (this.position.x == 2.5) return;
+            let targetx = this.position.x + 2;
+            if (targetx > 2.5) targetx = 2.5;
+            const goRight = new TWEEN.Tween(this.position).to({ x: targetx }, 1000).easing(TWEEN.Easing.Quadratic.Out);
+            goRight.start();
         }
     }
 
@@ -90,19 +86,19 @@ class Avatar extends Group {
         if (mesh == null) {
             return;
         }
-        
+
         function detectBoxCollision(object1, object2) {
-            object1.geometry.computeBoundingBox(); 
+            object1.geometry.computeBoundingBox();
             object2.geometry.computeBoundingBox();
             object1.updateMatrixWorld();
             object2.updateMatrixWorld();
-            
+
             var box1 = object1.geometry.boundingBox.clone();
             box1.applyMatrix4(object1.matrixWorld);
-    
+
             var box2 = object2.geometry.boundingBox.clone();
             box2.applyMatrix4(object2.matrixWorld);
-    
+
             return box1.intersectsBox(box2);
         }
 
@@ -131,7 +127,7 @@ class Avatar extends Group {
             obj.update(timeStamp, obstacles);
         }
 
-        
+
     }
 }
 
