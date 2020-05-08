@@ -28,10 +28,12 @@ class Ice extends Group {
         });
 
         var obsGeometry = new THREE.BoxBufferGeometry(5, 4, 0.25);
+        // lower opacity, change color
+        // meshstandard or meshphysical
         var obsMaterial = new THREE.MeshBasicMaterial({ color: 0xffffff, flatShading: true, map: obsTexture });
         var obs = new THREE.Mesh(obsGeometry, obsMaterial);
         obs.castShadow = true;
-        obs.position.y = 2.25;
+        obs.position.y = 2;
         obs.position.z = -10;
         this.add(obs);
 

@@ -52,7 +52,7 @@ class Background extends Group {
 
     }
 
-    update(timeStamp) {
+    update() {
 
         this.position.z += 0.02;
 

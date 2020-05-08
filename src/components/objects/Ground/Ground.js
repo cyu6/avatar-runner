@@ -20,6 +20,7 @@ class Ground extends Group {
             // twirl: 0,
             updateList: [],
             clock: new THREE.Clock(),
+            objects: [],
         };
 
         var loader = new THREE.TextureLoader();
@@ -28,21 +29,21 @@ class Ground extends Group {
         var groundTexture = loader.load('/src/images/ground.jpg', function(texture) {
             texture.wrapS = texture.wrapT = THREE.RepeatWrapping;
             texture.offset.set(0, 0);
-            texture.repeat.set(1, 1000);
+            texture.repeat.set(1, 30);
         });
         var groundNormal = loader.load('/src/images/ground_normal.jpg', function(texture) {
             texture.wrapS = texture.wrapT = THREE.RepeatWrapping;
             texture.offset.set(0, 0);
-            texture.repeat.set(1, 1000);
+            texture.repeat.set(1, 30);
         });
         var groundDisplacement = loader.load('/src/images/ground_displacement.png', function(texture) {
             texture.wrapS = texture.wrapT = THREE.RepeatWrapping;
             texture.offset.set(0, 0);
-            texture.repeat.set(1, 1000);
+            texture.repeat.set(1, 30);
         });
 
         this.name = 'ground';
-        var planeGeometry = new THREE.PlaneGeometry(7, 10000, 7, 10000);
+        var planeGeometry = new THREE.PlaneGeometry(7, 150, 7, 150);
         // var planeMaterial = new THREE.MeshStandardMaterial({ color: 0x909A94, displacementMap: groundDisplacement,
         //     displacementScale: 1});
         var planeMaterial = new THREE.MeshStandardMaterial({ color: 0x909A94, side: THREE.DoubleSide, 
@@ -58,13 +59,18 @@ class Ground extends Group {
 
         const rock = new Rock(this);
         this.add(rock);
+        this.state.objects.push(rock);
+
         // Add ice block
-        // const ice = new Ice();
-        // this.add(ice);
+        const ice = new Ice();
+        this.add(ice);
+        this.state.objects.push(ice);
 
         // Add gap
-        const gap = new Gap();
-        this.add(gap);
+        // const gap = new Gap();
+        // this.add(gap);
+        // this.state.objects.push(gap);
+
 
         // Populate GUI
         // this.state.gui.add(this.state, 'bob');
@@ -76,36 +82,46 @@ class Ground extends Group {
         this.state.updateList.push(object);
     }
 
-    update(timeStamp) {
+    update(timeStamp, obstacles) {
 
-        this.position.z += 0.03;
+        this.position.z += 0.09;
 
-        const { updateList, clock } = this.state;
+        const { updateList, clock, objects } = this.state;
         
         // Call update for each object in the updateList
         for (const obj of updateList) {
             obj.update(timeStamp);
         }
 
-        if (clock.getElapsedTime() > 15.0) {
+        // debugger
+        // remove if not visible
+        var temp = [];
+        temp = objects.filter(function(e) { return e.visible });
+
+
+        // Add another obstacle
+        if (clock.getElapsedTime() > 10.0) {
             clock.start();
-            const new_rock = new Rock(this);
-            new_rock.children[0].position.z -= this.position.z;
-            this.add(new_rock);
+            let index = Math.floor(Math.random() * 3 );
+            if (index == 0) {
+                const new_rock = new Rock(this);
+                new_rock.children[0].position.z -= this.position.z;
+                this.add(new_rock);
+                temp.push(new_rock);
+            } else if (index == 1) {
+                const new_obs = new Ice(this);
+                new_obs.children[0].position.z -= this.position.z;
+                this.add(new_obs);
+                temp.push(new_obs);
+            } else {
+                const new_obs = new Gap(this);
+                new_obs.children[0].position.z -= this.position.z;
+                this.add(new_obs);
+                temp.push(new_obs)
+            }
         }
 
-        // if (this.state.bob) {
-        //     // Bob back and forth
-        //     this.rotation.z = 0.05 * Math.sin(timeStamp / 300);
-        // }
-        // if (this.state.twirl > 0) {
-        //     // Lazy implementation of twirl
-        //     this.state.twirl -= Math.PI / 8;
-        //     this.rotation.y += Math.PI / 8;
-        // }
-
-        // Advance tween animations, if any exist
-        // TWEEN.update();
+        this.state.objects = temp;
     }
 }
 
