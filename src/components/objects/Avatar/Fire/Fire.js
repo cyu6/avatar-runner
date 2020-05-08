@@ -113,8 +113,6 @@ class Fire extends Group {
         for (var obs in obstacles) {
             var collision = detectBoxCollision(obstacles[obs].children[0], mesh);
             if (collision && (obstacles[obs] instanceof Ice)) {
-                // console.log("hit");
-                // debugger
                 obstacles[obs].visible = false;
                 this.visible = false;
                 this.parent.removeFromUpdateList(this);
