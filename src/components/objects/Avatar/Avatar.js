@@ -17,7 +17,7 @@ class Avatar extends Group {
             right: false,
             speed: 0,
         }
-        this.position.set(0, 0, 6);
+        this.position.set(0, 0.3, 6);
         this.name = 'avatar';
         this.mixer;
 
