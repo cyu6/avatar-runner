@@ -2,6 +2,8 @@
 * @author Lee Stemkoski   http://www.adelphi.edu/~stemkoski/
 */
 
+/* https://stackoverflow.com/questions/48050188/three-js-passing-attributes-to-buffergeometry-instead-of-shadermaterial */
+
 import * as THREE from 'three';
 
 ///////////////////////////////////////////////////////////////////////////////

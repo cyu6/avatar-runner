@@ -5,6 +5,8 @@ import MODEL from './files/mount.blend1.obj';
 import MAT1 from './files/mount1.mtl';
 import MAT2 from './files/mount2.mtl';
 
+// https://3dtextures.me/2018/02/27/snow-002/
+
 class Background extends Group {
     constructor(parent) {
         // Call parent Group() constructor
@@ -17,16 +19,6 @@ class Background extends Group {
             obj2: new Object3D(),
             clock: new Clock(),
         };
-
-        // Moving plane
-        // this.name = 'scenery_plane';
-        // var planeGeometry = new PlaneBufferGeometry(100, 100);
-        // var planeMaterial = new MeshStandardMaterial({ color: 0x909A94 });
-        // var plane = new Mesh(planeGeometry, planeMaterial);
-        // plane.position.set(0, -3, 0);
-        // plane.rotation.set(-Math.PI / 2, Math.PI / 2000, Math.PI);
-        // this.add(plane);
-        // this.state.plane = plane;
 
         const loader = new OBJLoader();
         const mtlLoader = new MTLLoader();
