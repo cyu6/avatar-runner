@@ -97,7 +97,7 @@ class Ground extends Group {
         // Add another obstacle
         if (clock.getElapsedTime() > 10.0) {
             clock.start();
-            let index = Math.floor(Math.random() * 3 );
+            let index = Math.floor(Math.random() * 2 );
             if (index == 0) {
                 const new_rock = new Rock(this);
                 new_rock.children[0].position.z -= this.position.z;

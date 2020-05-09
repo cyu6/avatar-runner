@@ -1,6 +1,6 @@
 import * as Dat from 'dat.gui';
 import { Scene, Color, FogExp2 } from 'three';
-import { Ground, Avatar, Background } from 'objects';
+import { Ground, Avatar, Background, Firebend } from 'objects';
 import { GameLights } from 'lights';
 
 class GameScene extends Scene {
@@ -40,6 +40,10 @@ class GameScene extends Scene {
         // scenery
         const scenery = new Background(this);
         this.add(scenery);
+
+        // test
+        // const fire = new Firebend(this);
+        // this.add(fire);
 
         // Basic keyboard controls - should these be in the avatar constructor?
         function handleKeyDown(event) {
