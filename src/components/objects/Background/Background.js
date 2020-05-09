@@ -73,7 +73,7 @@ class Background extends Group {
     randLook(obj) {
         let radians = Math.random() * 6.28;
         obj.rotateY(radians);
-        let offset = Math.random() * 6 - 3;
+        let offset = Math.random() * 10 - 5;
         obj.position.x += offset;
     }
 

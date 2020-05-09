@@ -41,7 +41,7 @@ class GameScene extends Scene {
         const scenery = new Background(this);
         this.add(scenery);
 
-        // test
+        // testing firebending
         // const fire = new Firebend(this);
         // this.add(fire);
 

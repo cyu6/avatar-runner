@@ -2,6 +2,7 @@
 * @author Lee Stemkoski   http://www.adelphi.edu/~stemkoski/
 */
 
+import * as THREE from 'three';
 
 ///////////////////////////////////////////////////////////////////////////////
 
@@ -14,7 +15,7 @@
 // varying: used to communicate data from vertex shader to fragment shader
 // uniform: data that is the same for each particle (such as texture)
 
-particleVertexShader = 
+const particleVertexShader = 
 [
 "attribute vec3  customColor;",
 "attribute float customOpacity;",
@@ -38,7 +39,7 @@ particleVertexShader =
 "}"
 ].join("\n");
 
-particleFragmentShader =
+const particleFragmentShader =
 [
 "uniform sampler2D texture;",
 "varying vec4 vColor;", 	
@@ -210,21 +211,21 @@ function ParticleEngine()
 	// THREE.JS //
 	//////////////
 	
+	this.attributes = {
+		customVisible:	{ type: 'f',  value: [] },
+		customAngle:	{ type: 'f',  value: [] },
+		customSize:		{ type: 'f',  value: [] },
+		customColor:	{ type: 'c',  value: [] },
+		customOpacity:	{ type: 'f',  value: [] }
+	};
 	this.particleGeometry = new THREE.Geometry();
+	this.particleBufGeo = new THREE.BufferGeometry();
 	this.particleTexture  = null;
 	this.particleMaterial = new THREE.ShaderMaterial( 
 	{
 		uniforms: 
 		{
 			texture:   { type: "t", value: this.particleTexture },
-		},
-		attributes:     
-		{
-			customVisible:	{ type: 'f',  value: [] },
-			customAngle:	{ type: 'f',  value: [] },
-			customSize:		{ type: 'f',  value: [] },
-			customColor:	{ type: 'c',  value: [] },
-			customOpacity:	{ type: 'f',  value: [] }
 		},
 		vertexShader:   particleVertexShader,
 		fragmentShader: particleFragmentShader,
@@ -259,26 +260,19 @@ ParticleEngine.prototype.setValues = function( parameters )
 	this.particleCount = this.particlesPerSecond * Math.min( this.particleDeathAge, this.emitterDeathAge );
 	
 	this.particleGeometry = new THREE.Geometry();
+	this.particleBufGeo = new THREE.BufferGeometry();
 	this.particleMaterial = new THREE.ShaderMaterial( 
 	{
 		uniforms: 
 		{
 			texture:   { type: "t", value: this.particleTexture },
 		},
-		attributes:     
-		{
-			customVisible:	{ type: 'f',  value: [] },
-			customAngle:	{ type: 'f',  value: [] },
-			customSize:		{ type: 'f',  value: [] },
-			customColor:	{ type: 'c',  value: [] },
-			customOpacity:	{ type: 'f',  value: [] }
-		},
 		vertexShader:   particleVertexShader,
 		fragmentShader: particleFragmentShader,
 		transparent: true,  alphaTest: 0.5, // if having transparency issues, try including: alphaTest: 0.5, 
 		blending: THREE.NormalBlending, depthTest: true
 	});
-	this.particleMesh = new THREE.ParticleSystem();
+	this.particleMesh = new THREE.Points();
 }
 	
 // helper functions for randomization
@@ -346,18 +340,27 @@ ParticleEngine.prototype.initialize = function()
 		// remove duplicate code somehow, here and in update function below.
 		this.particleArray[i] = this.createParticle();
 		this.particleGeometry.vertices[i] = this.particleArray[i].position;
-		this.particleMaterial.attributes.customVisible.value[i] = this.particleArray[i].alive;
-		this.particleMaterial.attributes.customColor.value[i]   = this.particleArray[i].color;
-		this.particleMaterial.attributes.customOpacity.value[i] = this.particleArray[i].opacity;
-		this.particleMaterial.attributes.customSize.value[i]    = this.particleArray[i].size;
-		this.particleMaterial.attributes.customAngle.value[i]   = this.particleArray[i].angle;
+		this.attributes.customVisible.value[i] = this.particleArray[i].alive;
+		this.attributes.customColor.value[i]   = this.particleArray[i].color;
+		this.attributes.customOpacity.value[i] = this.particleArray[i].opacity;
+		this.attributes.customSize.value[i]    = this.particleArray[i].size;
+		this.attributes.customAngle.value[i]   = this.particleArray[i].angle;
 	}
+	var positions = new Float32Array(this.particleGeometry.vertices.length * 3);
+	this.particleBufGeo.setAttribute( 'position', new THREE.BufferAttribute(positions, 3).copyVector3sArray(this.particleGeometry.vertices) );
+
+	var values_Color = new Float32Array(this.attributes.customColor.value.length * 3);
+	this.particleBufGeo.setAttribute('customVisible', new THREE.BufferAttribute(new Float32Array(this.attributes.customVisible.value), 1));
+	this.particleBufGeo.setAttribute('customColor',   new THREE.BufferAttribute(values_Color, 3).copyColorsArray(this.attributes.customColor.value));
+	this.particleBufGeo.setAttribute('customOpacity', new THREE.BufferAttribute(new Float32Array(this.attributes.customOpacity.value),  1));
+	this.particleBufGeo.setAttribute('customSize',    new THREE.BufferAttribute(new Float32Array(this.attributes.customSize.value),  1));
+	this.particleBufGeo.setAttribute('customAngle',   new THREE.BufferAttribute(new Float32Array(this.attributes.customAngle.value), 1));
 	
 	this.particleMaterial.blending = this.blendStyle;
 	if ( this.blendStyle != THREE.NormalBlending) 
 		this.particleMaterial.depthTest = false;
 	
-	this.particleMesh = new THREE.ParticleSystem( this.particleGeometry, this.particleMaterial );
+	this.particleMesh = new THREE.Points( this.particleBufGeo, this.particleMaterial );
 	this.particleMesh.dynamic = true;
     this.particleMesh.sortParticles = true;
     // must add to scene 
@@ -383,13 +386,24 @@ ParticleEngine.prototype.update = function(dt)
 				recycleIndices.push(i);
 			}
 			// update particle properties in shader
-			this.particleMaterial.attributes.customVisible.value[i] = this.particleArray[i].alive;
-			this.particleMaterial.attributes.customColor.value[i]   = this.particleArray[i].color;
-			this.particleMaterial.attributes.customOpacity.value[i] = this.particleArray[i].opacity;
-			this.particleMaterial.attributes.customSize.value[i]    = this.particleArray[i].size;
-			this.particleMaterial.attributes.customAngle.value[i]   = this.particleArray[i].angle;
+			this.attributes.customVisible.value[i] = this.particleArray[i].alive;
+			this.attributes.customColor.value[i]   = this.particleArray[i].color;
+			this.attributes.customOpacity.value[i] = this.particleArray[i].opacity;
+			this.attributes.customSize.value[i]    = this.particleArray[i].size;
+			this.attributes.customAngle.value[i]   = this.particleArray[i].angle;
 		}		
 	}
+
+	// transfer to buffer geometry
+	var positions = new Float32Array(this.particleGeometry.vertices.length * 3);
+	this.particleBufGeo.setAttribute( 'position', new THREE.BufferAttribute(positions, 3).copyVector3sArray(this.particleGeometry.vertices) );
+
+	var values_Color = new Float32Array(this.attributes.customColor.value.length * 3);
+	this.particleBufGeo.setAttribute('customVisible', new THREE.BufferAttribute(new Float32Array(this.attributes.customVisible.value), 1));
+	this.particleBufGeo.setAttribute('customColor',   new THREE.BufferAttribute(values_Color, 3).copyColorsArray(this.attributes.customColor.value));
+	this.particleBufGeo.setAttribute('customOpacity', new THREE.BufferAttribute(new Float32Array(this.attributes.customOpacity.value),  1));
+	this.particleBufGeo.setAttribute('customSize',    new THREE.BufferAttribute(new Float32Array(this.attributes.customSize.value),  1));
+	this.particleBufGeo.setAttribute('customAngle',   new THREE.BufferAttribute(new Float32Array(this.attributes.customAngle.value), 1));
 
 	// check if particle emitter is still running
 	if ( !this.emitterAlive ) return;
@@ -426,4 +440,6 @@ ParticleEngine.prototype.destroy = function()
     // must remove from scene - scene.remove
     return this.particleMesh;
 }
+
+export default ParticleEngine;
 ///////////////////////////////////////////////////////////////////////////////

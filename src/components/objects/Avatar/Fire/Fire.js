@@ -50,7 +50,7 @@ class Fire extends Group {
         }
 
         this.state.clock.start();
-        this.name = 'firebend';
+        this.name = 'fire';
 
         var geometry = new SphereGeometry(0.2);
 
