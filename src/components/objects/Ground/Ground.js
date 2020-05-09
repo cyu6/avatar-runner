@@ -66,11 +66,6 @@ class Ground extends Group {
         this.add(ice);
         this.state.objects.push(ice);
 
-        // Add gap
-        // const gap = new Gap();
-        // this.add(gap);
-        // this.state.objects.push(gap);
-
 
         // Populate GUI
         // this.state.gui.add(this.state, 'bob');
@@ -102,7 +97,7 @@ class Ground extends Group {
         // Add another obstacle
         if (clock.getElapsedTime() > 10.0) {
             clock.start();
-            let index = Math.floor(Math.random() * 3 );
+            let index = Math.floor(Math.random() * 2 );
             if (index == 0) {
                 const new_rock = new Rock(this);
                 new_rock.children[0].position.z -= this.position.z;
@@ -113,12 +108,13 @@ class Ground extends Group {
                 new_obs.children[0].position.z -= this.position.z;
                 this.add(new_obs);
                 temp.push(new_obs);
-            } else {
-                const new_obs = new Gap(this);
-                new_obs.children[0].position.z -= this.position.z;
-                this.add(new_obs);
-                temp.push(new_obs)
             }
+            // } else {
+            //     const new_obs = new Gap(this);
+            //     new_obs.children[0].position.z -= this.position.z;
+            //     this.add(new_obs);
+            //     temp.push(new_obs)
+            // }
         }
 
         this.state.objects = temp;

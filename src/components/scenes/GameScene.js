@@ -1,6 +1,6 @@
 import * as Dat from 'dat.gui';
 import { Scene, Color, FogExp2 } from 'three';
-import { Ground, Avatar, Background } from 'objects';
+import { Ground, Avatar, Background, Firebend } from 'objects';
 import { GameLights } from 'lights';
 
 class GameScene extends Scene {
@@ -14,6 +14,7 @@ class GameScene extends Scene {
             // rotationSpeed: 1,
             updateList: [],
             obstacles: [],
+            nextObstacles: [],
             ground: null,
             nextGround: null,
         };
@@ -39,6 +40,10 @@ class GameScene extends Scene {
         // scenery
         const scenery = new Background(this);
         this.add(scenery);
+
+        // testing firebending
+        // const fire = new Firebend(this);
+        // this.add(fire);
 
         // Basic keyboard controls - should these be in the avatar constructor?
         function handleKeyDown(event) {
@@ -68,9 +73,6 @@ class GameScene extends Scene {
 
     update(timeStamp) {
         const { updateList, obstacles } = this.state;
-
-        // var obstacles = ground.state.objects;
-        // debugger
         
         // Call update for each object in the updateList
         for (const obj of updateList) {
@@ -85,8 +87,12 @@ class GameScene extends Scene {
                     ground.position.z = -135
                     this.add(ground);
                     this.state.nextGround = ground;
+                    this.state.nextObstacles = ground.state.objects;
                 }
-                this.state.obstacles = obj.state.objects;
+                if (this.state.nextGround != null) {
+                    this.state.nextObstacles = this.state.nextGround.state.objects;
+                }
+                this.state.obstacles = obj.state.objects.concat(this.state.nextObstacles);
             }
         }
     }

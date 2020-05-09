@@ -24,13 +24,19 @@ class Ice extends Group {
         var obsTexture = loader.load('/src/images/Ice_002_COLOR.jpg', function(texture) {
             texture.wrapS = texture.wrapT = THREE.RepeatWrapping;
             texture.offset.set(0, 0);
-            texture.repeat.set(2, 2);
+            texture.repeat.set(3, 2);
+        });
+
+        var normTexture = loader.load('/src/images/Ice_002_NORM.jpg', function(texture) {
+            texture.wrapS = texture.wrapT = THREE.RepeatWrapping;
+            texture.offset.set(0, 0);
+            texture.repeat.set(3, 2);
         });
 
         var obsGeometry = new THREE.BoxBufferGeometry(5, 4, 0.25);
-        // lower opacity, change color
-        // meshstandard or meshphysical
-        var obsMaterial = new THREE.MeshBasicMaterial({ color: 0xffffff, flatShading: true, map: obsTexture });
+        var obsMaterial = new THREE.MeshPhongMaterial({ color: 0xc2e0f9, flatShading: true, 
+                                                           map: obsTexture, normalMap: normTexture,
+                                                           opacity: 0.8, specular: 0xffffff });
         var obs = new THREE.Mesh(obsGeometry, obsMaterial);
         obs.castShadow = true;
         obs.position.y = 2;
