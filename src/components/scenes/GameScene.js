@@ -71,6 +71,29 @@ class GameScene extends Scene {
         this.state.updateList.push(object);
     }
 
+    resetScene() {
+        let first = false;
+        for (let obj in this.children) {
+            if (this.children[obj] instanceof Avatar) {
+                this.children[obj].position.set(0, 0.5, 6);
+            }
+            if (this.children[obj] instanceof Ground) {
+                if (!first) {
+                    let newGround = new Ground(this);
+                    this.children[obj] = newGround;
+                    this.state.obstacles = newGround.state.objects;
+                    this.state.ground = newGround;
+                    first = true;
+                }
+                else {
+                    this.children.splice(obj, 1)
+                    this.state.nextGround = null;
+                    this.state.nextObstacles =[];
+                }
+            }
+        }
+    }
+
     update(timeStamp) {
         const { updateList, obstacles } = this.state;
         

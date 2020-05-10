@@ -1,0 +1,157 @@
+/* https://github.com/potyt/fonts/tree/master/macfonts/Avenir%20Next */
+@font-face {
+	font-family: 'Avenir Next';
+	src: local("Avenir Next Demi Bold"),
+		 url("/src/fonts/AvenirNext-DemiBold.ttf") format("truetype"); 
+	font-weight: bold;
+}
+@font-face {
+	font-family: 'Avenir Next';
+	src: local("Avenir Next Heavy Italic"),
+		 url("/src/fonts/AvenirNext-HeavyItalic.ttf") format("truetype"); 
+	font-style: italic;
+}
+@font-face {
+	font-family: 'Herculanum';
+	src: local("Herculanum"),
+		 url("/src/fonts/Herculanum.ttf") format("truetype");
+}
+
+.background{
+	display: block;
+	background-color: white;
+	opacity: 0.6;
+	height: 100%;
+	width: 100%;
+	position: absolute;
+}
+
+button {
+	text-align: center;
+	width: 300px;
+	height: 90px;
+	color: white;
+	background-color: #3e6bc7;
+	border-radius: 6px;
+	border: none;
+	font-size: 36px;
+	font-family: 'Avenir Next', sans-serif;
+	font-style: italic;
+}
+
+button:hover { background-color: #d9ccba; color: black; }
+
+.landing{
+	display: block;
+	text-align: center;
+	z-index: 1;
+	height: 100%;
+	width: 100%;
+	position: absolute;
+	padding-top: 70px;
+}
+
+.landing_header h1 {
+	font-family: 'Herculanum', fantasy;
+	font-size: 64px;
+}
+.landing_header img {
+	width: 40%;
+}
+#landingButtons {
+	padding-top: 30px;
+}
+.landing_buttons  {
+	margin-bottom: 30px;
+}
+
+.instructions{
+	display: none;
+	text-align: center;
+	z-index: 1;
+	height: 85%;
+	width: 40%;
+	background-color: #d9ccba;
+	top: 50%;
+	left: 50%;
+	z-index: 1;
+	transform: translate(-50%,-50%);
+	-webkit-transform: translate(-50%,-50%);
+	-moz-transform: translate(-50%,-50%);
+	-ms-transform: translate(-50%,-50%);
+	position: absolute;
+}
+.instructions h2 {
+	font-size: 36px;
+	font-family: 'Avenir Next', sans-serif;
+	font-style: italic;
+	line-height: 40px;
+}
+#c { margin-top: 60px; margin-bottom: 0px; }
+.instructions p {
+	font-size: 24px;
+	font-family: 'Avenir Next', sans-serif;
+	line-height: 10px;
+}
+.controls p {
+	margin-top: 20px;
+	font-size: 24px;
+	font-family: 'Avenir Next', sans-serif;
+	line-height: 30px;
+}
+#w { color: #3e6bc7; }
+#e { color: #0a7601; }
+#f { color: #c7432f; }
+#a { color: #9e6240; }
+
+.score {
+	display: none;
+	width: 100%;
+	text-align: center;
+	top: 5%;
+	position: absolute;
+}
+#score_label {
+	font-family: 'Herculanum', fantasy;
+	font-size: 36px;
+}
+#score_value {
+	font-family: 'Herculanum', fantasy;
+	font-size: 36px;
+}
+
+
+.pause {
+	display: none;
+	top: 50%;
+	left: 50%;
+	z-index: 1;
+	transform: translate(-50%,-50%);
+	-webkit-transform: translate(-50%,-50%);
+	-moz-transform: translate(-50%,-50%);
+	-ms-transform: translate(-50%,-50%);
+	position: absolute;
+}
+.pause img { 
+	width: 100%;
+}
+
+.replayGame {
+	display: none;
+	text-align: center;
+	z-index: 1;
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%,-50%);
+	-webkit-transform: translate(-50%,-50%);
+	-moz-transform: translate(-50%,-50%);
+	-ms-transform: translate(-50%,-50%);
+}
+.replayGame h1 {
+	font-family: 'Herculanum', fantasy;
+	font-size: 80px;
+}
+.replayGame button {
+	padding-top: 10px;
+}

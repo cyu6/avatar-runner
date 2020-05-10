@@ -19,7 +19,7 @@ class Avatar extends Group {
             updateList: [],
             mesh: null,
         }
-        this.position.set(0, 0, 6);
+        this.position.set(0, 0.5, 6);
         this.name = 'avatar';
         this.mixer;
 
@@ -107,7 +107,7 @@ class Avatar extends Group {
             if (collision) {
                 // console.log("stop");
                 // could just fade in a game over screen
-                game.inPlay = false;
+                game.status = "end";
             }
         }
     }

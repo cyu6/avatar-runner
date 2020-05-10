@@ -28,7 +28,7 @@ class Background extends Group {
           material.preload();
           loader.setMaterials(material).load(MODEL, (obj) => {
             obj.position.x = -9;
-            obj.position.y = -3;
+            obj.position.y = -4;
             for (let child in obj.children) {
                 obj.children[child].scale.set(2, 2, 2);
             }
