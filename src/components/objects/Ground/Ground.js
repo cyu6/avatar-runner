@@ -58,34 +58,6 @@ class Ground extends Group {
         // Add self to parent's update list
         parent.addToUpdateList(this);
 
-        // const rock = new Rock(this);
-        // this.add(rock);
-        // this.state.objects.push(rock);
-
-        // Add ice block
-        // const ice = new Ice();
-        // this.add(ice);
-        // this.state.objects.push(ice);
-
-        // Add fire
-        // var fire1 = new Fire(this);
-        // fire1.scale.set(7, 7, 5);
-        // fire1.position.set(0, 0, -20);
-        // var fire2 = new Fire(this);
-        // fire2.scale.set(5, 5, 5);
-        // fire2.position.x = -2.5;
-        // var fire3 = new Fire(this);
-        // fire3.scale.set(5, 5, 5);
-        // fire3.position.x = 2.5;
-        // this.add(fire1);
-        // this.add(fire2);
-        // this.add(fire3);
-        // this.state.objects.push(fire1);
-        // this.state.objects.push(fire2);
-        // this.state.objects.push(fire3);
-
-
-
         // Populate GUI
         // this.state.gui.add(this.state, 'bob');
         // this.state.gui.add(this.state, 'spin');
@@ -97,6 +69,8 @@ class Ground extends Group {
     }
 
     spawnObstacles(temp) {
+        debugger
+        
         // Add another obstacle
         if (this.state.clock.getElapsedTime() > 8.0) {
             this.state.clock.start();

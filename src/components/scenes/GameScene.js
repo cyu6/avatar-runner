@@ -2,6 +2,7 @@ import * as Dat from 'dat.gui';
 import { Scene, Color, FogExp2 } from 'three';
 import { Ground, Avatar, Background, Firebend } from 'objects';
 import { GameLights } from 'lights';
+import Waterbend from '../objects/Waterbend/Waterbend';
 
 class GameScene extends Scene {
     constructor() {
@@ -42,7 +43,7 @@ class GameScene extends Scene {
         this.add(scenery);
 
         // testing firebending
-        // const fire = new Firebend(this);
+        // const fire = new Waterbend(this);
         // this.add(fire);
 
         // Basic keyboard controls - should these be in the avatar constructor?
@@ -73,11 +74,12 @@ class GameScene extends Scene {
     
     removeFromUpdateList(object) {
         this.state.updateList = this.state.updateList.filter(function (e) { return e !== object });
+        this.children = this.children.filter(function (e) { return e !== object });
     }
 
     resetScene() {
         let first = false;
-        debugger
+        // debugger
         let obj = 0;
         while (this.children.length > 4) {
             if (this.children[obj] instanceof GameLights) {

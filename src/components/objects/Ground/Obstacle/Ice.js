@@ -39,7 +39,7 @@ class Ice extends Group {
                                                            opacity: 0.8, specular: 0xffffff });
         var obs = new THREE.Mesh(obsGeometry, obsMaterial);
         obs.castShadow = true;
-        obs.position.y = 2;
+        obs.position.y = 2.2;
         obs.position.z = -10;
         this.add(obs);
 

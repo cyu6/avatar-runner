@@ -2,9 +2,9 @@ import { Group } from 'three';
 // import '../../engine/ParticleEngine';
 import { ParticleEngine } from '../../engine';
 import * as THREE from 'three';
-import { Ice } from '../Ground/Obstacle';
+import { Fire } from '../Ground/Obstacle';
 
-class Firebend extends Group {
+class Waterbend extends Group {
     constructor(parent) {
         // Call parent Group() constructor
         super();
@@ -19,7 +19,7 @@ class Firebend extends Group {
             distance: 0,
         };
 
-        this.name = 'firebend';
+        this.name = 'waterbend';
         var Type = Object.freeze({ "CUBE":1, "SPHERE":2 });
 
         class Tween {
@@ -60,13 +60,35 @@ class Firebend extends Group {
       
             sizeTween    : new Tween( [0,4], [0,10] ),
             opacityTween : new Tween( [0, 0.3], [1, 1] ),
-            colorBase    : new THREE.Vector3(0.02, 1, 0.4),
+            colorBase    : new THREE.Vector3(0.5, 1, 0.7),
             blendStyle   : THREE.AdditiveBlending,  
             
             particlesPerSecond : 5000,
             particleDeathAge   : 0.7,  
             emitterDeathAge    : 60
         };
+
+        // var settings ={
+        //     positionStyle  : Type.SPHERE,
+        //     positionBase   : new THREE.Vector3( -0, 0,  0 ),
+        //     positionRadius : 5,
+        //     // positionSpread : new THREE.Vector3(  0, 10, 20 ),
+            
+        //     velocityStyle  : Type.CUBE,
+        //     velocityBase   : new THREE.Vector3( 40, 0, 0 ),
+        //     velocitySpread : new THREE.Vector3( 20, 0, 0 ), 
+            
+        //     particleTexture : new THREE.TextureLoader().load( 'src/images/smokeparticle.png' ),
+
+        //     sizeBase     : 80.0,
+        //     sizeSpread   : 100.0,
+        //     colorBase    : new THREE.Vector3(0.0, 0.0, 1.0), // H,S,L
+        //     opacityTween : new Tween([0,1,4,5],[0,1,1,0]),
+
+        //     particlesPerSecond : 50,
+        //     particleDeathAge   : 10.0,		
+        //     emitterDeathAge    : 60
+        // }
 
         // to do : Figure out bounding box + do collisions
         // also try to make visuals more appealing
@@ -78,9 +100,7 @@ class Firebend extends Group {
         this.position.z = 5;
         this.position.y = 1;
         this.position.x = 0;
-
         this.state.distance = this.position.z;
-
         
         parent.addToUpdateList(this);
 
@@ -108,7 +128,7 @@ class Firebend extends Group {
 
         for (var obs in obstacles) {
             var collision = detectBoxCollision(obstacles[obs].children[0], mesh);
-            if (collision && (obstacles[obs] instanceof Ice)) {
+            if (collision && (obstacles[obs] instanceof Fire)) {
                 obstacles[obs].visible = false;
                 this.visible = false;
                 this.parent.removeFromUpdateList(this);
@@ -130,4 +150,4 @@ class Firebend extends Group {
     }
 }
 
-export default Firebend;
+export default Waterbend;

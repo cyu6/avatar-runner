@@ -7,6 +7,7 @@ import { Water } from './Water';
 import { Fire } from './Fire';
 import game from '../../../game';
 import Firebend from '../Firebend/Firebend';
+import Waterbend from '../Waterbend/Waterbend';
 
 class Avatar extends Group {
     constructor(parent) {
@@ -73,8 +74,8 @@ class Avatar extends Group {
     }
 
     useWater() {
-        const bubble = new Water(this);
-        this.add(bubble);
+        const waterball = new Waterbend(this);
+        this.parent.add(waterball);
     }
 
     useFire() {
