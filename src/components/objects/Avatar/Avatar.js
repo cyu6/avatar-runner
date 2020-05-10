@@ -6,6 +6,8 @@ import MODEL from './avatar.gltf';
 import { Water } from './Water';
 import { Fire } from './Fire';
 import game from '../../../game';
+import Firebend from '../Firebend/Firebend';
+import Waterbend from '../Waterbend/Waterbend';
 
 class Avatar extends Group {
     constructor(parent) {
@@ -19,7 +21,8 @@ class Avatar extends Group {
             updateList: [],
             mesh: null,
         }
-        this.position.set(0, 0.3, 6);
+
+        this.position.set(0, 0.5, 6);
         this.name = 'avatar';
         this.mixer;
 
@@ -72,13 +75,13 @@ class Avatar extends Group {
     }
 
     useWater() {
-        const bubble = new Water(this);
-        this.add(bubble);
+        const waterball = new Waterbend(this);
+        this.parent.add(waterball);
     }
 
     useFire() {
-        const fireball = new Fire(this);
-        this.add(fireball);
+        const fireball = new Firebend(this);
+        this.parent.add(fireball);
     }
 
     handleCollisions(obstacles, mesh) {
@@ -107,7 +110,7 @@ class Avatar extends Group {
             if (collision) {
                 // console.log("stop");
                 // could just fade in a game over screen
-                game.inPlay = false;
+                game.status = "end";
             }
         }
     }

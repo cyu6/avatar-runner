@@ -3,6 +3,7 @@ import * as THREE from 'three';
 import { Obstacle, Rock, Ice, Gap, Fire } from './Obstacle';
 // import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
 // import { TWEEN } from 'three/examples/jsm/libs/tween.module.min.js';
+import game from '../../../game';
 
 class Ground extends Group {
     constructor(parent) {
@@ -57,34 +58,6 @@ class Ground extends Group {
         // Add self to parent's update list
         parent.addToUpdateList(this);
 
-        const rock = new Rock(this);
-        this.add(rock);
-        this.state.objects.push(rock);
-
-        // Add ice block
-        const ice = new Ice();
-        this.add(ice);
-        this.state.objects.push(ice);
-
-        // Add fire
-        var fire1 = new Fire(this);
-        fire1.scale.set(7, 7, 5);
-        fire1.position.set(0, 0, -20);
-        // var fire2 = new Fire(this);
-        // fire2.scale.set(5, 5, 5);
-        // fire2.position.x = -2.5;
-        // var fire3 = new Fire(this);
-        // fire3.scale.set(5, 5, 5);
-        // fire3.position.x = 2.5;
-        this.add(fire1);
-        // this.add(fire2);
-        // this.add(fire3);
-        this.state.objects.push(fire1);
-        // this.state.objects.push(fire2);
-        // this.state.objects.push(fire3);
-
-
-
         // Populate GUI
         // this.state.gui.add(this.state, 'bob');
         // this.state.gui.add(this.state, 'spin');
@@ -95,11 +68,40 @@ class Ground extends Group {
         this.state.updateList.push(object);
     }
 
+    spawnObstacles(temp) {
+        debugger
+        
+        // Add another obstacle
+        if (this.state.clock.getElapsedTime() > 8.0) {
+            this.state.clock.start();
+            let index = Math.floor(Math.random() * 3 );
+            if (index == 0) {
+                const new_rock = new Rock(this);
+                new_rock.children[0].position.z -= this.position.z;
+                this.add(new_rock);
+                temp.push(new_rock);
+            } else if (index == 1) {
+                const new_obs = new Ice(this);
+                new_obs.children[0].position.z -= this.position.z;
+                this.add(new_obs);
+                temp.push(new_obs);
+            } else {
+                var fire1 = new Fire(this);
+                fire1.scale.set(7, 7, 5);
+                fire1.position.set(0, 0, -20 - this.position.z);
+                // fire1.children[0].position.z -= this.position.z;
+                this.add(fire1);
+                temp.push(fire1);                
+            }
+        }
+
+    }
+
     update(timeStamp, obstacles) {
 
         this.position.z += 0.09;
 
-        const { updateList, clock, objects } = this.state;
+        const { updateList, objects } = this.state;
         
         // Call update for each object in the updateList
         for (const obj of updateList) {
@@ -113,28 +115,8 @@ class Ground extends Group {
         var temp = [];
         temp = objects.filter(function(e) { return e.visible });
 
-
-        // Add another obstacle
-        if (clock.getElapsedTime() > 10.0) {
-            clock.start();
-            let index = Math.floor(Math.random() * 2 );
-            if (index == 0) {
-                const new_rock = new Rock(this);
-                new_rock.children[0].position.z -= this.position.z;
-                this.add(new_rock);
-                temp.push(new_rock);
-            } else if (index == 1) {
-                const new_obs = new Ice(this);
-                new_obs.children[0].position.z -= this.position.z;
-                this.add(new_obs);
-                temp.push(new_obs);
-            }
-            // } else {
-            //     const new_obs = new Gap(this);
-            //     new_obs.children[0].position.z -= this.position.z;
-            //     this.add(new_obs);
-            //     temp.push(new_obs)
-            // }
+        if (game.status == "playing") {
+            this.spawnObstacles(temp);
         }
 
         this.state.objects = temp;

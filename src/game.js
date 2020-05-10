@@ -1,3 +1,13 @@
+function resetGame() {
+    this.status = "playing";
+}
+
+function getStatus() {
+    return this.status;
+}
+
 export default {
-    inPlay: true
+    resetGame,
+    getStatus,
+    status
 };

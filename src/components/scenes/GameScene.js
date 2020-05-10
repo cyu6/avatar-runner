@@ -2,6 +2,7 @@ import * as Dat from 'dat.gui';
 import { Scene, Color, FogExp2 } from 'three';
 import { Ground, Avatar, Background, Firebend } from 'objects';
 import { GameLights } from 'lights';
+import Waterbend from '../objects/Waterbend/Waterbend';
 
 class GameScene extends Scene {
     constructor() {
@@ -42,7 +43,7 @@ class GameScene extends Scene {
         this.add(scenery);
 
         // testing firebending
-        // const fire = new Firebend(this);
+        // const fire = new Waterbend(this);
         // this.add(fire);
 
         // Basic keyboard controls - should these be in the avatar constructor?
@@ -69,6 +70,51 @@ class GameScene extends Scene {
 
     addToUpdateList(object) {
         this.state.updateList.push(object);
+    }
+    
+    removeFromUpdateList(object) {
+        this.state.updateList = this.state.updateList.filter(function (e) { return e !== object });
+        this.children = this.children.filter(function (e) { return e !== object });
+    }
+
+    resetScene() {
+        let first = false;
+        // debugger
+        let obj = 0;
+        while (this.children.length > 4) {
+            if (this.children[obj] instanceof GameLights) {
+                obj++;
+                continue;
+            }
+            else if (this.children[obj] instanceof Background) {
+                obj++;
+                continue;
+            }
+            else if (this.children[obj] instanceof Avatar) {
+                obj++;
+                this.children[obj].position.set(0, 0.5, 6);
+            }
+            else if (this.children[obj] instanceof Ground) {
+                if (!first) {
+                    let newGround = new Ground(this);
+                    this.children[obj] = newGround;
+                    this.state.obstacles = newGround.state.objects;
+                    this.state.ground = newGround;
+                    first = true;
+                    obj++;
+                }
+                else {
+                    this.children.splice(obj, 1);
+                    this.state.nextGround = null;
+                    this.state.nextObstacles = [];
+                }
+            }
+            else {
+                this.removeFromUpdateList(this.children[obj]);
+                this.children.splice(obj, 1);
+            }
+
+        }
     }
 
     update(timeStamp) {
