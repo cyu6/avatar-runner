@@ -6,6 +6,7 @@ import MODEL from './avatar.gltf';
 import { Water } from './Water';
 import { Fire } from './Fire';
 import game from '../../../game';
+import Firebend from '../Firebend/Firebend';
 
 class Avatar extends Group {
     constructor(parent) {
@@ -77,8 +78,8 @@ class Avatar extends Group {
     }
 
     useFire() {
-        const fireball = new Fire(this);
-        this.add(fireball);
+        const fireball = new Firebend(this);
+        this.parent.add(fireball);
     }
 
     handleCollisions(obstacles, mesh) {

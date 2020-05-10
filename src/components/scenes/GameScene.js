@@ -70,27 +70,48 @@ class GameScene extends Scene {
     addToUpdateList(object) {
         this.state.updateList.push(object);
     }
+    
+    removeFromUpdateList(object) {
+        this.state.updateList = this.state.updateList.filter(function (e) { return e !== object });
+    }
 
     resetScene() {
         let first = false;
-        for (let obj in this.children) {
-            if (this.children[obj] instanceof Avatar) {
+        debugger
+        let obj = 0;
+        while (this.children.length > 4) {
+            if (this.children[obj] instanceof GameLights) {
+                obj++;
+                continue;
+            }
+            else if (this.children[obj] instanceof Background) {
+                obj++;
+                continue;
+            }
+            else if (this.children[obj] instanceof Avatar) {
+                obj++;
                 this.children[obj].position.set(0, 0.5, 6);
             }
-            if (this.children[obj] instanceof Ground) {
+            else if (this.children[obj] instanceof Ground) {
                 if (!first) {
                     let newGround = new Ground(this);
                     this.children[obj] = newGround;
                     this.state.obstacles = newGround.state.objects;
                     this.state.ground = newGround;
                     first = true;
+                    obj++;
                 }
                 else {
-                    this.children.splice(obj, 1)
+                    this.children.splice(obj, 1);
                     this.state.nextGround = null;
-                    this.state.nextObstacles =[];
+                    this.state.nextObstacles = [];
                 }
             }
+            else {
+                this.removeFromUpdateList(this.children[obj]);
+                this.children.splice(obj, 1);
+            }
+
         }
     }
 
