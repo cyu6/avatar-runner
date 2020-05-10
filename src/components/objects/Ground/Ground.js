@@ -1,6 +1,6 @@
 import { Group, Bone } from 'three';
 import * as THREE from 'three';
-import { Obstacle, Rock, Ice, Gap} from './Obstacle';
+import { Obstacle, Rock, Ice, Gap, Fire } from './Obstacle';
 // import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
 // import { TWEEN } from 'three/examples/jsm/libs/tween.module.min.js';
 
@@ -66,6 +66,24 @@ class Ground extends Group {
         this.add(ice);
         this.state.objects.push(ice);
 
+        // Add fire
+        var fire1 = new Fire(this);
+        fire1.scale.set(7, 7, 5);
+        fire1.position.set(0, 0, -20);
+        // var fire2 = new Fire(this);
+        // fire2.scale.set(5, 5, 5);
+        // fire2.position.x = -2.5;
+        // var fire3 = new Fire(this);
+        // fire3.scale.set(5, 5, 5);
+        // fire3.position.x = 2.5;
+        this.add(fire1);
+        // this.add(fire2);
+        // this.add(fire3);
+        this.state.objects.push(fire1);
+        // this.state.objects.push(fire2);
+        // this.state.objects.push(fire3);
+
+
 
         // Populate GUI
         // this.state.gui.add(this.state, 'bob');
@@ -86,6 +104,8 @@ class Ground extends Group {
         // Call update for each object in the updateList
         for (const obj of updateList) {
             obj.update(timeStamp);
+            if (obj instanceof Fire) obj.update(this.state.clock.elapsedTime);
+            else obj.update(timeStamp);
         }
 
         // debugger
