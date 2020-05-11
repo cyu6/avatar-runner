@@ -6,12 +6,14 @@
  * handles window resizes.
  *
  */
-import { WebGLRenderer, PerspectiveCamera, Vector3, Clock } from 'three';
+import { WebGLRenderer, PerspectiveCamera, Vector3 } from 'three';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 import { GameScene } from 'scenes';
 import * as THREE from 'three';
 import game from './game';
-// import css from './game.css';
+import './game.css';
+import LOGO from './images/atla_logo.svg';
+import PAUSE from './images/pause.svg';
 
 var scene, camera, renderer, scorekeeper, sound;
 
@@ -41,12 +43,12 @@ function createScene() {
     document.body.appendChild(canvas);
 
     // Set up controls
-    // controls = new OrbitControls(camera, canvas);
-    // controls.enableDamping = true;
-    // controls.enablePan = false;
-    // controls.minDistance = 4;
-    // controls.maxDistance = 16;
-    // controls.update();
+    controls = new OrbitControls(camera, canvas);
+    controls.enableDamping = true;
+    controls.enablePan = false;
+    controls.minDistance = 4;
+    controls.maxDistance = 16;
+    controls.update();
 
     // Set up scorekeeper
     scorekeeper = {
@@ -173,6 +175,20 @@ function init() {
     pause = document.getElementById("pause");
     scoreDiv = document.getElementById("score");
     score_value = document.getElementById("score_value");
+
+
+    // Insert images into HTML
+    var landinghead = document.getElementById("landing_header");
+    var logo = document.createElement("img");
+    logo.src = LOGO;
+    logo.alt = "avatar logo";
+    logo.style.width = "40%";
+    landinghead.prepend(logo);
+
+    var pause_icon = document.createElement("img");
+    pause_icon.src = PAUSE;
+    pause_icon.alt = "pause icon";
+    pause.appendChild(pause_icon);
 
     game.status = "ready";
     createScene();

@@ -65,8 +65,8 @@ class GameScene extends Scene {
                 avatar.useEarth();
                 return;
             } else if (event.keyCode === 84) {
-                // debugger
                 avatar.tpose();
+                return;
             } else {
                 return;
             }
@@ -124,7 +124,6 @@ class GameScene extends Scene {
             }
 
         }
-        // debugger
     }
 
     update(timeStamp) {

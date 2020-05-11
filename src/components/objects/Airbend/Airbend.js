@@ -1,5 +1,4 @@
 import { BoxBufferGeometry, Mesh, MeshStandardMaterial, Group} from 'three';
-import * as THREE from 'three';
 import { Rock } from '../Ground/Obstacle';
 
 class Airbend extends Group {

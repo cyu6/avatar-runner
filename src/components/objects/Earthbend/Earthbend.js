@@ -1,4 +1,4 @@
-import { Group, BoxBufferGeometry, Geometry,Mesh, MeshStandardMaterial, TextureLoader} from 'three';
+import { Group, BoxBufferGeometry, Geometry, Mesh, MeshStandardMaterial, TextureLoader} from 'three';
 import * as THREE from 'three';
 import { TWEEN } from 'three/examples/jsm/libs/tween.module.min.js';
 import TEXTURE from '../../../textures/ground.jpg';
@@ -31,7 +31,7 @@ class Earthbend extends Group {
         var bridge = new Mesh(geometry, material);
 
         // bridge rises from below ground level
-        bridge.position.y = -2;
+        bridge.position.y = -2.2;
         bridge.position.x = xpos;
 
         this.add(bridge);

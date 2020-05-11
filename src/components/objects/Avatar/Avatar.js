@@ -116,7 +116,7 @@ class Avatar extends Group {
             const waterball = new Waterbend(this.parent, this.position.x);
             this.parent.add(waterball);
             this.currentlyAnimating = true;
-            this.playModifierAnimation(this.currentAction, 0.25, this.waterbending, 0.25, this);;
+            this.playModifierAnimation(this.currentAction, 0.75, this.waterbending, 0.75, this);;
         }
     }
 
@@ -168,7 +168,7 @@ class Avatar extends Group {
             to.crossFadeTo(from, tSpeed, true);
             self.currentlyAnimating = false;
             console.log("timeout over");
-        }, to._clip.duration * 1000 - ((tSpeed + fSpeed) * 1000));
+        }, to._clip.duration * 750 - ((tSpeed + fSpeed) * 750));
     }
 
   handleCollisions(obstacles, mesh) {

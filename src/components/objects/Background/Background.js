@@ -1,4 +1,4 @@
-import { Group, Object3D, Clock } from 'three';
+import { Group, Object3D, Clock, PlaneBufferGeometry, MeshStandardMaterial, Mesh } from 'three';
 import { OBJLoader } from 'three/examples/jsm/loaders/OBJLoader.js';
 import { MTLLoader } from 'three/examples/jsm/loaders/MTLLoader.js';
 import MODEL from './files/mount.blend1.obj';
@@ -17,15 +17,22 @@ class Background extends Group {
             obj: new Object3D(),
             obj2: new Object3D(),
             clock: new Clock(),
+            // river: null,
         };
+
+        // var planeGeometry = new PlaneBufferGeometry(7, 200, 7, 200);
+        // var planeMaterial = new MeshStandardMaterial({ color: 0x0000ff });
+        // var plane = new Mesh(planeGeometry, planeMaterial);
+        // plane.position.set(0, -3.5, 0);
+        // plane.rotation.set(-Math.PI / 2, Math.PI / 2000, Math.PI);
+        // this.add(plane);
+        // this.state.river = plane;
+
+        this.name = 'background';
 
         const loader = new OBJLoader();
         const mtlLoader = new MTLLoader();
-        this.name = 'background';
-        mtlLoader.setResourcePath('src/components/objects/Background/files/');
-        mtlLoader.load(MAT1, (material) => {
-          material.preload();
-          loader.setMaterials(material).load(MODEL, (obj) => {
+        loader.setMaterials(mtlLoader.parse(MAT1)).load(MODEL, (obj) => {
             obj.position.x = -9;
             obj.position.y = -4;
             for (let child in obj.children) {
@@ -36,24 +43,19 @@ class Background extends Group {
             this.add(obj);
             this.add(clone);
             this.state.obj = obj.clone();
-          });
         });
 
         const nloader = new OBJLoader();
         const nmtlLoader = new MTLLoader();
-        nmtlLoader.setResourcePath('src/components/objects/Background/files/');
-        nmtlLoader.load(MAT2, (material) => {
-            material.preload();
-            nloader.setMaterials(material).load(MODEL, (obj) => {
-              obj.position.x = -9;
-              obj.position.y = -3;
-              for (let child in obj.children) {
-                  obj.children[child].scale.set(2, 2, 2);
-              }
-              this.state.obj2 = obj.clone();
-            });
-          });
-
+        nloader.setMaterials(nmtlLoader.parse(MAT2)).load(MODEL, (obj) => {
+            obj.position.x = -9;
+            obj.position.y = -3;
+            for (let child in obj.children) {
+                obj.children[child].scale.set(2, 2, 2);
+            }
+            this.state.obj2 = obj.clone();
+        });
+        
         // Add self to parent's update list
         parent.addToUpdateList(this);
 
@@ -73,15 +75,15 @@ class Background extends Group {
         const { obj, obj2, clock } = this.state;
 
         // Add another mountain
-        if (clock.getElapsedTime() > 4.5) {
+        if (clock.getElapsedTime() > 4) {
             clock.start();
             let index = Math.floor(Math.random() * 3 );
             if (index == 2) {
                 // add a snowy mountain
                 const new_obs = obj2.clone();
-                new_obs.position.z = new_obs.position.z - this.position.z - 3;
+                new_obs.position.z = new_obs.position.z - this.position.z - 5;
                 const clone = obj.clone();
-                clone.position.z = clone.position.z - this.position.z - 3;
+                clone.position.z = clone.position.z - this.position.z - 5;
                 let side = Math.floor(Math.random() * 2);
                 if (side == 0) {
                     new_obs.position.x = 8;
@@ -94,7 +96,7 @@ class Background extends Group {
                 return;
             }
             const new_obs = obj.clone();
-            new_obs.position.z = new_obs.position.z - this.position.z - 3;
+            new_obs.position.z = new_obs.position.z - this.position.z - 5;
             this.randLook(new_obs);
             let clone = new_obs.clone();
             clone.position.x = 8;
