@@ -68,8 +68,16 @@ class Ground extends Group {
         this.state.updateList.push(object);
     }
 
+    removeObject(object) {
+        this.remove( object );
+        const index1 = this.state.updateList.indexOf(object);
+        this.state.updateList.splice(index1, 1);
+        const index2 = this.state.objects.indexOf(object);
+        this.state.objects.splice(index2, 1);
+    }
+
     spawnObstacles(temp) {
-        debugger
+        // debugger
         
         // Add another obstacle
         if (this.state.clock.getElapsedTime() > 8.0) {
@@ -105,21 +113,15 @@ class Ground extends Group {
         
         // Call update for each object in the updateList
         for (const obj of updateList) {
-            obj.update(timeStamp);
             if (obj instanceof Fire) obj.update(this.state.clock.elapsedTime);
             else obj.update(timeStamp);
         }
 
         // debugger
         // remove if not visible
-        var temp = [];
-        temp = objects.filter(function(e) { return e.visible });
-
         if (game.status == "playing") {
-            this.spawnObstacles(temp);
+            this.spawnObstacles(objects);
         }
-
-        this.state.objects = temp;
     }
 }
 

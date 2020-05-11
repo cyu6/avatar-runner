@@ -4,7 +4,7 @@ import * as THREE from 'three';
 // import { TWEEN } from 'three/examples/jsm/libs/tween.module.min.js';
 
 class Ice extends Group {
-    constructor() {
+    constructor(parent) {
         // Call parent Group() constructor
         super();
 

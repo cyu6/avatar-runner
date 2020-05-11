@@ -74,12 +74,12 @@ class Avatar extends Group {
     }
 
     useWater() {
-        const waterball = new Waterbend(this);
+        const waterball = new Waterbend(this.parent);
         this.parent.add(waterball);
     }
 
     useFire() {
-        const fireball = new Firebend(this);
+        const fireball = new Firebend(this.parent);
         this.parent.add(fireball);
     }
 

@@ -14,6 +14,7 @@ class Rock extends Group {
             // bob: true,
             // spin: this.spin.bind(this),
             // twirl: 0,
+            distance: 0,
         };
 
         this.name = 'rock';
@@ -29,6 +30,7 @@ class Rock extends Group {
         rock.castShadow = true;
         rock.position.y = radius;
         rock.position.z = -5;
+        this.state.distance = rock.position.z;
         this.add(rock);
 
         // Add self to parent's update list
@@ -36,7 +38,14 @@ class Rock extends Group {
     }
 
     update(timeStamp) {
+
+        if (this.position.z - this.state.distance > 15) {
+            // delete element
+            this.parent.removeObject(this);
+        }
+
         this.position.z += 0.08;
+
         //quaternion = new THREE.Quaternion().setFromAxisAngle(, 0.1);
     }
 }

@@ -12,7 +12,7 @@ import { GameScene } from 'scenes';
 import * as THREE from 'three';
 import game from './game';
 
-var scene, camera, renderer, controls, scorekeeper;
+var scene, camera, renderer, scorekeeper;
 
 function createScene() {
     // Initialize core ThreeJS components
@@ -40,12 +40,12 @@ function createScene() {
     document.body.appendChild(canvas);
 
     // Set up controls
-    controls = new OrbitControls(camera, canvas);
-    controls.enableDamping = true;
-    controls.enablePan = false;
-    controls.minDistance = 4;
-    controls.maxDistance = 16;
-    controls.update();
+    // controls = new OrbitControls(camera, canvas);
+    // controls.enableDamping = true;
+    // controls.enablePan = false;
+    // controls.minDistance = 4;
+    // controls.maxDistance = 16;
+    // controls.update();
 
     // Set up scorekeeper
     scorekeeper = {
@@ -66,7 +66,7 @@ const onAnimationFrameHandler = (timeStamp) => {
         showReplay();
         return;
     } 
-    controls.update();
+    // controls.update();
     renderer.render(scene, camera);
     scene.update && scene.update(timeStamp);
     if (scorekeeper.status == "playing")

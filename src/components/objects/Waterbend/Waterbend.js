@@ -129,9 +129,8 @@ class Waterbend extends Group {
         for (var obs in obstacles) {
             var collision = detectBoxCollision(obstacles[obs].children[0], mesh);
             if (collision && (obstacles[obs] instanceof Fire)) {
-                obstacles[obs].visible = false;
-                this.visible = false;
-                this.parent.removeFromUpdateList(this);
+                obstacles[obs].parent.removeObject(obstacles[obs]);
+                this.parent.removeObject(this);
                 return;
             }            
         }
@@ -140,10 +139,10 @@ class Waterbend extends Group {
     update(timeStamp, obstacles) {
         // debugger
         this.state.engine.update( 0.01 * 0.5 );
-        if (this.state.distance - this.position.z > 20) {
+        if (this.state.distance - this.position.z > 15) {
             // delete element
             this.visible = false;
-            this.parent.removeFromUpdateList(this);
+            this.parent.removeObject(this);
         }
         this.position.z -= 0.04;
         this.handleCollisions(obstacles);
