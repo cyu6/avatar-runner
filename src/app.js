@@ -43,12 +43,12 @@ function createScene() {
     document.body.appendChild(canvas);
 
     // Set up controls
-    controls = new OrbitControls(camera, canvas);
-    controls.enableDamping = true;
-    controls.enablePan = false;
-    controls.minDistance = 4;
-    controls.maxDistance = 16;
-    controls.update();
+    // controls = new OrbitControls(camera, canvas);
+    // controls.enableDamping = true;
+    // controls.enablePan = false;
+    // controls.minDistance = 4;
+    // controls.maxDistance = 16;
+    // controls.update();
 
     // Set up scorekeeper
     scorekeeper = {

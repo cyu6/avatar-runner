@@ -1,7 +1,5 @@
 import { Group } from 'three';
 import * as THREE from 'three';
-// import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
-// import { TWEEN } from 'three/examples/jsm/libs/tween.module.min.js';
 
 class Gap extends Group {
     constructor() {
@@ -10,22 +8,15 @@ class Gap extends Group {
 
         // Init state
         this.state = {
-            // gui: parent.state.gui,
-            // bob: true,
-            // spin: this.spin.bind(this),
-            // twirl: 0,
         };
 
-        // maybe box geometry instead of plane?
 
         this.name = 'gap';
-        var planeGeometry = new THREE.PlaneGeometry(7, 5);
-        var planeMaterial = new THREE.MeshStandardMaterial({ color: 0x368B3E, side: THREE.DoubleSide });
+        var planeGeometry = new THREE.PlaneGeometry(1, 1);
+        var planeMaterial = new THREE.MeshStandardMaterial({ color: 0x368B3E });
         var plane = new THREE.Mesh(planeGeometry, planeMaterial);
-        plane.position.y = -.25;
-        plane.position.z = -20;
+        
         plane.rotation.set(-Math.PI / 2, Math.PI / 2000, Math.PI);
-        plane.receiveShadow = true;
         this.add(plane);
 
 
