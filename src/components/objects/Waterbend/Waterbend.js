@@ -5,7 +5,7 @@ import { Fire } from '../Ground/Obstacle';
 import PARTICLE from '../../../images/smokeparticle.png';
 
 class Waterbend extends Group {
-    constructor(parent) {
+    constructor(parent, xpos) {
         // Call parent Group() constructor
         super();
 
@@ -94,7 +94,7 @@ class Waterbend extends Group {
 
         this.position.z = 5;
         this.position.y = 1;
-        this.position.x = 0;
+        this.position.x = xpos;
         this.state.distance = this.position.z;
         
         parent.addToUpdateList(this);

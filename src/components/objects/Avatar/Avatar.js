@@ -111,7 +111,7 @@ class Avatar extends Group {
     useWater() {
         // debugger
         if (!this.currentlyAnimating) {
-            const waterball = new Waterbend(this.parent);
+            const waterball = new Waterbend(this.parent, this.position.x);
             this.parent.add(waterball);
             this.currentlyAnimating = true;
             this.playModifierAnimation(this.currentAction, 0.25, this.waterbending, 0.25, this);;
@@ -120,7 +120,7 @@ class Avatar extends Group {
 
     useFire() {
         if (!this.currentlyAnimating) {
-            const fireball = new Firebend(this.parent);
+            const fireball = new Firebend(this.parent, this.position.x);
             this.parent.add(fireball);
             this.currentlyAnimating = true;
             this.playModifierAnimation(this.currentAction, 0.25, this.firebending, 0.25, this);
