@@ -9,6 +9,7 @@ import game from '../../../game';
 import Firebend from '../Firebend/Firebend';
 import Waterbend from '../Waterbend/Waterbend';
 import Earthbend from '../Earthbend/Earthbend';
+import Airbend from '../Airbend/Airbend';
 
 var LoopOnce = 2200;
 
@@ -140,6 +141,8 @@ class Avatar extends Group {
 
     useAir() {
         if (!this.currentlyAnimating) {
+            const gust = new Airbend(this.parent, this.position.x);
+            this.parent.add(gust);
             this.currentlyAnimating = true;
             this.playModifierAnimation(this.currentAction, 0.25, this.airbending, 0.25, this);
         }
