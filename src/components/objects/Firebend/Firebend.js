@@ -2,6 +2,7 @@ import { Group } from 'three';
 import { ParticleEngine } from '../../engine';
 import * as THREE from 'three';
 import { Ice } from '../Ground/Obstacle';
+import PARTICLE from '../../../images/smokeparticle.png';
 
 class Firebend extends Group {
     constructor(parent) {
@@ -48,7 +49,7 @@ class Firebend extends Group {
             speedBase     : 1,
             speedSpread   : 0,
             
-            particleTexture : new THREE.TextureLoader().load( 'src/images/smokeparticle.png' ),
+            particleTexture : new THREE.TextureLoader().load( PARTICLE ),
       
             sizeTween    : new Tween( [0,4], [0,10] ),
             opacityTween : new Tween( [0, 0.3], [1, 1] ),
@@ -60,8 +61,7 @@ class Firebend extends Group {
             emitterDeathAge    : 60
         };
 
-        // to do : Figure out bounding box + do collisions
-        // also try to make visuals more appealing
+        // try to make visuals more appealing
 
         this.state.engine = new ParticleEngine();
         this.state.engine.setValues( settings );
@@ -73,14 +73,11 @@ class Firebend extends Group {
 
         this.state.distance = this.position.z;
 
-        
         parent.addToUpdateList(this);
-
     }
 
     handleCollisions(obstacles)  {
 
-        // debugger
         var mesh = this.children[0];
         
         function detectBoxCollision(object1, object2) {
@@ -101,21 +98,18 @@ class Firebend extends Group {
         for (var obs in obstacles) {
             var collision = detectBoxCollision(obstacles[obs].children[0], mesh);
             if (collision && (obstacles[obs] instanceof Ice)) {
-                obstacles[obs].visible = false;
-                this.visible = false;
-                this.parent.removeFromUpdateList(this);
+                obstacles[obs].parent.removeObject(obstacles[obs]);
+                this.parent.removeObject(this);
                 return;
             }            
         }
     }
 
     update(timeStamp, obstacles) {
-        // debugger
         this.state.engine.update( 0.01 * 0.5 );
-        if (this.state.distance - this.position.z > 20) {
+        if (this.state.distance - this.position.z > 15) {
             // delete element
-            this.visible = false;
-            this.parent.removeFromUpdateList(this);
+            this.parent.removeObject(this);
         }
         this.position.z -= 0.04;
         this.handleCollisions(obstacles);

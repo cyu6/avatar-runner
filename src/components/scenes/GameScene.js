@@ -14,8 +14,10 @@ class GameScene extends Scene {
             // gui: new Dat.GUI(), // Create GUI for scene
             // rotationSpeed: 1,
             updateList: [],
+            oldObstacles: [],
             obstacles: [],
             nextObstacles: [],
+            oldGround: null,
             ground: null,
             nextGround: null,
         };
@@ -41,10 +43,6 @@ class GameScene extends Scene {
         // scenery
         const scenery = new Background(this);
         this.add(scenery);
-
-        // testing firebending
-        // const fire = new Waterbend(this);
-        // this.add(fire);
 
         // Basic keyboard controls - should these be in the avatar constructor?
         function handleKeyDown(event) {
@@ -75,15 +73,15 @@ class GameScene extends Scene {
     addToUpdateList(object) {
         this.state.updateList.push(object);
     }
-    
-    removeFromUpdateList(object) {
-        this.state.updateList = this.state.updateList.filter(function (e) { return e !== object });
-        this.children = this.children.filter(function (e) { return e !== object });
+
+    removeObject(object) {
+        const index = this.state.updateList.indexOf(object);
+        if (index > -1)  this.state.updateList.splice(index, 1);
+        this.remove( object );
     }
 
     resetScene() {
         let first = false;
-        // debugger
         let obj = 0;
         while (this.children.length > 4) {
             if (this.children[obj] instanceof GameLights) {
@@ -100,6 +98,8 @@ class GameScene extends Scene {
             }
             else if (this.children[obj] instanceof Ground) {
                 if (!first) {
+                    const index = this.state.updateList.indexOf(this.children[obj]);
+                    this.state.updateList.splice(index, 1);
                     let newGround = new Ground(this);
                     this.children[obj] = newGround;
                     this.state.obstacles = newGround.state.objects;
@@ -108,27 +108,29 @@ class GameScene extends Scene {
                     obj++;
                 }
                 else {
-                    this.children.splice(obj, 1);
+                    this.removeObject(this.children[obj]);
                     this.state.nextGround = null;
                     this.state.nextObstacles = [];
+                    this.state.oldGround = null;
                 }
             }
             else {
-                this.removeFromUpdateList(this.children[obj]);
-                this.children.splice(obj, 1);
+                this.removeObject(this.children[obj]);
             }
 
         }
+        // debugger
     }
 
     update(timeStamp) {
         const { updateList, obstacles } = this.state;
-        
+
         // Call update for each object in the updateList
         for (const obj of updateList) {
-            obj.update(timeStamp, obstacles);
+            obj.update(timeStamp, this.state.obstacles);
             if (obj === this.state.ground) {
                 if (obj.position.z >= 175) {
+                    this.state.oldGround = this.state.ground;
                     this.state.ground = this.state.nextGround;
                     this.state.nextGround = null;
                 }
@@ -138,11 +140,18 @@ class GameScene extends Scene {
                     this.add(ground);
                     this.state.nextGround = ground;
                     this.state.nextObstacles = ground.state.objects;
+                    this.removeObject(this.state.oldGround);
+                    this.state.oldGround = null;
                 }
+
                 if (this.state.nextGround != null) {
                     this.state.nextObstacles = this.state.nextGround.state.objects;
                 }
-                this.state.obstacles = obj.state.objects.concat(this.state.nextObstacles);
+                if (this.state.oldGround != null) {
+                    this.state.oldObstacles = this.state.oldGround.state.objects;
+                }
+                var temp = this.state.ground.state.objects.concat(this.state.nextObstacles);
+                this.state.obstacles = this.state.oldObstacles.concat(temp);
             }
         }
     }

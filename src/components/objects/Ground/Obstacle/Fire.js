@@ -1,5 +1,6 @@
 import * as THREE from 'three'
 import { Group, Clock } from 'three';
+import FIRE from './Fire.png';
 
 /**
  * @author mattatz / http://github.com/mattatz
@@ -224,7 +225,7 @@ class Fire extends Group {
       }
 
       // initialize uniforms 
-      var fireTex = new THREE.TextureLoader().load('src/components/objects/Ground/Obstacle/Fire.png');
+      var fireTex = new THREE.TextureLoader().load(FIRE);
       fireTex.magFilter = fireTex.minFilter = THREE.LinearFilter;
       fireTex.wrapS = fireTex.wrapT = THREE.ClampToEdgeWrapping;
 

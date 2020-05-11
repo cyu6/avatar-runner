@@ -1,4 +1,4 @@
-import { Group, Clock, Mesh, Geometry, Raycaster } from 'three';
+import { Group, Clock } from 'three';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
 import { AnimationMixer } from 'three/src/animation/AnimationMixer.js';
 import { AnimationClip } from 'three/src/animation/AnimationClip.js';
@@ -185,8 +185,6 @@ class Avatar extends Group {
         for (var obs in obstacles) {
             var collision = detectBoxCollision(obstacles[obs].children[0], mesh);
             if (collision) {
-                // console.log("stop");
-                // could just fade in a game over screen
                 game.status = "end";
             }
         }

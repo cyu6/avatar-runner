@@ -1,9 +1,10 @@
-import { Group, Bone } from 'three';
+import { Group, Clock, TextureLoader, PlaneBufferGeometry, MeshStandardMaterial, Mesh } from 'three';
+import { Rock, Ice, Fire } from './Obstacle';
 import * as THREE from 'three';
-import { Obstacle, Rock, Ice, Gap, Fire } from './Obstacle';
-// import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
-// import { TWEEN } from 'three/examples/jsm/libs/tween.module.min.js';
 import game from '../../../game';
+import TEXTURE from '../../../textures/ground.jpg';
+import NORMAL from '../../../textures/ground_normal.jpg';
+import DISP from '../../../textures/ground_displacement.png';
 
 class Ground extends Group {
     constructor(parent) {
@@ -12,44 +13,37 @@ class Ground extends Group {
 
         // Init state
         // Idea for later: can choose between different textures for the ground
-        // Add this to GUI maybe?
 
         this.state = {
-            // gui: parent.state.gui,
-            // bob: true,
-            // spin: this.spin.bind(this),
-            // twirl: 0,
             updateList: [],
-            clock: new THREE.Clock(),
+            clock: new Clock(),
             objects: [],
         };
 
-        var loader = new THREE.TextureLoader();
+        var loader = new TextureLoader();
 
         // credits: https://3dtextures.me/2020/01/14/rock-038/
-        var groundTexture = loader.load('/src/images/ground.jpg', function(texture) {
+        var groundTexture = loader.load(TEXTURE, function(texture) {
             texture.wrapS = texture.wrapT = THREE.RepeatWrapping;
             texture.offset.set(0, 0);
             texture.repeat.set(1, 30);
         });
-        var groundNormal = loader.load('/src/images/ground_normal.jpg', function(texture) {
+        var groundNormal = loader.load(NORMAL, function(texture) {
             texture.wrapS = texture.wrapT = THREE.RepeatWrapping;
             texture.offset.set(0, 0);
             texture.repeat.set(1, 30);
         });
-        var groundDisplacement = loader.load('/src/images/ground_displacement.png', function(texture) {
+        var groundDisplacement = loader.load(DISP, function(texture) {
             texture.wrapS = texture.wrapT = THREE.RepeatWrapping;
             texture.offset.set(0, 0);
             texture.repeat.set(1, 30);
         });
 
         this.name = 'ground';
-        var planeGeometry = new THREE.PlaneGeometry(7, 150, 7, 150);
-        // var planeMaterial = new THREE.MeshStandardMaterial({ color: 0x909A94, displacementMap: groundDisplacement,
-        //     displacementScale: 1});
-        var planeMaterial = new THREE.MeshStandardMaterial({ color: 0x909A94, side: THREE.DoubleSide, 
+        var planeGeometry = new PlaneBufferGeometry(7, 150, 7, 150);
+        var planeMaterial = new MeshStandardMaterial({ color: 0x909A94, side: THREE.DoubleSide, 
             map: groundTexture, normalMap: groundNormal, displacementMap: groundDisplacement});
-        var plane = new THREE.Mesh(planeGeometry, planeMaterial);
+        var plane = new Mesh(planeGeometry, planeMaterial);
         plane.position.set(0, -.3, 0);
         plane.rotation.set(-Math.PI / 2, Math.PI / 2000, Math.PI);
         plane.receiveShadow = true;
@@ -58,9 +52,6 @@ class Ground extends Group {
         // Add self to parent's update list
         parent.addToUpdateList(this);
 
-        // Populate GUI
-        // this.state.gui.add(this.state, 'bob');
-        // this.state.gui.add(this.state, 'spin');
         this.state.clock.start();
     }
 
@@ -68,8 +59,15 @@ class Ground extends Group {
         this.state.updateList.push(object);
     }
 
-    spawnObstacles(temp) {
+    removeObject(object) {
+        this.remove( object );
+        const index1 = this.state.updateList.indexOf(object);
+        this.state.updateList.splice(index1, 1);
+        const index2 = this.state.objects.indexOf(object);
+        this.state.objects.splice(index2, 1);
+    }
 
+    spawnObstacles(temp) {
         // Add another obstacle
         if (this.state.clock.getElapsedTime() > 8.0) {
             this.state.clock.start();
@@ -88,12 +86,10 @@ class Ground extends Group {
                 var fire1 = new Fire(this);
                 fire1.scale.set(7, 7, 5);
                 fire1.position.set(0, 0, -20 - this.position.z);
-                // fire1.children[0].position.z -= this.position.z;
                 this.add(fire1);
                 temp.push(fire1);                
             }
         }
-
     }
 
     update(timeStamp, obstacles) {
@@ -104,21 +100,13 @@ class Ground extends Group {
         
         // Call update for each object in the updateList
         for (const obj of updateList) {
-            obj.update(timeStamp);
             if (obj instanceof Fire) obj.update(this.state.clock.elapsedTime);
             else obj.update(timeStamp);
         }
 
-        // debugger
-        // remove if not visible
-        var temp = [];
-        temp = objects.filter(function(e) { return e.visible });
-
         if (game.status == "playing") {
-            this.spawnObstacles(temp);
+            this.spawnObstacles(objects);
         }
-
-        this.state.objects = temp;
     }
 }
 
