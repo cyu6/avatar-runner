@@ -3,3 +3,4 @@ export * from './Ground';
 export * from './Background';
 export * from './Firebend';
 export * from './Waterbend';
+export * from './Earthbend';

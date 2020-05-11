@@ -8,6 +8,7 @@ import MODEL from './aang.gltf';
 import game from '../../../game';
 import Firebend from '../Firebend/Firebend';
 import Waterbend from '../Waterbend/Waterbend';
+import Earthbend from '../Earthbend/Earthbend';
 
 var LoopOnce = 2200;
 
@@ -129,6 +130,8 @@ class Avatar extends Group {
 
     useEarth() {
         if (!this.currentlyAnimating) {
+            const bridge = new Earthbend(this.parent, this.position.x);
+            this.parent.add(bridge);
             this.currentlyAnimating = true;
             this.playModifierAnimation(this.currentAction, 0.25, this.earthbending, 0.25, this);
         }
