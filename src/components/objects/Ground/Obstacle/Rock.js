@@ -11,6 +11,8 @@ class Rock extends Group {
         // Init state
         this.state = {
             distance: 0,
+            bend: false,
+            direction: 0,
         };
 
         this.name = 'rock';
@@ -40,9 +42,15 @@ class Rock extends Group {
             this.parent.removeObject(this);
         }
 
+        if (this.state.bend) {
+            if (this.state.direction == 0) {
+                this.position.x += 0.08;
+            }
+            else if (this.state.direction == 1) {
+                this.position.x -= 0.08;
+            }
+        }
         this.position.z += 0.08;
-
-        //quaternion = new THREE.Quaternion().setFromAxisAngle(, 0.1);
     }
 }
 
