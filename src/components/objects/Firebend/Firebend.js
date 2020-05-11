@@ -1,5 +1,4 @@
 import { Group } from 'three';
-// import '../../engine/ParticleEngine';
 import { ParticleEngine } from '../../engine';
 import * as THREE from 'three';
 import { Ice } from '../Ground/Obstacle';
@@ -11,10 +10,6 @@ class Firebend extends Group {
 
         // Init state
         this.state = {
-            // gui: parent.state.gui,
-            // bob: true,
-            // spin: this.spin.bind(this),
-            // twirl: 0,
             engine: null,
             distance: 0,
         };
@@ -43,9 +38,6 @@ class Firebend extends Group {
                     return this.values[i - 1] + p * (this.values[i] - this.values[i - 1]);
             }
         }
-
-
-        // this.state.engine = new ParticleEngine();
 
         var settings = {
             positionStyle  : Type.SPHERE,

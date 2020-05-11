@@ -14,11 +14,12 @@ class GameLights extends Group {
 
         // this.add(ambi, hemi, dir);
 
-        var hemi = new HemisphereLight(0xfffafa, 0x000000, .9);
+        var hemi = new HemisphereLight(0xffffff, 0xffffff, 0.7);
+        hemi.position.set(0, 500, 0);
         // scene.add(hemisphereLight);
         var sun = new DirectionalLight(0xcdc1c5, 0.9);
         // where to point the light so it's pointing behind the avatar?
-        sun.position.set(3, 10, 10);
+        sun.position.set(10, 20, 20);
         sun.castShadow = true;
         // scene.add(sun);
 

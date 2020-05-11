@@ -69,8 +69,7 @@ class Ground extends Group {
     }
 
     spawnObstacles(temp) {
-        debugger
-        
+
         // Add another obstacle
         if (this.state.clock.getElapsedTime() > 8.0) {
             this.state.clock.start();

@@ -10,10 +10,6 @@ class Ice extends Group {
 
         // Init state
         this.state = {
-            // gui: parent.state.gui,
-            // bob: true,
-            // spin: this.spin.bind(this),
-            // twirl: 0,
         };
 
         this.name = 'iceblock';
@@ -21,22 +17,40 @@ class Ice extends Group {
         var loader = new THREE.TextureLoader();
 
         // credits: https://3dtextures.me/2018/01/04/ice-002/
-        var obsTexture = loader.load('/src/images/Ice_002_COLOR.jpg', function(texture) {
+        var obsTexture = loader.load('/src/images/Ice_001_COLOR.jpg', function(texture) {
             texture.wrapS = texture.wrapT = THREE.RepeatWrapping;
             texture.offset.set(0, 0);
             texture.repeat.set(3, 2);
         });
 
-        var normTexture = loader.load('/src/images/Ice_002_NORM.jpg', function(texture) {
+        var normTexture = loader.load('/src/images/Ice_001_NRM.jpg', function(texture) {
             texture.wrapS = texture.wrapT = THREE.RepeatWrapping;
             texture.offset.set(0, 0);
             texture.repeat.set(3, 2);
         });
 
-        var obsGeometry = new THREE.BoxBufferGeometry(5, 4, 0.25);
-        var obsMaterial = new THREE.MeshPhongMaterial({ color: 0xc2e0f9, flatShading: true, 
-                                                           map: obsTexture, normalMap: normTexture,
-                                                           opacity: 0.8, specular: 0xffffff });
+        var displacement = loader.load('/src/images/Ice_001_DISP.png', function(texture) {
+            texture.wrapS = texture.wrapT = THREE.RepeatWrapping;
+            texture.offset.set(0, 0);
+            texture.repeat.set(3, 2);
+        });
+
+        // var occlusion = loader.load('/src/images/Ice_001_OCC.jpg', function(texture) {
+        //     texture.wrapS = texture.wrapT = THREE.RepeatWrapping;
+        //     texture.offset.set(0, 0);
+        //     texture.repeat.set(3, 2);
+        // });
+
+        var specular = loader.load('/src/images/Ice_001_SPEC.jpg', function(texture) {
+            texture.wrapS = texture.wrapT = THREE.RepeatWrapping;
+            texture.offset.set(0, 0);
+            texture.repeat.set(3, 2);
+        });
+
+        var obsGeometry = new THREE.BoxBufferGeometry(5, 4, 0.25, 50, 40);
+        var obsMaterial = new THREE.MeshPhongMaterial({color: 0xbddeec, flatShading: true, map: obsTexture, normalMap: normTexture,
+                                                       displacementMap: displacement, displacementScale: 0.1, specularMap: specular,
+                                                       opacity: 0.8, });
         var obs = new THREE.Mesh(obsGeometry, obsMaterial);
         obs.castShadow = true;
         obs.position.y = 2.2;
@@ -46,10 +60,6 @@ class Ice extends Group {
         // Add self to parent's update list
         // parent.addToUpdateList(this);
         // parent.add(obs);
-
-        // Populate GUI
-        // this.state.gui.add(this.state, 'bob');
-        // this.state.gui.add(this.state, 'spin');
     }
 
     update(timeStamp) {

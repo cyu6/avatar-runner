@@ -60,6 +60,10 @@ class GameScene extends Scene {
             } else if (event.keyCode === 70) {
                 avatar.useFire();
                 return;
+            } else if (event.keyCode === 65) {;
+                avatar.useAir();
+            } else if (event.keyCode === 69) {
+                avatar.useEarth();
             } else {
                 return;
             }

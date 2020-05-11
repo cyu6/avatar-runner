@@ -1,8 +1,10 @@
 import { Group, Clock, Mesh, Geometry, Raycaster } from 'three';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
 import { AnimationMixer } from 'three/src/animation/AnimationMixer.js';
+import { AnimationClip } from 'three/src/animation/AnimationClip.js';
+import { LoopOnce } from 'three/src/animation/AnimationAction.js';
 import { TWEEN } from 'three/examples/jsm/libs/tween.module.min.js';
-import MODEL from './avatar.gltf';
+import MODEL from './aang.gltf';
 import { Water } from './Water';
 import { Fire } from './Fire';
 import game from '../../../game';
@@ -25,24 +27,56 @@ class Avatar extends Group {
         this.position.set(0, 0.5, 6);
         this.name = 'avatar';
         this.mixer;
+        this.currentAction;
+        this.currentlyAnimating;
 
         var self = this;
         this.clock = new Clock();
         const loader = new GLTFLoader();
         loader.load(MODEL, (gltf) => {
-            this.mixer = new AnimationMixer(gltf.scene);
-            gltf.scene.rotation.y = 3;
+            var model = gltf.scene;
+            var fileAnimations = gltf.animations;
+
+            this.mixer = new AnimationMixer(model);
+            model.rotation.y = 3;
             this.mixer.timescale = 0.01
-            var action = this.mixer.clipAction(gltf.animations[0]);
-            action.play();
+
+            var tPoseAnimation = AnimationClip.findByName(fileAnimations, 'TPose');
+            this.tPose = this.mixer.clipAction(tPoseAnimation);
+
+            var runningAnimation = AnimationClip.findByName(fileAnimations, 'Running');
+            this.running = this.mixer.clipAction(runningAnimation);
+
+            var jumpingAnimation = AnimationClip.findByName(fileAnimations, 'Jumping');
+            this.jumping = this.mixer.clipAction(jumpingAnimation);
+
+            var fallingAnimation = AnimationClip.findByName(fileAnimations, 'Falling');
+            this.falling = this.mixer.clipAction(fallingAnimation);
+
+            var firebendingAnimation = AnimationClip.findByName(fileAnimations, 'Firebending');
+            this.firebending = this.mixer.clipAction(firebendingAnimation);
+
+            var waterbendingAnimation = AnimationClip.findByName(fileAnimations, 'Waterbending');
+            this.waterbending = this.mixer.clipAction(waterbendingAnimation);
+
+            var earthbendingAnimation = AnimationClip.findByName(fileAnimations, 'Earthbending');
+            this.earthbending = this.mixer.clipAction(earthbendingAnimation);
+
+            var airbendingAnimation = AnimationClip.findByName(fileAnimations, 'Airbending');
+            this.airbending = this.mixer.clipAction(airbendingAnimation);
+
+            this.running.play();
+            this.currentAction = this.running;
+            this.currentlyAnimating = false;
 
             gltf.scene.traverse(function (node) {
                 if (node.isMesh) {
                     node.castShadow = true;
+                    node.receiveShadow = true;
                     self.state.mesh = node;
                 }
             });
-            this.add(gltf.scene);
+            this.add(model);
         });
 
         parent.addToUpdateList(this);
@@ -75,16 +109,59 @@ class Avatar extends Group {
     }
 
     useWater() {
-        const waterball = new Waterbend(this);
-        this.parent.add(waterball);
+        if (!this.currentlyAnimating) {
+            const waterball = new Waterbend(this);
+            this.parent.add(waterball);
+            this.currentlyAnimating = true
+            this.playModifierAnimation(this.currentAction, 0.25, this.waterbending, 0.25);;
+            this.currentAction = this.waterbending;
+        }
     }
 
     useFire() {
-        const fireball = new Firebend(this);
-        this.parent.add(fireball);
+        if (!this.currentlyAnimating) {
+            const fireball = new Firebend(this);
+            this.parent.add(fireball);
+            this.currentlyAnimating = true;
+            this.playModifierAnimation(this.currentAction, 0.25, this.firebending, 0.25);
+            this.currentAction = this.firebending;
+        }
     }
 
-    handleCollisions(obstacles, mesh) {
+    useEarth() {
+        if (!this.currentlyAnimating) {
+            this.currentlyAnimating = true;
+            this.playModifierAnimation(this.currentAction, 0.25, this.earthbending, 0.25);
+            this.currentAction = this.earthbending;
+        }
+    }
+
+
+    useAir() {
+        if (!this.currentlyAnimating) {
+            this.currentlyAnimating = true;
+            this.playModifierAnimation(this.currentAction, 0.25, this.airbending, 0.25);
+            this.currentAction = this.airbending;
+        }
+    }
+
+    // Code adapted from 
+    // https://tympanus.net/codrops/2019/10/14/how-to-create-an-interactive-3d-character-with-three-js/
+    playModifierAnimation(from, fSpeed, to, tSpeed) {
+        to.setLoop(LoopOnce);
+        to.reset();
+        to.play();
+
+        from.crossFadeTo(to, fSpeed, true);
+        setTimeout(function() {
+            from.enabled = true;
+            to.crossFadeTo(from, tSpeed, true);
+            this.currentlyAnimating = false;
+            console.log("timeout over");
+        }, to._clip.duration * 1000 - ((tSpeed + fSpeed) * 1000));
+    }
+
+  handleCollisions(obstacles, mesh) {
 
         if (mesh == null) {
             return;

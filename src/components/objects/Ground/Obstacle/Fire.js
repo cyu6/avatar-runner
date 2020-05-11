@@ -215,7 +215,7 @@ class Fire extends Group {
          fragmentShader: FireShader.fragmentShader,
          transparent: true,
          depthWrite: false,
-         depthTest: false
+         depthTest: true
       });
 
       this.state = {
