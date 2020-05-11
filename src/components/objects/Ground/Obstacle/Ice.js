@@ -1,7 +1,7 @@
 import { Group, TextureLoader, BoxBufferGeometry, MeshPhongMaterial, Mesh} from 'three';
 import * as THREE from 'three';
 import TEXTURE from '../../../../textures/Ice_001_COLOR.jpg';
-import NORM from '../../../../textures/Ice_001_NRM.jpg';
+import NORMAL from '../../../../textures/Ice_001_NRM.jpg';
 import DISPLACEMENT from '../../../../textures/Ice_001_DISP.png';
 import SPECULAR from '../../../../textures/Ice_001_SPEC.jpg';
 
@@ -25,7 +25,7 @@ class Ice extends Group {
             texture.repeat.set(3, 2);
         });
 
-        var normTexture = loader.load(NORM, function(texture) {
+        var normTexture = loader.load(NORMAL, function(texture) {
             texture.wrapS = texture.wrapT = THREE.RepeatWrapping;
             texture.offset.set(0, 0);
             texture.repeat.set(3, 2);
@@ -47,7 +47,7 @@ class Ice extends Group {
         var obsGeometry = new BoxBufferGeometry(5, 4, 0.25, 50, 40);
         var obsMaterial = new MeshPhongMaterial({color: 0xbddeec, flatShading: true, map: obsTexture, normalMap: normTexture,
                                                        displacementMap: displacement, displacementScale: 0.1, specularMap: specular,
-                                                       opacity: 0.8, });
+                                                       opacity: 0.7, });
         var obs = new Mesh(obsGeometry, obsMaterial);
 
         obs.castShadow = true;

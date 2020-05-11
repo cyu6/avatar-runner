@@ -2,7 +2,6 @@ import * as Dat from 'dat.gui';
 import { Scene, Color, FogExp2 } from 'three';
 import { Ground, Avatar, Background, Firebend } from 'objects';
 import { GameLights } from 'lights';
-import Waterbend from '../objects/Waterbend/Waterbend';
 
 class GameScene extends Scene {
     constructor() {
@@ -60,8 +59,13 @@ class GameScene extends Scene {
                 return;
             } else if (event.keyCode === 65) {;
                 avatar.useAir();
+                return;
             } else if (event.keyCode === 69) {
                 avatar.useEarth();
+                return;
+            } else if (event.keyCode === 84) {
+                // debugger
+                avatar.tpose();
             } else {
                 return;
             }

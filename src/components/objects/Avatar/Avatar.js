@@ -2,14 +2,14 @@ import { Group, Clock } from 'three';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
 import { AnimationMixer } from 'three/src/animation/AnimationMixer.js';
 import { AnimationClip } from 'three/src/animation/AnimationClip.js';
-import { LoopOnce } from 'three/src/animation/AnimationAction.js';
+import 'three/src/animation/AnimationAction.js';
 import { TWEEN } from 'three/examples/jsm/libs/tween.module.min.js';
 import MODEL from './aang.gltf';
-import { Water } from './Water';
-import { Fire } from './Fire';
 import game from '../../../game';
 import Firebend from '../Firebend/Firebend';
 import Waterbend from '../Waterbend/Waterbend';
+
+var LoopOnce = 2200;
 
 class Avatar extends Group {
     constructor(parent) {
@@ -109,30 +109,28 @@ class Avatar extends Group {
     }
 
     useWater() {
+        // debugger
         if (!this.currentlyAnimating) {
-            const waterball = new Waterbend(this);
+            const waterball = new Waterbend(this.parent);
             this.parent.add(waterball);
-            this.currentlyAnimating = true
-            this.playModifierAnimation(this.currentAction, 0.25, this.waterbending, 0.25);;
-            this.currentAction = this.waterbending;
+            this.currentlyAnimating = true;
+            this.playModifierAnimation(this.currentAction, 0.25, this.waterbending, 0.25, this);;
         }
     }
 
     useFire() {
         if (!this.currentlyAnimating) {
-            const fireball = new Firebend(this);
+            const fireball = new Firebend(this.parent);
             this.parent.add(fireball);
             this.currentlyAnimating = true;
-            this.playModifierAnimation(this.currentAction, 0.25, this.firebending, 0.25);
-            this.currentAction = this.firebending;
+            this.playModifierAnimation(this.currentAction, 0.25, this.firebending, 0.25, this);
         }
     }
 
     useEarth() {
         if (!this.currentlyAnimating) {
             this.currentlyAnimating = true;
-            this.playModifierAnimation(this.currentAction, 0.25, this.earthbending, 0.25);
-            this.currentAction = this.earthbending;
+            this.playModifierAnimation(this.currentAction, 0.25, this.earthbending, 0.25, this);
         }
     }
 
@@ -140,14 +138,20 @@ class Avatar extends Group {
     useAir() {
         if (!this.currentlyAnimating) {
             this.currentlyAnimating = true;
-            this.playModifierAnimation(this.currentAction, 0.25, this.airbending, 0.25);
-            this.currentAction = this.airbending;
+            this.playModifierAnimation(this.currentAction, 0.25, this.airbending, 0.25, this);
+        }
+    }
+
+    tpose() {
+        if (!this.currentlyAnimating) {
+            this.currentlyAnimating = true;
+            this.playModifierAnimation(this.currentAction, 0.25, this.tPose, 0.25, this);;
         }
     }
 
     // Code adapted from 
     // https://tympanus.net/codrops/2019/10/14/how-to-create-an-interactive-3d-character-with-three-js/
-    playModifierAnimation(from, fSpeed, to, tSpeed) {
+    playModifierAnimation(from, fSpeed, to, tSpeed, self) {
         to.setLoop(LoopOnce);
         to.reset();
         to.play();
@@ -156,7 +160,7 @@ class Avatar extends Group {
         setTimeout(function() {
             from.enabled = true;
             to.crossFadeTo(from, tSpeed, true);
-            this.currentlyAnimating = false;
+            self.currentlyAnimating = false;
             console.log("timeout over");
         }, to._clip.duration * 1000 - ((tSpeed + fSpeed) * 1000));
     }

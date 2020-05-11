@@ -131,7 +131,7 @@ class Waterbend extends Group {
 
     update(timeStamp, obstacles) {
         this.state.engine.update( 0.01 * 0.5 );
-        if (this.state.distance - this.position.z > 15) {
+        if (this.state.distance - this.position.z > 10) {
             // delete element
             this.visible = false;
             this.parent.removeObject(this);
