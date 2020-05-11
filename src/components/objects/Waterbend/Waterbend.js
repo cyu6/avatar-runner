@@ -1,8 +1,8 @@
 import { Group } from 'three';
-// import '../../engine/ParticleEngine';
 import { ParticleEngine } from '../../engine';
 import * as THREE from 'three';
 import { Fire } from '../Ground/Obstacle';
+import PARTICLE from '../../../images/smokeparticle.png';
 
 class Waterbend extends Group {
     constructor(parent) {
@@ -11,10 +11,6 @@ class Waterbend extends Group {
 
         // Init state
         this.state = {
-            // gui: parent.state.gui,
-            // bob: true,
-            // spin: this.spin.bind(this),
-            // twirl: 0,
             engine: null,
             distance: 0,
         };
@@ -56,7 +52,7 @@ class Waterbend extends Group {
             speedBase     : 1,
             speedSpread   : 0,
             
-            particleTexture : new THREE.TextureLoader().load( 'src/images/smokeparticle.png' ),
+            particleTexture : new THREE.TextureLoader().load( PARTICLE ),
       
             sizeTween    : new Tween( [0,4], [0,10] ),
             opacityTween : new Tween( [0, 0.3], [1, 1] ),
@@ -90,7 +86,6 @@ class Waterbend extends Group {
         //     emitterDeathAge    : 60
         // }
 
-        // to do : Figure out bounding box + do collisions
         // also try to make visuals more appealing
 
         this.state.engine = new ParticleEngine();
@@ -103,12 +98,10 @@ class Waterbend extends Group {
         this.state.distance = this.position.z;
         
         parent.addToUpdateList(this);
-
     }
 
     handleCollisions(obstacles)  {
 
-        // debugger
         var mesh = this.children[0];
         
         function detectBoxCollision(object1, object2) {
@@ -137,7 +130,6 @@ class Waterbend extends Group {
     }
 
     update(timeStamp, obstacles) {
-        // debugger
         this.state.engine.update( 0.01 * 0.5 );
         if (this.state.distance - this.position.z > 15) {
             // delete element

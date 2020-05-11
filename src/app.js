@@ -11,6 +11,7 @@ import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 import { GameScene } from 'scenes';
 import * as THREE from 'three';
 import game from './game';
+// import css from './game.css';
 
 var scene, camera, renderer, scorekeeper;
 

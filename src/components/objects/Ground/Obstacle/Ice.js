@@ -1,7 +1,7 @@
-import { Group } from 'three';
+import { Group, TextureLoader, BoxBufferGeometry, MeshPhongMaterial, Mesh} from 'three';
 import * as THREE from 'three';
-// import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
-// import { TWEEN } from 'three/examples/jsm/libs/tween.module.min.js';
+import TEXTURE from '../../../../textures/Ice_002_COLOR.jpg';
+import NORM from '../../../../textures/Ice_002_NORM.jpg';
 
 class Ice extends Group {
     constructor(parent) {
@@ -18,26 +18,26 @@ class Ice extends Group {
 
         this.name = 'iceblock';
 
-        var loader = new THREE.TextureLoader();
+        var loader = new TextureLoader();
 
         // credits: https://3dtextures.me/2018/01/04/ice-002/
-        var obsTexture = loader.load('/src/images/Ice_002_COLOR.jpg', function(texture) {
+        var obsTexture = loader.load(TEXTURE, function(texture) {
             texture.wrapS = texture.wrapT = THREE.RepeatWrapping;
             texture.offset.set(0, 0);
             texture.repeat.set(3, 2);
         });
 
-        var normTexture = loader.load('/src/images/Ice_002_NORM.jpg', function(texture) {
+        var normTexture = loader.load(NORM, function(texture) {
             texture.wrapS = texture.wrapT = THREE.RepeatWrapping;
             texture.offset.set(0, 0);
             texture.repeat.set(3, 2);
         });
 
-        var obsGeometry = new THREE.BoxBufferGeometry(5, 4, 0.25);
-        var obsMaterial = new THREE.MeshPhongMaterial({ color: 0xc2e0f9, flatShading: true, 
+        var obsGeometry = new BoxBufferGeometry(5, 4, 0.25);
+        var obsMaterial = new MeshPhongMaterial({ color: 0xc2e0f9, flatShading: true, 
                                                            map: obsTexture, normalMap: normTexture,
                                                            opacity: 0.8, specular: 0xffffff });
-        var obs = new THREE.Mesh(obsGeometry, obsMaterial);
+        var obs = new Mesh(obsGeometry, obsMaterial);
         obs.castShadow = true;
         obs.position.y = 2.2;
         obs.position.z = -10;
@@ -46,26 +46,10 @@ class Ice extends Group {
         // Add self to parent's update list
         // parent.addToUpdateList(this);
         // parent.add(obs);
-
-        // Populate GUI
-        // this.state.gui.add(this.state, 'bob');
-        // this.state.gui.add(this.state, 'spin');
     }
 
     update(timeStamp) {
 
-        // if (this.state.bob) {
-        //     // Bob back and forth
-            // this.rotation.z = 0.05 * Math.sin(timeStamp / 300);
-        // }
-        // if (this.state.twirl > 0) {
-        //     // Lazy implementation of twirl
-        //     this.state.twirl -= Math.PI / 8;
-        //     this.rotation.y += Math.PI / 8;
-        // }
-
-        // Advance tween animations, if any exist
-        // TWEEN.update();
     }
 }
 

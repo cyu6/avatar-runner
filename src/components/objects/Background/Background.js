@@ -13,7 +13,6 @@ class Background extends Group {
         super();
 
         // Init state
-        // idea for later: keep list of all added objects, delete the ones at the beginning when 2 new ones are added
         this.state = {
             obj: new Object3D(),
             obj2: new Object3D(),
@@ -42,7 +41,6 @@ class Background extends Group {
 
         const nloader = new OBJLoader();
         const nmtlLoader = new MTLLoader();
-
         nmtlLoader.setResourcePath('src/components/objects/Background/files/');
         nmtlLoader.load(MAT2, (material) => {
             material.preload();
@@ -53,7 +51,6 @@ class Background extends Group {
                   obj.children[child].scale.set(2, 2, 2);
               }
               this.state.obj2 = obj.clone();
-            //   this.add(obj);
             });
           });
 

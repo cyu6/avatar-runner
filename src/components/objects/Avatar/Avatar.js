@@ -1,10 +1,8 @@
-import { Group, Clock, Mesh, Geometry, Raycaster } from 'three';
+import { Group, Clock } from 'three';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
 import { AnimationMixer } from 'three/src/animation/AnimationMixer.js';
 import { TWEEN } from 'three/examples/jsm/libs/tween.module.min.js';
 import MODEL from './avatar.gltf';
-import { Water } from './Water';
-import { Fire } from './Fire';
 import game from '../../../game';
 import Firebend from '../Firebend/Firebend';
 import Waterbend from '../Waterbend/Waterbend';
@@ -107,8 +105,6 @@ class Avatar extends Group {
         for (var obs in obstacles) {
             var collision = detectBoxCollision(obstacles[obs].children[0], mesh);
             if (collision) {
-                // console.log("stop");
-                // could just fade in a game over screen
                 game.status = "end";
             }
         }
