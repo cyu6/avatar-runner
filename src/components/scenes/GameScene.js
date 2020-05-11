@@ -1,6 +1,6 @@
 import * as Dat from 'dat.gui';
-import { Scene, Color, FogExp2 } from 'three';
-import { Ground, Avatar, Background, Firebend } from 'objects';
+import { Scene, Color, FogExp2, AudioListener, Audio, AudioLoader } from 'three';
+import { Ground, Avatar, Background } from 'objects';
 import { GameLights } from 'lights';
 
 class GameScene extends Scene {
@@ -57,7 +57,8 @@ class GameScene extends Scene {
             } else if (event.keyCode === 70) {
                 avatar.useFire();
                 return;
-            } else if (event.keyCode === 65) {;
+            } else if (event.keyCode === 65) {
+                ;
                 avatar.useAir();
                 return;
             } else if (event.keyCode === 69) {
@@ -80,8 +81,8 @@ class GameScene extends Scene {
 
     removeObject(object) {
         const index = this.state.updateList.indexOf(object);
-        if (index > -1)  this.state.updateList.splice(index, 1);
-        this.remove( object );
+        if (index > -1) this.state.updateList.splice(index, 1);
+        this.remove(object);
     }
 
     resetScene() {

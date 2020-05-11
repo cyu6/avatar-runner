@@ -13,13 +13,13 @@ import * as THREE from 'three';
 import game from './game';
 // import css from './game.css';
 
-var scene, camera, renderer, scorekeeper;
+var scene, camera, renderer, scorekeeper, sound;
 
 function createScene() {
     // Initialize core ThreeJS components
     scene = new GameScene();
     // antialiasing, transparent backdrop
-    renderer = new WebGLRenderer({ antialias: true, alpha: true }); 
+    renderer = new WebGLRenderer({ antialias: true, alpha: true });
 
     // Set up camera
     camera = new PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 1000);
@@ -66,7 +66,7 @@ const onAnimationFrameHandler = (timeStamp) => {
         scorekeeper.status = "stop";
         showReplay();
         return;
-    } 
+    }
     // controls.update();
     renderer.render(scene, camera);
     scene.update && scene.update(timeStamp);
@@ -116,7 +116,7 @@ function replayClick() {
         status: "playing",
     };
     scene.resetScene();
-    window.requestAnimationFrame(onAnimationFrameHandler);        
+    window.requestAnimationFrame(onAnimationFrameHandler);
 }
 
 function showReplay() {
@@ -136,11 +136,27 @@ function startGame() {
     game.status = "playing";
     scorekeeper.startTime = new Date().getTime();
     scorekeeper.status = "playing";
+
+    // create an AudioListener and add it to the camera
+    let listener = new THREE.AudioListener();
+    camera.add(listener);
+
+    // create a global audio source
+    sound = new THREE.Audio(listener);
+
+    // load a sound and set it as the Audio object's buffer
+    let audioLoader = new THREE.AudioLoader();
+    audioLoader.load('src/sound/background.mp3', function (buffer) {
+        sound.setBuffer(buffer);
+        sound.setLoop(true);
+        sound.setVolume(0.6);
+        sound.play(0);
+    });
 }
 
 function updateScore() {
     var current = new Date().getTime();
-    score_value.innerHTML = Math.floor((scorekeeper.oldScore + (current - scorekeeper.startTime)) / 1000) ;
+    score_value.innerHTML = Math.floor((scorekeeper.oldScore + (current - scorekeeper.startTime)) / 1000);
 }
 
 var replayDiv, replayButton, startButton, landingDiv, background, pause, scoreDiv, score_value;
@@ -152,8 +168,8 @@ function init() {
     replayDiv = document.getElementById("replayGame");
     replayButton = document.getElementById("replayButton");
     startButton = document.getElementById("startButton");
-    startButton.onclick = function() { startGame() };
-    replayButton.onclick = function() { replayClick() };
+    startButton.onclick = function () { startGame() };
+    replayButton.onclick = function () { replayClick() };
     pause = document.getElementById("pause");
     scoreDiv = document.getElementById("score");
     score_value = document.getElementById("score_value");
@@ -162,9 +178,9 @@ function init() {
     createScene();
 
     windowResizeHandler();
-    window.addEventListener('resize', windowResizeHandler, false); 
+    window.addEventListener('resize', windowResizeHandler, false);
     window.addEventListener('keydown', onPauseHandler);
 
-    window.requestAnimationFrame(onAnimationFrameHandler);    
+    window.requestAnimationFrame(onAnimationFrameHandler);
 }
 window.addEventListener('load', init, false)
