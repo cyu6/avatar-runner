@@ -6,10 +6,7 @@ import 'three/src/animation/AnimationAction.js';
 import { TWEEN } from 'three/examples/jsm/libs/tween.module.min.js';
 import MODEL from './aang.gltf';
 import game from '../../../game';
-import Firebend from '../Firebend/Firebend';
-import Waterbend from '../Waterbend/Waterbend';
-import Earthbend from '../Earthbend/Earthbend';
-import Airbend from '../Airbend/Airbend';
+import { Firebend, Waterbend, Earthbend, Airbend, Gap } from 'objects';
 
 var LoopOnce = 2200;
 
@@ -111,12 +108,11 @@ class Avatar extends Group {
     }
 
     useWater() {
-        // debugger
         if (!this.currentlyAnimating) {
             const waterball = new Waterbend(this.parent, this.position.x);
             this.parent.add(waterball);
             this.currentlyAnimating = true;
-            this.playModifierAnimation(this.currentAction, 0.75, this.waterbending, 0.75, this);;
+            this.playModifierAnimation(this.currentAction, 0.9, this.waterbending, 0.9, this);;
         }
     }
 
@@ -151,8 +147,21 @@ class Avatar extends Group {
     tpose() {
         if (!this.currentlyAnimating) {
             this.currentlyAnimating = true;
-            this.playModifierAnimation(this.currentAction, 0.25, this.tPose, 0.25, this);;
+            this.playModifierAnimation(this.currentAction, 0.1, this.tPose, 0.1, this);
         }
+    }
+
+    fall() {
+        // game.status = "falling";
+        // this.position.z -= 1;
+        // this.playModifierAnimation(this.currentAction, 0.25, this.falling, 0.25, this);
+        
+        // // debugger
+        // // var self = this;
+        // // this.playModifierAnimation(this.currentAction, 0.25, this.falling, 0.25, this);
+        // setTimeout(function() {
+        //     game.status = "end";
+        // }, 3000);
     }
 
     // Code adapted from 
@@ -167,7 +176,7 @@ class Avatar extends Group {
             from.enabled = true;
             to.crossFadeTo(from, tSpeed, true);
             self.currentlyAnimating = false;
-            console.log("timeout over");
+            // console.log("timeout over");
         }, to._clip.duration * 750 - ((tSpeed + fSpeed) * 750));
     }
 
@@ -195,6 +204,7 @@ class Avatar extends Group {
         for (var obs in obstacles) {
             var collision = detectBoxCollision(obstacles[obs].children[0], mesh);
             if (collision) {
+                // if (obstacles[obs] instanceof Gap) this.fall();
                 game.status = "end";
             }
         }
@@ -208,7 +218,7 @@ class Avatar extends Group {
 
         const { updateList, mesh } = this.state;
 
-        this.handleCollisions(obstacles, mesh);
+        if (game.status == "playing") this.handleCollisions(obstacles, mesh);
 
         // Call update for each object in the updateList
         for (const obj of updateList) {

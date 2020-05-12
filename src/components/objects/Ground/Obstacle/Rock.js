@@ -27,7 +27,7 @@ class Rock extends Group {
         var rock = new Mesh(rockGeometry, rockMaterial);
         rock.castShadow = true;
         rock.position.y = radius;
-        rock.position.z = -5;
+        rock.position.z = -6;
         this.state.distance = rock.position.z;
         this.add(rock);
 
@@ -44,10 +44,10 @@ class Rock extends Group {
 
         if (this.state.bend) {
             if (this.state.direction == 0) {
-                this.position.x += 0.08;
+                this.position.x += 0.1;
             }
             else if (this.state.direction == 1) {
-                this.position.x -= 0.08;
+                this.position.x -= 0.1;
             }
         }
         this.position.z += 0.08;

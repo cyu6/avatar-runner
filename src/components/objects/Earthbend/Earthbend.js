@@ -3,6 +3,7 @@ import * as THREE from 'three';
 import { TWEEN } from 'three/examples/jsm/libs/tween.module.min.js';
 import TEXTURE from '../../../textures/ground.jpg';
 import NORMAL from '../../../textures/ground_normal.jpg';
+import { Gap } from 'objects';
 
 class Earthbend extends Group {
     constructor(parent, xpos) {
@@ -13,11 +14,12 @@ class Earthbend extends Group {
         this.state = {
             bob: true,
             spin: this.spin.bind(this),
+            distance: 0,
         };
 
         this.name = 'earthbend';
 
-        var geometry = new BoxBufferGeometry(3, 1, 10);
+        var geometry = new BoxBufferGeometry(7, 1, 12);
 
         var loader = new TextureLoader();
 
@@ -32,7 +34,8 @@ class Earthbend extends Group {
 
         // bridge rises from below ground level
         bridge.position.y = -2.2;
-        bridge.position.x = xpos;
+        bridge.position.x = 0;
+        this.state.distance = bridge.position.z;
 
         this.add(bridge);
         parent.addToUpdateList(this);
@@ -58,7 +61,40 @@ class Earthbend extends Group {
         jumpUp.start();
     }
 
+    handleCollisions(obstacles)  {
+
+        var mesh = this.children[0];
+        
+        function detectBoxCollision(object1, object2) {
+            object1.geometry.computeBoundingBox(); 
+            object2.geometry.computeBoundingBox();
+            object1.updateMatrixWorld();
+            object2.updateMatrixWorld();
+            
+            var box1 = object1.geometry.boundingBox.clone();
+            box1.applyMatrix4(object1.matrixWorld);
+    
+            var box2 = object2.geometry.boundingBox.clone();
+            box2.applyMatrix4(object2.matrixWorld);
+    
+            return box1.intersectsBox(box2);
+        }
+
+        for (var obs in obstacles) {
+            var collision = detectBoxCollision(obstacles[obs].children[0], mesh);
+            if (collision && (obstacles[obs] instanceof Gap)) {
+                obstacles[obs].parent.removeObject(obstacles[obs]);
+                // this.parent.removeObject(this);
+                return;
+            }
+        }
+    }
+
     update(timeStamp, obstacles) {
+        if (this.state.distance - this.position.z > 10) {
+            // delete element
+            this.parent.removeObject(this);
+        }
         // max height of bridge should not exceed ground level
         if (this.position.y < 1.5) {
             this.position.y += 0.1;
@@ -71,6 +107,9 @@ class Earthbend extends Group {
         this.position.z += 0.09;
 
         TWEEN.update();
+
+        this.handleCollisions(obstacles);
+
     }
 }
 

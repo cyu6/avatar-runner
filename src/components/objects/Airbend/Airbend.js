@@ -1,4 +1,4 @@
-import { BoxBufferGeometry, Mesh, MeshStandardMaterial, Group} from 'three';
+import { BoxBufferGeometry, Mesh, MeshBasicMaterial, Group} from 'three';
 import { Rock } from '../Ground/Obstacle';
 
 class Airbend extends Group {
@@ -9,14 +9,20 @@ class Airbend extends Group {
         // Init state
         this.state = {
             x: xpos,
+            distance: 0,
         };
 
         // Maybe add air sprite later?
         this.name = 'airbend';
 
-        var geometry = new BoxBufferGeometry(7, 3, 3);
-        var material = new MeshStandardMaterial({transparent: true, opacity: 0});
+        var geometry = new BoxBufferGeometry(2, 2, 2);
+        var material = new MeshBasicMaterial({transparent: true, opacity: 0});
         var air = new Mesh(geometry, material);
+
+        this.position.z = 3;
+        this.position.y = 3;
+        this.position.x = xpos;
+        this.state.distance = this.position.z;
 
         this.add(air);
 
@@ -59,6 +65,11 @@ class Airbend extends Group {
     }
 
     update(timeStamp, obstacles) {
+        if (this.state.distance - this.position.z > 6) {
+            // delete element
+            this.parent.removeObject(this);
+        }
+        this.position.z -= 0.04;
         this.handleCollisions(obstacles);
     }
 }

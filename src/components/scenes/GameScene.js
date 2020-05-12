@@ -1,7 +1,8 @@
 import * as Dat from 'dat.gui';
 import { Scene, Color, FogExp2, AudioListener, Audio, AudioLoader } from 'three';
-import { Ground, Avatar, Background } from 'objects';
+import { Ground, Avatar, Background, Earthbend, Gap } from 'objects';
 import { GameLights } from 'lights';
+import game from '../../game';
 
 class GameScene extends Scene {
     constructor() {
@@ -38,12 +39,13 @@ class GameScene extends Scene {
         this.add(ground);
         this.state.obstacles = ground.state.objects;
         this.state.ground = ground;
+        ground.add(new Gap(ground));
 
         // scenery
         const scenery = new Background(this);
         this.add(scenery);
 
-        // Basic keyboard controls - should these be in the avatar constructor?
+        // Avatar keyboard controls 
         function handleKeyDown(event) {
             if (event.key == "ArrowLeft") {
                 avatar.moveLeft = true;
@@ -58,7 +60,6 @@ class GameScene extends Scene {
                 avatar.useFire();
                 return;
             } else if (event.keyCode === 65) {
-                ;
                 avatar.useAir();
                 return;
             } else if (event.keyCode === 69) {
@@ -83,6 +84,7 @@ class GameScene extends Scene {
         const index = this.state.updateList.indexOf(object);
         if (index > -1) this.state.updateList.splice(index, 1);
         this.remove(object);
+        // Remove firebending, waterbending, earthbending textures
     }
 
     resetScene() {
@@ -98,8 +100,13 @@ class GameScene extends Scene {
                 continue;
             }
             else if (this.children[obj] instanceof Avatar) {
-                obj++;
                 this.children[obj].position.set(0, 0.5, 6);
+                this.children[obj].state.moveLeft = false;
+                this.children[obj].state.moveRight = false;
+                this.children[obj].running.play();
+                this.children[obj].currentAction = this.children[obj].running;
+                this.children[obj].currentlyAnimating = false;
+                obj++;
             }
             else if (this.children[obj] instanceof Ground) {
                 if (!first) {
@@ -109,6 +116,7 @@ class GameScene extends Scene {
                     this.children[obj] = newGround;
                     this.state.obstacles = newGround.state.objects;
                     this.state.ground = newGround;
+                    newGround.add(new Gap(newGround));
                     first = true;
                     obj++;
                 }
@@ -127,12 +135,13 @@ class GameScene extends Scene {
     }
 
     update(timeStamp) {
-        const { updateList, obstacles } = this.state;
+        const { updateList } = this.state;
 
         // Call update for each object in the updateList
         for (const obj of updateList) {
             obj.update(timeStamp, this.state.obstacles);
             if (obj === this.state.ground) {
+                // Ground switching
                 if (obj.position.z >= 175) {
                     this.state.oldGround = this.state.ground;
                     this.state.ground = this.state.nextGround;
@@ -140,14 +149,17 @@ class GameScene extends Scene {
                 }
                 else if (obj.position.z > 20 && this.state.nextGround == null) {
                     const ground = new Ground(this);
-                    ground.position.z = -135
+                    ground.position.z = -135;
                     this.add(ground);
+                    var gap = new Gap(ground);
+                    ground.add(gap);
                     this.state.nextGround = ground;
                     this.state.nextObstacles = ground.state.objects;
                     this.removeObject(this.state.oldGround);
                     this.state.oldGround = null;
                 }
 
+                // Collect obstacles
                 if (this.state.nextGround != null) {
                     this.state.nextObstacles = this.state.nextGround.state.objects;
                 }

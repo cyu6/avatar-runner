@@ -2,19 +2,19 @@
 @font-face {
 	font-family: 'Avenir Next';
 	src: local("Avenir Next Demi Bold"),
-		 url("/src/fonts/AvenirNext-DemiBold.ttf") format("truetype"); 
+		 url('./fonts/AvenirNext-DemiBold.ttf') format("truetype"); 
 	font-weight: bold;
 }
 @font-face {
 	font-family: 'Avenir Next';
 	src: local("Avenir Next Heavy Italic"),
-		 url("/src/fonts/AvenirNext-HeavyItalic.ttf") format("truetype"); 
+		 url('./fonts/AvenirNext-HeavyItalic.ttf') format("truetype"); 
 	font-style: italic;
 }
 @font-face {
 	font-family: 'Herculanum';
 	src: local("Herculanum"),
-		 url("/src/fonts/Herculanum.ttf") format("truetype");
+		 url('./fonts/Herculanum.ttf') format("truetype");
 }
 
 .background{

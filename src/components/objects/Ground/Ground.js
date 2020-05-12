@@ -1,5 +1,5 @@
 import { Group, Clock, TextureLoader, PlaneBufferGeometry, MeshStandardMaterial, Mesh } from 'three';
-import { Rock, Ice, Fire } from './Obstacle';
+import { Rock, Ice, Fire, Gap } from './Obstacle';
 import * as THREE from 'three';
 import game from '../../../game';
 import TEXTURE from '../../../textures/ground.jpg';
@@ -61,6 +61,9 @@ class Ground extends Group {
 
     removeObject(object) {
         this.remove( object );
+        // Remove ice texture maps
+        // Remove fire stuff? Don't know what might be attached, material? texture?
+        // Remove rock texture maps
         const index1 = this.state.updateList.indexOf(object);
         this.state.updateList.splice(index1, 1);
         const index2 = this.state.objects.indexOf(object);
