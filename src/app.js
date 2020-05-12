@@ -14,6 +14,7 @@ import game from './game';
 import './game.css';
 import LOGO from './images/atla_logo.svg';
 import PAUSE from './images/pause.svg';
+import SOUND from './sound/background.mp3';
 
 var head = document.getElementsByTagName('HEAD')[0];
 var link = document.createElement('link');
@@ -50,7 +51,7 @@ function createScene() {
     document.body.appendChild(canvas);
 
     sound = document.createElement("audio");
-    sound.src = 'src/sound/background.mp3';
+    sound.src = SOUND;
     sound.setAttribute("preload", "auto");
     sound.setAttribute("controls", "none");
     sound.style.display = "none";
