@@ -15,12 +15,12 @@ import './game.css';
 import LOGO from './images/atla_logo.svg';
 import PAUSE from './images/pause.svg';
 
-var head = document.getElementsByTagName('HEAD')[0];  
-var link = document.createElement('link'); 
-link.rel = 'stylesheet';  
-link.type = 'text/css'; 
-link.href = './src/game.css';  
-head.appendChild(link);  
+var head = document.getElementsByTagName('HEAD')[0];
+var link = document.createElement('link');
+link.rel = 'stylesheet';
+link.type = 'text/css';
+link.href = './src/game.css';
+head.appendChild(link);
 
 var scene, camera, renderer, scorekeeper, sound;
 
@@ -48,6 +48,13 @@ function createScene() {
     document.body.style.margin = 0; // Removes margin around page
     document.body.style.overflow = 'hidden'; // Fix scrolling
     document.body.appendChild(canvas);
+
+    sound = document.createElement("audio");
+    sound.src = 'src/sound/background.mp3';
+    sound.setAttribute("preload", "auto");
+    sound.setAttribute("controls", "none");
+    sound.style.display = "none";
+    document.body.appendChild(sound);
 
     // Set up controls
     // controls = new OrbitControls(camera, canvas);
@@ -100,7 +107,7 @@ function onPauseHandler(event) {
     if (game.status == "playing") {
         game.status = "pause";
         pause.style.display = "block";
-
+        sound.pause();
         var current = new Date().getTime();
         scorekeeper.oldScore += (current - scorekeeper.startTime);
         scorekeeper.status = "pause";
@@ -108,6 +115,7 @@ function onPauseHandler(event) {
         // want to restart
         game.status = "playing";
         pause.style.display = "none";
+        sound.play();
         scorekeeper.status = "playing"
         var current = new Date().getTime();
         scorekeeper.startTime = current;
@@ -125,12 +133,14 @@ function replayClick() {
         status: "playing",
     };
     scene.resetScene();
+    sound.play();
     window.requestAnimationFrame(onAnimationFrameHandler);
 }
 
 function showReplay() {
     background.style.display = "block";
     replayDiv.style.display = "block";
+    sound.pause();
 }
 
 function hideReplay() {
@@ -146,21 +156,7 @@ function startGame() {
     scorekeeper.startTime = new Date().getTime();
     scorekeeper.status = "playing";
 
-    // create an AudioListener and add it to the camera
-    let listener = new THREE.AudioListener();
-    camera.add(listener);
-
-    // create a global audio source
-    sound = new THREE.Audio(listener);
-
-    // load a sound and set it as the Audio object's buffer
-    let audioLoader = new THREE.AudioLoader();
-    audioLoader.load('src/sound/background.mp3', function (buffer) {
-        sound.setBuffer(buffer);
-        sound.setLoop(true);
-        sound.setVolume(0.6);
-        sound.play(0);
-    });
+    sound.play();
 }
 
 function updateScore() {

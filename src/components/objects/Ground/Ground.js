@@ -87,8 +87,8 @@ class Ground extends Group {
                 temp.push(new_obs);
             } else {
                 var fire1 = new Fire(this);
-                fire1.scale.set(7, 7, 5);
-                fire1.position.set(0, 0, -20 - this.position.z);
+                fire1.scale.set(7, 3, 2);
+                fire1.position.set(0, 1, -20 - this.position.z);
                 this.add(fire1);
                 temp.push(fire1);                
             }
