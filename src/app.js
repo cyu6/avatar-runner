@@ -12,6 +12,7 @@ import { GameScene } from 'scenes';
 import * as THREE from 'three';
 import game from './game';
 import './game.css';
+import APPA from './images/appa.png';
 import LOGO from './images/atla_logo.svg';
 import PAUSE from './images/pause.svg';
 import SOUND from './sound/background.mp3';
@@ -183,6 +184,12 @@ function init() {
 
 
     // Insert images into HTML
+    var appa = document.createElement("img");
+    appa.className = "appa";
+    appa.src = APPA;
+    appa.alt = "appa loading icon";
+    loading.prepend(appa);
+
     var landinghead = document.getElementById("landing_header");
     var logo = document.createElement("img");
     logo.src = LOGO;
