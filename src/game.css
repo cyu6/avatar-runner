@@ -17,6 +17,44 @@
 		 url('./fonts/Herculanum.ttf') format("truetype");
 }
 
+@keyframes arrows {
+	0%,
+	100% {
+		color: black;
+		transform: translateY(0);
+	}
+	50% {
+		color: #3AB493;
+	  	transform: translateY(20px);
+	}
+}
+
+@keyframes appa {
+	0%, 100% {
+		transform: translateY(0);
+	}
+	50% {
+		transform: translateY(20px);
+	}
+ }
+
+.loading{
+	display: flex;
+	height: 100vh;
+	align-items: center;
+	justify-content: center; 
+}
+.animate {
+	font-size: 30px;
+	--delay: 0s;
+	animation: arrows 1s var(--delay) infinite ease-in;
+}
+
+.appa{
+	width: 200px;
+	animation: appa 1s infinite ease-in;
+}
+
 .background{
 	display: block;
 	background-color: white;
@@ -42,7 +80,7 @@ button {
 button:hover { background-color: #d9ccba; color: black; }
 
 .landing{
-	display: block;
+	display: none;
 	text-align: center;
 	z-index: 1;
 	height: 100%;

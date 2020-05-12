@@ -165,10 +165,11 @@ function updateScore() {
     score_value.innerHTML = Math.floor((scorekeeper.oldScore + (current - scorekeeper.startTime)) / 1000);
 }
 
-var replayDiv, replayButton, startButton, landingDiv, background, pause, scoreDiv, score_value;
+var replayDiv, replayButton, startButton, loading, landingDiv, background, pause, scoreDiv, score_value;
 
 function init() {
 
+    loading = document.getElementById("loading");
     background = document.getElementById("background");
     landingDiv = document.getElementById("landing");
     replayDiv = document.getElementById("replayGame");
@@ -196,6 +197,11 @@ function init() {
 
     game.status = "ready";
     createScene();
+
+    setTimeout(() => {
+        loading.style.display = 'none';
+        landingDiv.style.display = 'block';
+    }, 4000);
 
     windowResizeHandler();
     window.addEventListener('resize', windowResizeHandler, false);
