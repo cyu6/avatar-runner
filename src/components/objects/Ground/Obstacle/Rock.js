@@ -27,8 +27,8 @@ class Rock extends Group {
         var rock = new Mesh(rockGeometry, rockMaterial);
         rock.castShadow = true;
         rock.position.y = radius;
-        rock.position.z = -6;
-        this.state.distance = rock.position.z;
+        rock.position.z = -8;
+        this.state.distance = rock.position.x;
         this.add(rock);
 
         // Add self to parent's update list
@@ -37,7 +37,7 @@ class Rock extends Group {
 
     update(timeStamp) {
 
-        if (this.position.z - this.state.distance > 15) {
+        if (Math.abs(this.position.x - this.state.distance) > 5) {
             // delete element
             this.parent.removeObject(this);
         }
@@ -50,7 +50,7 @@ class Rock extends Group {
                 this.position.x -= 0.1;
             }
         }
-        this.position.z += 0.08;
+        this.position.z += 0.09;
     }
 }
 

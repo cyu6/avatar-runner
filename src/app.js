@@ -7,7 +7,6 @@
  *
  */
 import { WebGLRenderer, PerspectiveCamera, Vector3 } from 'three';
-import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 import { GameScene } from 'scenes';
 import * as THREE from 'three';
 import game from './game';
@@ -34,8 +33,6 @@ function createScene() {
 
     // Set up camera
     camera = new PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 1000);
-    // camera.position.y = 3;
-    // camera.position.z = 3;
     camera.position.set(0, 4, 10);
     camera.lookAt(new Vector3(0, 0, 0));
 
@@ -44,7 +41,6 @@ function createScene() {
     // enable shadow
     renderer.shadowMap.enabled = true;
     renderer.shadowMap.type = THREE.PCFSoftShadowMap;
-    // renderer.setSize(innerWidth, innerHeight);
     const canvas = renderer.domElement;
     canvas.style.display = 'block'; // Removes padding below canvas
     document.body.style.margin = 0; // Removes margin around page
@@ -80,7 +76,6 @@ const onAnimationFrameHandler = (timeStamp) => {
         return;
     }
     else if (game.status == "end") {
-        game.status = "waitingReplay";
         scorekeeper.status = "stop";
         showReplay();
         return;

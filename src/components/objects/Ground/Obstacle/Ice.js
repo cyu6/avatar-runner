@@ -61,7 +61,7 @@ class Ice extends Group {
     }
 
     update(timeStamp) {
-
+        this.position.z += 0.09;
     }
 }
 
