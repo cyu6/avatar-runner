@@ -10,9 +10,7 @@ class Rock extends Group {
 
         // Init state
         this.state = {
-            distance: 0,
             bend: false,
-            xstart: 0,
         };
 
         this.name = 'rock';
@@ -29,7 +27,6 @@ class Rock extends Group {
         rock.position.x = (Math.random() - 0.5) * 3
         rock.position.y = radius + 1;
         rock.position.z = -10;
-        this.state.xstart = rock.position.x;
         this.add(rock);
 
         // Add self to parent's update list
@@ -38,9 +35,8 @@ class Rock extends Group {
 
     update(timeStamp) {
 
-        if (Math.abs(this.position.x - this.state.xstart) > 5 || (this.position.z - this.state.distance > 10)) {
+        if (this.position.z > 10) {
             // delete element
-            // debugger
             this.parent.removeObject(this);
         } 
 
