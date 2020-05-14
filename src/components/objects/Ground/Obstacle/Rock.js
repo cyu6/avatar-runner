@@ -16,17 +16,18 @@ class Rock extends Group {
         };
 
         this.name = 'rock';
-        const radius = 1.2
+        const radius = Math.random() + 0.3;
         var rockGeometry = new DodecahedronBufferGeometry(radius , 2);
 
         var loader = new TextureLoader();
         var rockTexture = loader.load(TEXTURE);
         var rockNormal = loader.load(NORMAL);
         var rockDisplacement = loader.load(DISP);
-        var rockMaterial = new MeshStandardMaterial({map: rockTexture, normalMap: rockNormal, displacementMap: rockDisplacement, displacementScale: 0.5});
+        var rockMaterial = new MeshStandardMaterial({map: rockTexture, normalMap: rockNormal, displacementMap: rockDisplacement, displacementScale: 0.5 * radius});
         var rock = new Mesh(rockGeometry, rockMaterial);
         rock.castShadow = true;
-        rock.position.y = radius;
+        rock.position.x = (Math.random() - 0.5) * 3
+        rock.position.y = radius + 1;
         rock.position.z = -8;
         this.state.distance = rock.position.x;
         this.add(rock);
