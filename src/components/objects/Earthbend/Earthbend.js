@@ -1,4 +1,4 @@
-import { Group, BoxBufferGeometry, Geometry, Mesh, MeshStandardMaterial, TextureLoader, PositionalAudio, AudioLoader } from 'three';
+import { Group, BoxBufferGeometry, Mesh, MeshStandardMaterial, TextureLoader, PositionalAudio, AudioLoader } from 'three';
 import { TWEEN } from 'three/examples/jsm/libs/tween.module.min.js';
 import TEXTURE from '../../../textures/ground.jpg';
 import NORMAL from '../../../textures/ground_normal.jpg';

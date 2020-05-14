@@ -122,6 +122,7 @@
 }
 .closebutton {
 	text-align: left;
+	margin: none;
 }
 .instructions button {
 	background-color: #d9ccba;
@@ -135,7 +136,7 @@
 	font-size: 36px;
 	font-family: 'Avenir Next', sans-serif;
 	font-style: italic;
-	line-height: 40px;
+	line-height: 20px;
 }
 #c { margin-top: 50px; margin-bottom: 0px; }
 .instructions p {
