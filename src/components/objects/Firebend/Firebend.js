@@ -4,6 +4,7 @@ import * as THREE from 'three';
 import { Ice } from '../Ground/Obstacle';
 import PARTICLE from '../../../images/smokeparticle.png';
 import { listener } from '../../../app';
+import SOUND from '../../../sound/firebend.mp3';
 
 class Firebend extends Group {
     constructor(parent, xpos) {
@@ -76,7 +77,7 @@ class Firebend extends Group {
 
         var firesound = new THREE.PositionalAudio( listener );
         var audioLoader = new THREE.AudioLoader();
-        audioLoader.load('src/sound/firebend.mp3', function (buffer) {
+        audioLoader.load(SOUND, function (buffer) {
             firesound.setBuffer(buffer);
             firesound.setLoop(false);
             firesound.play();

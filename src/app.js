@@ -14,6 +14,8 @@ import './game.css';
 import ALOAD from './images/appa.png';
 import LOGO from './images/atla_logo.svg';
 import PAUSE from './images/pause.svg';
+import MUTE from './images/muted.png';
+import UNMUTE from './images/sound.png';
 import SOUND from './sound/background.mp3';
 
 var scene, camera, renderer, scorekeeper, listener, sound;
@@ -104,6 +106,7 @@ function onPauseHandler(event) {
         pause.style.display = "block";
         background.style.display = "block";
         sound.pause();
+        muteButton.style.display = 'none';
         var current = new Date().getTime();
         scorekeeper.oldScore += (current - scorekeeper.startTime);
         scorekeeper.status = "pause";
@@ -113,12 +116,42 @@ function onPauseHandler(event) {
         pause.style.display = "none";
         background.style.display = "none";
         sound.play();
+        muteButton.style.display = 'block';
         scorekeeper.status = "playing"
         var current = new Date().getTime();
         scorekeeper.startTime = current;
         window.requestAnimationFrame(onAnimationFrameHandler);
     }
     return;
+}
+
+function mute() {
+    if (soundState) {
+        listener.setMasterVolume(0);
+        sound.volume = 0;
+        soundState = false;
+
+        var soundimg = document.getElementById('soundimg');
+        soundimg.style.display = 'none';
+
+        var muteimg = document.getElementById('muteimg');
+        muteimg.style.display = 'block';
+        muteButton.blur();
+    }
+    else {
+        listener.setMasterVolume(1);
+        sound.volume = 0.09;
+        soundState = true;
+
+        console.log("hello");
+        var soundimg = document.getElementById('soundimg');
+        soundimg.style.display = 'block';
+
+        var muteimg = document.getElementById('muteimg');
+        muteimg.style.display = 'none';
+        muteButton.blur();
+
+    }
 }
 
 function replayClick() {
@@ -170,6 +203,7 @@ function startGame() {
     scorekeeper.startTime = new Date().getTime();
     scorekeeper.status = "playing";
 
+    soundimg.style.display = 'block';
     sound.play();
 }
 
@@ -178,9 +212,11 @@ function updateScore() {
     score_value.innerHTML = Math.floor((scorekeeper.oldScore + (current - scorekeeper.startTime)) / 1000);
 }
 
-var replayDiv, replayButton, startButton, loading, landingDiv, background, pause, restartButton, scoreDiv, score_value;
+var replayDiv, replayButton, startButton, loading, landingDiv, background, pause, restartButton, muteButton, soundState, scoreDiv, score_value;
 
 function init() {
+
+    soundState = true;
 
     loading = document.getElementById("loading");
     background = document.getElementById("background");
@@ -189,6 +225,7 @@ function init() {
     replayButton = document.getElementById("replayButton");
     startButton = document.getElementById("startButton");
     restartButton = document.getElementById("restartButton");
+    muteButton = document.getElementById("soundButton");
     startButton.onclick = function () { startGame() };
     replayButton.onclick = function () { replayClick() };
     restartButton.onclick = function () { restartClick() };
@@ -211,6 +248,17 @@ function init() {
     logo.alt = "avatar logo";
     logo.style.width = "40%";
     landinghead.prepend(logo);
+
+    muteButton.onclick = function () { mute() };
+    var muteimg = document.getElementById("muteimg");
+    muteimg.src = MUTE;
+    muteimg.alt = "mute button img";
+    muteimg.style.display = 'none';
+    
+    var soundimg = document.getElementById("soundimg");
+    soundimg.src = UNMUTE;
+    soundimg.alt = "unmute button img";
+    soundimg.style.display = "none";
 
     var pause_icon = document.createElement("img");
     pause_icon.src = PAUSE;

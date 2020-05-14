@@ -1,6 +1,7 @@
 <!doctype html>
 
 <html lang="en">
+
 <head>
   <meta charset="utf-8">
 
@@ -14,7 +15,7 @@
 
 
 <body>
-  
+
   <!-- loading -->
   <div class="loading" id="loading">
     <span class="animate">↓</span>
@@ -29,13 +30,13 @@
 
   <!-- landing page -->
   <div class="landing" id="landing">
-      <div class="landing_header" id="landing_header">
-        <h1 id="name">The Last Infinite Runner</h1>
-      </div>
-      <div id="landingButtons">
-        <div class="landing_buttons"><button id="tutorialButton" onclick="showInstructions()">how to bend</button></div>
-        <div class="landing_buttons"><button id="startButton">let's run!</button></div>
-      </div>
+    <div class="landing_header" id="landing_header">
+      <h1 id="name">The Last Infinite Runner</h1>
+    </div>
+    <div id="landingButtons">
+      <div class="landing_buttons"><button id="tutorialButton" onclick="showInstructions()">how to bend</button></div>
+      <div class="landing_buttons"><button id="startButton">let's run!</button></div>
+    </div>
   </div>
 
   <div class="instructions" id="instructions">
@@ -63,6 +64,14 @@
     }
   </script>
 
+  <!-- mute button -->
+  <div class="soundControl" id="soundControl">
+    <button class="soundButton" id="soundButton">
+      <img id="soundimg" style="width: 27px; top: 0%">
+      <img id="muteimg" style="width: 30px; top: 0%">
+    </button>
+  </div>
+
   <!-- score -->
   <div class="score" id="score">
     <div id="score_label">score</div>
@@ -88,4 +97,5 @@
   </div>
 
 </body>
+
 </html>

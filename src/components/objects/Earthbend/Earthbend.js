@@ -2,6 +2,7 @@ import { Group, BoxBufferGeometry, Geometry, Mesh, MeshStandardMaterial, Texture
 import { TWEEN } from 'three/examples/jsm/libs/tween.module.min.js';
 import TEXTURE from '../../../textures/ground.jpg';
 import NORMAL from '../../../textures/ground_normal.jpg';
+import SOUND from '../../../sound/earthbend.mp3';
 import { Gap } from 'objects';
 import { listener } from '../../../app';
 
@@ -41,7 +42,7 @@ class Earthbend extends Group {
 
         var earthsound = new PositionalAudio( listener );
         var audioLoader = new AudioLoader();
-        audioLoader.load('src/sound/earthbend.mp3', function (buffer) {
+        audioLoader.load(SOUND, function (buffer) {
             earthsound.setBuffer(buffer);
             earthsound.setLoop(false);
             earthsound.play();

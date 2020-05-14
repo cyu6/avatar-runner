@@ -4,6 +4,7 @@ import * as THREE from 'three';
 import { Fire } from '../Ground/Obstacle';
 import PARTICLE from '../../../images/smokeparticle.png';
 import { listener } from '../../../app';
+import SOUND from '../../../sound/waterbend.mp3';
 
 class Waterbend extends Group {
     constructor(parent, xpos) {
@@ -100,7 +101,7 @@ class Waterbend extends Group {
 
         var watersound = new PositionalAudio( listener );
         var audioLoader = new AudioLoader();
-        audioLoader.load('src/sound/waterbend.mp3', function (buffer) {
+        audioLoader.load(SOUND, function (buffer) {
             watersound.setBuffer(buffer);
             watersound.setLoop(false);
             watersound.play();

@@ -1,6 +1,7 @@
 import { SphereBufferGeometry, Mesh, MeshBasicMaterial, Group, PositionalAudio, AudioLoader } from 'three';
 import { Rock } from '../Ground/Obstacle';
 import { listener } from '../../../app';
+import SOUND from '../../../sound/airbend.mp3';
 
 class Airbend extends Group {
     constructor(parent, xpos) {
@@ -29,7 +30,7 @@ class Airbend extends Group {
 
         var airsound = new PositionalAudio( listener );
         var audioLoader = new AudioLoader();
-        audioLoader.load('src/sound/airbend.mp3', function (buffer) {
+        audioLoader.load(SOUND, function (buffer) {
             airsound.setBuffer(buffer);
             airsound.setLoop(false);
             airsound.play();
