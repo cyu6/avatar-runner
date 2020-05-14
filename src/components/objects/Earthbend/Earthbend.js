@@ -1,9 +1,10 @@
-import { Group, BoxBufferGeometry, Geometry, Mesh, MeshStandardMaterial, TextureLoader} from 'three';
+import { Group, BoxBufferGeometry, Geometry, Mesh, MeshStandardMaterial, TextureLoader, PositionalAudio, AudioLoader } from 'three';
 import * as THREE from 'three';
 import { TWEEN } from 'three/examples/jsm/libs/tween.module.min.js';
 import TEXTURE from '../../../textures/ground.jpg';
 import NORMAL from '../../../textures/ground_normal.jpg';
 import { Gap } from 'objects';
+import { listener } from '../../../app';
 
 class Earthbend extends Group {
     constructor(parent, xpos) {
@@ -38,6 +39,16 @@ class Earthbend extends Group {
         this.state.distance = bridge.position.z;
 
         this.add(bridge);
+
+        var earthsound = new PositionalAudio( listener );
+        var audioLoader = new AudioLoader();
+        audioLoader.load('src/sound/earthbend.mp3', function (buffer) {
+            earthsound.setBuffer(buffer);
+            earthsound.setLoop(false);
+            earthsound.play();
+        });
+        this.add(earthsound);
+
         parent.addToUpdateList(this);
     }
 

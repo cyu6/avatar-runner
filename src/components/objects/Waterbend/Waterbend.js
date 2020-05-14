@@ -1,8 +1,9 @@
-import { Group } from 'three';
+import { Group, PositionalAudio, AudioLoader } from 'three';
 import { ParticleEngine } from '../../engine';
 import * as THREE from 'three';
 import { Fire } from '../Ground/Obstacle';
 import PARTICLE from '../../../images/smokeparticle.png';
+import { listener } from '../../../app';
 
 class Waterbend extends Group {
     constructor(parent, xpos) {
@@ -96,6 +97,15 @@ class Waterbend extends Group {
         this.position.y = 1;
         this.position.x = xpos;
         this.state.distance = this.position.z;
+
+        var watersound = new PositionalAudio( listener );
+        var audioLoader = new AudioLoader();
+        audioLoader.load('src/sound/waterbend.mp3', function (buffer) {
+            watersound.setBuffer(buffer);
+            watersound.setLoop(false);
+            watersound.play();
+        });
+        this.add(watersound);
         
         parent.addToUpdateList(this);
     }

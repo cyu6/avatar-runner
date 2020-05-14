@@ -7,7 +7,6 @@
  *
  */
 import { WebGLRenderer, PerspectiveCamera, Vector3 } from 'three';
-import { OrbitControls } from 'three/examples/jsm/controls/orbitcontrols.js';
 import { GameScene } from 'scenes';
 import * as THREE from 'three';
 import game from './game';
@@ -17,14 +16,14 @@ import LOGO from './images/atla_logo.svg';
 import PAUSE from './images/pause.svg';
 import SOUND from './sound/background.mp3';
 
-var head = document.getElementsByTagName('HEAD')[0];
-var link = document.createElement('link');
-link.rel = 'stylesheet';
-link.type = 'text/css';
-link.href = './src/game.css';
-head.appendChild(link);
+// var head = document.getElementsByTagName('HEAD')[0];
+// var link = document.createElement('link');
+// link.rel = 'stylesheet';
+// link.type = 'text/css';
+// link.href = './src/game.css';
+// head.appendChild(link);
 
-var scene, camera, renderer, scorekeeper, sound;
+var scene, camera, renderer, scorekeeper, listener, sound;
 // var controls;
 
 function createScene() {
@@ -49,8 +48,12 @@ function createScene() {
     document.body.style.overflow = 'hidden'; // Fix scrolling
     document.body.appendChild(canvas);
 
+    listener = new THREE.AudioListener();
+    camera.add( listener );
+
     sound = document.createElement("audio");
     sound.src = SOUND;
+    sound.volume = 0.09;
     sound.setAttribute("preload", "auto");
     sound.setAttribute("controls", "none");
     sound.style.display = "none";
@@ -154,7 +157,6 @@ function restartClick() {
 function showReplay() {
     background.style.display = "block";
     replayDiv.style.display = "block";
-    sound.pause();
 }
 
 function hideReplay() {
@@ -208,6 +210,8 @@ function init() {
     appa.className = "appa";
     loading.prepend(appa);
 
+    loading.style.display = 'flex';
+
     var landinghead = document.getElementById("landing_header");
     var logo = document.createElement("img");
     logo.src = LOGO;
@@ -236,3 +240,5 @@ function init() {
     window.requestAnimationFrame(onAnimationFrameHandler);
 }
 window.addEventListener('load', init, false)
+
+export { listener }
