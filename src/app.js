@@ -106,6 +106,7 @@ function onPauseHandler(event) {
     if (game.status == "playing") {
         game.status = "pause";
         pause.style.display = "block";
+        background.style.display = "block";
         sound.pause();
         var current = new Date().getTime();
         scorekeeper.oldScore += (current - scorekeeper.startTime);
@@ -114,6 +115,7 @@ function onPauseHandler(event) {
         // want to restart
         game.status = "playing";
         pause.style.display = "none";
+        background.style.display = "none";
         sound.play();
         scorekeeper.status = "playing"
         var current = new Date().getTime();
@@ -136,6 +138,19 @@ function replayClick() {
     window.requestAnimationFrame(onAnimationFrameHandler);
 }
 
+function restartClick() {
+    hidePause();
+    game.status = "playing";
+    scorekeeper = {
+        oldScore: 0,
+        startTime: new Date().getTime(),
+        status: "playing",
+    };
+    scene.resetScene();
+    sound.play();
+    window.requestAnimationFrame(onAnimationFrameHandler);
+}
+
 function showReplay() {
     background.style.display = "block";
     replayDiv.style.display = "block";
@@ -145,6 +160,11 @@ function showReplay() {
 function hideReplay() {
     background.style.display = "none";
     replayDiv.style.display = "none";
+}
+
+function hidePause() {
+    pause.style.display = "none";
+    background.style.display = "none";
 }
 
 function startGame() {
@@ -163,7 +183,7 @@ function updateScore() {
     score_value.innerHTML = Math.floor((scorekeeper.oldScore + (current - scorekeeper.startTime)) / 1000);
 }
 
-var replayDiv, replayButton, startButton, loading, landingDiv, background, pause, scoreDiv, score_value;
+var replayDiv, replayButton, startButton, loading, landingDiv, background, pause, restartButton, scoreDiv, score_value;
 
 function init() {
 
@@ -173,8 +193,10 @@ function init() {
     replayDiv = document.getElementById("replayGame");
     replayButton = document.getElementById("replayButton");
     startButton = document.getElementById("startButton");
+    restartButton = document.getElementById("restartButton");
     startButton.onclick = function () { startGame() };
     replayButton.onclick = function () { replayClick() };
+    restartButton.onclick = function () { restartClick() };
     pause = document.getElementById("pause");
     scoreDiv = document.getElementById("score");
     score_value = document.getElementById("score_value");
@@ -196,7 +218,8 @@ function init() {
     var pause_icon = document.createElement("img");
     pause_icon.src = PAUSE;
     pause_icon.alt = "pause icon";
-    pause.appendChild(pause_icon);
+    pause_icon.id = "pause_icon"
+    pause.prepend(pause_icon);
 
     game.status = "ready";
     createScene();

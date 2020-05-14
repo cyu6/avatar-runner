@@ -64,21 +64,6 @@
 	position: absolute;
 }
 
-button {
-	text-align: center;
-	width: 300px;
-	height: 90px;
-	color: white;
-	background-color: #3e6bc7;
-	border-radius: 6px;
-	border: none;
-	font-size: 36px;
-	font-family: 'Avenir Next', sans-serif;
-	font-style: italic;
-}
-
-button:hover { background-color: #d9ccba; color: black; }
-
 .landing{
 	display: none;
 	text-align: center;
@@ -102,12 +87,26 @@ button:hover { background-color: #d9ccba; color: black; }
 .landing_buttons  {
 	margin-bottom: 30px;
 }
+.landing_buttons button {
+	text-align: center;
+	width: 300px;
+	height: 90px;
+	color: white;
+	background-color: #3e6bc7;
+	border-radius: 6px;
+	border: none;
+	font-size: 36px;
+	font-family: 'Avenir Next', sans-serif;
+	font-style: italic;
+}
+
+.landing_buttons button:hover { background-color: #d9ccba; color: black; }
 
 .instructions{
 	display: none;
 	text-align: center;
 	z-index: 1;
-	height: 85%;
+	height: 90%;
 	width: 40%;
 	background-color: #d9ccba;
 	top: 50%;
@@ -119,6 +118,17 @@ button:hover { background-color: #d9ccba; color: black; }
 	-ms-transform: translate(-50%,-50%);
 	position: absolute;
 }
+.closebutton {
+	text-align: left;
+}
+.instructions button {
+	background-color: #d9ccba;
+	color: black;
+	border: none;
+	font-size: 22px;
+	font-family: 'Avenir Next', sans-serif;
+}
+.instructions button:hover { color: white; }
 .instructions h2 {
 	font-size: 36px;
 	font-family: 'Avenir Next', sans-serif;
@@ -158,21 +168,41 @@ button:hover { background-color: #d9ccba; color: black; }
 	font-size: 36px;
 }
 
-
 .pause {
 	display: none;
 	top: 50%;
 	left: 50%;
-	z-index: 1;
+	text-align: center;
+	/* z-index: 1; */
 	transform: translate(-50%,-50%);
 	-webkit-transform: translate(-50%,-50%);
 	-moz-transform: translate(-50%,-50%);
 	-ms-transform: translate(-50%,-50%);
 	position: absolute;
 }
-.pause img { 
-	width: 100%;
+.pause img {  
+	width: 30%;
 }
+.pause button {
+	text-align: center;
+	width: 300px;
+	height: 90px;
+	color: black;
+	background-color: #d9ccba;
+	border-radius: 6px;
+	border: none;
+	font-size: 36px;
+	font-family: 'Avenir Next', sans-serif;
+	font-style: italic;
+}
+.pause button:hover { background-color: #3e6bc7; color: white; }
+#pausemenu {
+	padding-top: 30px;
+}
+.pmenubuttons {
+	margin-bottom: 30px;
+}
+
 
 .replayGame {
 	display: none;
@@ -191,5 +221,17 @@ button:hover { background-color: #d9ccba; color: black; }
 	font-size: 80px;
 }
 .replayGame button {
+	text-align: center;
+	width: 300px;
+	height: 90px;
+	color: white;
+	background-color: #3e6bc7;
+	border-radius: 6px;
+	border: none;
+	font-size: 36px;
+	font-family: 'Avenir Next', sans-serif;
+	font-style: italic;
 	padding-top: 10px;
 }
+
+.replayGame button:hover { background-color: #d9ccba; color: black; }

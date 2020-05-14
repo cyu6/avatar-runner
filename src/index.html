@@ -33,12 +33,13 @@
         <h1 id="name">The Last Infinite Runner</h1>
       </div>
       <div id="landingButtons">
-        <div class="landing_buttons"><button id="tutorialButton" onmouseenter="showInstructions()">how to bend</button></div>
+        <div class="landing_buttons"><button id="tutorialButton" onclick="showInstructions()">how to bend</button></div>
         <div class="landing_buttons"><button id="startButton">let's run!</button></div>
       </div>
   </div>
 
-  <div class="instructions" id="instructions" onmouseleave="hideInstructions()">
+  <div class="instructions" id="instructions">
+    <div class="closebutton"><button id="closeButton" onclick="hideInstructions()">close</button></div>
     <h2>how to play</h2>
     <p>bend the right element to defeat obstacles</p>
     <p>try to survive for as long as you can!</p>
@@ -72,6 +73,12 @@
   <div class="pause" id="pause">
     <!-- pause by uzeir syarief from the Noun Project -->
     <!-- <img src='src/images/pause.svg' alt="pause button"> -->
+    <div class="pausemenu" id="pausemenu">
+      <div class="pmenubuttons">
+        <button id="helpButton" onclick="showInstructions()">how to bend</button>
+      </div>
+      <div class="pmenubuttons"><button id="restartButton">restart game</button></div>
+    </div>
   </div>
 
   <!-- game over -->
