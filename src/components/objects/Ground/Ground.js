@@ -69,7 +69,7 @@ class Ground extends Group {
         const index2 = this.state.objects.indexOf(object);
         if (index2 > -1) this.state.objects.splice(index2, 1);
         this.remove( object );
-        object.clean();
+        this.clean(object);
     }
     
     clean() {

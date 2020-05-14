@@ -109,7 +109,7 @@
 	text-align: center;
 	z-index: 1;
 	height: 90%;
-	width: 40%;
+	width: 50%;
 	background-color: #d9ccba;
 	top: 50%;
 	left: 50%;
@@ -141,7 +141,7 @@
 .instructions p {
 	font-size: 24px;
 	font-family: 'Avenir Next', sans-serif;
-	line-height: 10px;
+	line-height: 30px;
 }
 .controls p {
 	margin-top: 20px;
