@@ -1,7 +1,7 @@
 import { Group, DodecahedronBufferGeometry, TextureLoader, MeshStandardMaterial, Mesh } from 'three';
-import TEXTURE from '../../../../textures/ground.jpg';
-import NORMAL from '../../../../textures/ground_normal.jpg';
-import DISP from '../../../../textures/ground_displacement.png';
+import TEXTURE from '../../../../textures/rock.jpg';
+import NORMAL from '../../../../textures/rock_normal.jpg';
+import DISP from '../../../../textures/rock_displacement.png';
 
 class Rock extends Group {
     constructor(parent) {
