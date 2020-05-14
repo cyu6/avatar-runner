@@ -67,12 +67,19 @@ class Ground extends Group {
             this.state.updateList.splice(index1, 1);
         }
         const index2 = this.state.objects.indexOf(object);
-        this.state.objects.splice(index2, 1);
+        if (index2 > -1) this.state.objects.splice(index2, 1);
         this.remove( object );
-        // Remove ice texture maps
-        // Remove fire stuff? Don't know what might be attached, material? texture?
-        // Remove rock texture maps
-        
+        object.clean();
+    }
+    
+    clean() {
+        var mesh = this.children[0];
+        mesh.geometry.dispose();
+        mesh.material.map.dispose();
+        mesh.material.normalMap.dispose();
+        mesh.material.displacementMap.dispose();
+        mesh.material.dispose();
+        mesh = undefined;
     }
 
     spawnObstacles(temp) {

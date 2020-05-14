@@ -32,11 +32,11 @@ class Ice extends Group {
         });
 
 
-        var displacement = loader.load(DISPLACEMENT, function(texture) {
-            texture.wrapS = texture.wrapT = THREE.RepeatWrapping;
-            texture.offset.set(0, 0);
-            texture.repeat.set(3, 2);
-        });
+        // var displacement = loader.load(DISPLACEMENT, function(texture) {
+        //     texture.wrapS = texture.wrapT = THREE.RepeatWrapping;
+        //     texture.offset.set(0, 0);
+        //     texture.repeat.set(3, 2);
+        // });
 
         var specular = loader.load(SPECULAR, function(texture) {
             texture.wrapS = texture.wrapT = THREE.RepeatWrapping;
@@ -46,7 +46,7 @@ class Ice extends Group {
 
         var obsGeometry = new BoxBufferGeometry(5, 4, 0.25, 50, 40);
         var obsMaterial = new MeshPhongMaterial({color: 0xbddeec, flatShading: true, map: obsTexture, normalMap: normTexture,
-                                                       displacementMap: displacement, displacementScale: 0.1, specularMap: specular,
+                                                       specularMap: specular,
                                                        opacity: 0.7, });
         var obs = new Mesh(obsGeometry, obsMaterial);
 

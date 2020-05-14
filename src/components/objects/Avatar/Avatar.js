@@ -6,7 +6,7 @@ import 'three/src/animation/AnimationAction.js';
 import { TWEEN } from 'three/examples/jsm/libs/tween.module.min.js';
 import MODEL from './aang.gltf';
 import game from '../../../game';
-import { Firebend, Waterbend, Earthbend, Airbend, Gap } from 'objects';
+import { Firebend, Waterbend, Earthbend, Airbend, Rock } from 'objects';
 
 var LoopOnce = 2200;
 
@@ -192,7 +192,7 @@ class Avatar extends Group {
             object1.updateMatrixWorld();
             object2.updateMatrixWorld();
 
-            var box1 = object1.geometry.boundingBox.clone();
+            var box1 = object1.geometry.boundingBox.clone().expandByScalar(0.5);
             box1.applyMatrix4(object1.matrixWorld);
 
             var box2 = object2.geometry.boundingBox.clone();
@@ -205,7 +205,6 @@ class Avatar extends Group {
             var collision = detectBoxCollision(obstacles[obs].children[0], mesh);
             if (collision) {
                 // if (obstacles[obs] instanceof Gap) this.fall();
-                // console.log("AVATAR HIT ", obstacles[obs]);
                 game.status = "end";
             }
         }

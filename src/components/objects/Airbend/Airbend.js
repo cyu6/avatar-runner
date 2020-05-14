@@ -64,7 +64,7 @@ class Airbend extends Group {
             }            
         }
     }
-
+    
     update(timeStamp, obstacles) {
         if (this.state.distance - this.position.z > 6) {
             // delete element

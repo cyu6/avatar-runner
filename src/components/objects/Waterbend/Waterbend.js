@@ -130,7 +130,7 @@ class Waterbend extends Group {
             }            
         }
     }
-
+    
     update(timeStamp, obstacles) {
         this.state.engine.update( 0.01 * 0.5 );
         if (this.state.distance - this.position.z > 6) {

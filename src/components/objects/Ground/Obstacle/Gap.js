@@ -11,7 +11,7 @@ class Gap extends Group {
         };
 
         this.name = 'gap';
-        var planeGeometry = new THREE.PlaneBufferGeometry(7, 3);
+        var planeGeometry = new THREE.PlaneBufferGeometry(7, 2);
         var planeMaterial = new THREE.MeshBasicMaterial({ transparent: true, opacity: 0 });
         var plane = new THREE.Mesh(planeGeometry, planeMaterial);
         

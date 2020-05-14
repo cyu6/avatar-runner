@@ -89,7 +89,6 @@ class GameScene extends Scene {
         const index = this.state.updateList.indexOf(object);
         if (index > -1) this.state.updateList.splice(index, 1);
         this.remove(object);
-        // Remove firebending, waterbending, earthbending textures
     }
 
     resetScene() {
