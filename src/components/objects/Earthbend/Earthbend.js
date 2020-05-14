@@ -97,7 +97,7 @@ class Earthbend extends Group {
     }
 
     update(timeStamp, obstacles) {
-        if (this.state.distance - this.position.z > 10) {
+        if (this.position.z > 10) {
             // delete element
             this.parent.removeObject(this);
         }
