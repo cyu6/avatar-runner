@@ -28,7 +28,7 @@ class Rock extends Group {
         rock.castShadow = true;
         rock.position.x = (Math.random() - 0.5) * 3
         rock.position.y = radius + 1;
-        rock.position.z = -8;
+        rock.position.z = -10;
         this.state.distance = rock.position.x;
         this.add(rock);
 
@@ -40,6 +40,7 @@ class Rock extends Group {
 
         if (Math.abs(this.position.x - this.state.distance) > 5) {
             // delete element
+            // debugger
             this.parent.removeObject(this);
         }
 
@@ -51,7 +52,7 @@ class Rock extends Group {
                 this.position.x -= 0.1;
             }
         }
-        this.position.z += 0.09;
+        this.position.z += 0.05;
     }
 }
 

@@ -41,10 +41,6 @@ class Earthbend extends Group {
         parent.addToUpdateList(this);
     }
 
-    handleCollisions(obstacles)  {
-
-    }
-
 
     spin() {
         const jumpUp = new TWEEN.Tween(this.position)
@@ -85,6 +81,7 @@ class Earthbend extends Group {
             if (collision && (obstacles[obs] instanceof Gap)) {
                 obstacles[obs].parent.removeObject(obstacles[obs]);
                 // this.parent.removeObject(this);
+                // console.log("EARTH HIT ", obstacles[obs]);
                 return;
             }
         }

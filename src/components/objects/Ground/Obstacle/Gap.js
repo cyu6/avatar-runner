@@ -21,7 +21,7 @@ class Gap extends Group {
         this.position.z = -75;
 
         // Add self to parent's update list
-        parent.addToUpdateList(this);
+        // parent.addToUpdateList(this);
         // parent.add(obs);
 
     }

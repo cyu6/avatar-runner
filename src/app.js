@@ -7,6 +7,7 @@
  *
  */
 import { WebGLRenderer, PerspectiveCamera, Vector3 } from 'three';
+import { OrbitControls } from 'three/examples/jsm/controls/orbitcontrols.js';
 import { GameScene } from 'scenes';
 import * as THREE from 'three';
 import game from './game';
@@ -24,6 +25,7 @@ link.href = './src/game.css';
 head.appendChild(link);
 
 var scene, camera, renderer, scorekeeper, sound;
+// var controls;
 
 function createScene() {
     // Initialize core ThreeJS components

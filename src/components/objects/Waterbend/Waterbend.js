@@ -124,6 +124,8 @@ class Waterbend extends Group {
             if (collision && (obstacles[obs] instanceof Fire)) {
                 obstacles[obs].parent.removeObject(obstacles[obs]);
                 this.parent.removeObject(this);
+                // console.log("WATER HIT ", obstacles[obs]);
+
                 return;
             }            
         }

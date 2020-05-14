@@ -216,7 +216,7 @@ class Fire extends Group {
          fragmentShader: FireShader.fragmentShader,
          transparent: true,
          depthWrite: false,
-         depthTest: true
+         depthTest: false
       });
 
       this.state = {
@@ -236,7 +236,7 @@ class Fire extends Group {
       fireMaterial.uniforms.seed.value = Math.random() * 19.19;
 
       var fire = new THREE.Mesh(new THREE.BoxGeometry(1.0, 1.0, 1.0), fireMaterial);
-      fire.name = 'fire';
+      this.name = 'fire';
 
       this.add(fire);
       parent.addToUpdateList(this);
@@ -244,7 +244,7 @@ class Fire extends Group {
 
    update(timeStamp) {
 
-      this.position.z += 0.09;
+      this.position.z += 0.05;
 
 
       var invModelMatrix = this.state.material.uniforms.invModelMatrix.value;

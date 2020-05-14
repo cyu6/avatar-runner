@@ -1,9 +1,10 @@
-import { Group, Object3D, Clock, PlaneBufferGeometry, MeshStandardMaterial, Mesh } from 'three';
+import { Group, Object3D, Clock } from 'three';
 import { OBJLoader } from 'three/examples/jsm/loaders/OBJLoader.js';
 import { MTLLoader } from 'three/examples/jsm/loaders/MTLLoader.js';
 import MODEL from './files/mount.blend1.obj';
 import MAT1 from './files/mount1.mtl';
 import MAT2 from './files/mount2.mtl';
+import game from '../../../game';
 
 // https://3dtextures.me/2018/02/27/snow-002/
 
@@ -17,16 +18,9 @@ class Background extends Group {
             obj: new Object3D(),
             obj2: new Object3D(),
             clock: new Clock(),
-            // river: null,
+            mountains: [],
+            removeClock: new Clock(),
         };
-
-        // var planeGeometry = new PlaneBufferGeometry(7, 200, 7, 200);
-        // var planeMaterial = new MeshStandardMaterial({ color: 0x0000ff });
-        // var plane = new Mesh(planeGeometry, planeMaterial);
-        // plane.position.set(0, -3.5, 0);
-        // plane.rotation.set(-Math.PI / 2, Math.PI / 2000, Math.PI);
-        // this.add(plane);
-        // this.state.river = plane;
 
         this.name = 'background';
 
@@ -42,6 +36,8 @@ class Background extends Group {
             clone.position.x = 8;
             this.add(obj);
             this.add(clone);
+            this.state.mountains.push(obj);
+            this.state.mountains.push(clone);
             this.state.obj = obj.clone();
         });
 
@@ -55,10 +51,19 @@ class Background extends Group {
             }
             this.state.obj2 = obj.clone();
         });
-        
+
         // Add self to parent's update list
         parent.addToUpdateList(this);
 
+    }
+
+    removeObject(obj) {
+        this.remove(obj);
+        obj.children[0].geometry.dispose();
+        obj.children[0].material.dispose();
+        obj.children[1].geometry.dispose();
+        obj.children[1].material.dispose();
+        obj = undefined;
     }
 
     randLook(obj) {
@@ -72,7 +77,14 @@ class Background extends Group {
 
         this.position.z += 0.02;
 
-        const { obj, obj2, clock } = this.state;
+        const { obj, obj2, clock, removeClock } = this.state;
+
+        if (game.status == "playing" && removeClock.getElapsedTime() > 10) {
+            this.state.removeClock.start();
+            this.removeObject(this.state.mountains[0]);
+            this.removeObject(this.state.mountains[1]);
+            this.state.mountains.splice(0, 2);
+        }
 
         // Add another mountain
         if (clock.getElapsedTime() > 4) {
@@ -93,6 +105,8 @@ class Background extends Group {
                 }
                 this.add(new_obs);
                 this.add(clone);
+                this.state.mountains.push(new_obs);
+                this.state.mountains.push(clone);
                 return;
             }
             const new_obs = obj.clone();
@@ -102,6 +116,8 @@ class Background extends Group {
             clone.position.x = 8;
             this.add(new_obs);
             this.add(clone);
+            this.state.mountains.push(new_obs);
+            this.state.mountains.push(clone);
         }
     }
 }

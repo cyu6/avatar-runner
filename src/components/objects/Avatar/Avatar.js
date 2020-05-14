@@ -112,7 +112,7 @@ class Avatar extends Group {
             const waterball = new Waterbend(this.parent, this.position.x);
             this.parent.add(waterball);
             this.currentlyAnimating = true;
-            this.playModifierAnimation(this.currentAction, 0.9, this.waterbending, 0.9, this);;
+            this.playModifierAnimation(this.currentAction, 0.95, this.waterbending, 0.95, this);;
         }
     }
 
@@ -205,6 +205,7 @@ class Avatar extends Group {
             var collision = detectBoxCollision(obstacles[obs].children[0], mesh);
             if (collision) {
                 // if (obstacles[obs] instanceof Gap) this.fall();
+                // console.log("AVATAR HIT ", obstacles[obs]);
                 game.status = "end";
             }
         }

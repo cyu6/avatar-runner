@@ -18,6 +18,7 @@ class Ground extends Group {
             updateList: [],
             clock: new Clock(),
             objects: [],
+            current: false,
         };
 
         var loader = new TextureLoader();
@@ -60,19 +61,23 @@ class Ground extends Group {
     }
 
     removeObject(object) {
+
+        if (!(object instanceof Gap)) {
+            const index1 = this.state.updateList.indexOf(object);
+            this.state.updateList.splice(index1, 1);
+        }
+        const index2 = this.state.objects.indexOf(object);
+        this.state.objects.splice(index2, 1);
         this.remove( object );
         // Remove ice texture maps
         // Remove fire stuff? Don't know what might be attached, material? texture?
         // Remove rock texture maps
-        const index1 = this.state.updateList.indexOf(object);
-        this.state.updateList.splice(index1, 1);
-        const index2 = this.state.objects.indexOf(object);
-        this.state.objects.splice(index2, 1);
+        
     }
 
     spawnObstacles(temp) {
         // Add another obstacle
-        if (this.state.clock.getElapsedTime() > 8.0) {
+        if (this.state.clock.getElapsedTime() > 4.75) {
             this.state.clock.start();
             let index = Math.floor(Math.random() * 3 );
             if (index == 0) {
@@ -88,7 +93,7 @@ class Ground extends Group {
             } else {
                 var fire1 = new Fire(this);
                 fire1.scale.set(7, 3, 2);
-                fire1.position.set(0, 1, -20 - this.position.z);
+                fire1.position.set(0, 1, -15 - this.position.z);
                 this.add(fire1);
                 temp.push(fire1);                
             }
@@ -107,7 +112,7 @@ class Ground extends Group {
             else obj.update(timeStamp);
         }
 
-        if (game.status == "playing") {
+        if (game.status == "playing" && this.state.current) {
             this.spawnObstacles(objects);
         }
     }

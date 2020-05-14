@@ -56,12 +56,12 @@ class Ice extends Group {
         this.add(obs);
 
         // Add self to parent's update list
-        // parent.addToUpdateList(this);
+        parent.addToUpdateList(this);
         // parent.add(obs);
     }
 
     update(timeStamp) {
-        this.position.z += 0.09;
+        this.position.z += 0.05;
     }
 }
 

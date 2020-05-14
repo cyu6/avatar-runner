@@ -100,6 +100,8 @@ class Firebend extends Group {
             if (collision && (obstacles[obs] instanceof Ice)) {
                 obstacles[obs].parent.removeObject(obstacles[obs]);
                 this.parent.removeObject(this);
+                // console.log("FIRE HIT ", obstacles[obs]);
+
                 return;
             }            
         }

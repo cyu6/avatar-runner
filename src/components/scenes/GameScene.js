@@ -1,6 +1,6 @@
 import * as Dat from 'dat.gui';
-import { Scene, Color, FogExp2, AudioListener, Audio, AudioLoader } from 'three';
-import { Ground, Avatar, Background, Earthbend, Gap } from 'objects';
+import { Scene, Color, FogExp2, Clock } from 'three';
+import { Ground, Avatar, Background, Gap } from 'objects';
 import { GameLights } from 'lights';
 import game from '../../game';
 
@@ -39,6 +39,7 @@ class GameScene extends Scene {
         this.add(ground);
         this.state.obstacles = ground.state.objects;
         this.state.ground = ground;
+        ground.state.current = true;
         ground.add(new Gap(ground));
 
         // scenery
@@ -74,6 +75,10 @@ class GameScene extends Scene {
             avatar.moveAvatar();
         };
         window.addEventListener('keydown', handleKeyDown, false);
+
+
+        // this.clock = new Clock();
+        // this.clock.start();
     }
 
     addToUpdateList(object) {
@@ -110,15 +115,14 @@ class GameScene extends Scene {
             }
             else if (this.children[obj] instanceof Ground) {
                 if (!first) {
-                    const index = this.state.updateList.indexOf(this.children[obj]);
-                    this.state.updateList.splice(index, 1);
+                    this.removeObject(this.children[obj]);
                     let newGround = new Ground(this);
-                    this.children[obj] = newGround;
+                    this.add(newGround);
                     this.state.obstacles = newGround.state.objects;
                     this.state.ground = newGround;
                     newGround.add(new Gap(newGround));
+                    newGround.state.current = true;
                     first = true;
-                    obj++;
                 }
                 else {
                     this.removeObject(this.children[obj]);
@@ -137,15 +141,39 @@ class GameScene extends Scene {
     update(timeStamp) {
         const { updateList } = this.state;
 
+        var first = false;
+
         // Call update for each object in the updateList
         for (const obj of updateList) {
             obj.update(timeStamp, this.state.obstacles);
-            if (obj === this.state.ground) {
+            if (obj === this.state.ground && !first) {
                 // Ground switching
                 if (obj.position.z >= 175) {
+                    // console.log("GROUND SWITCH: ", this.state.ground, this.state.nextGround);
+                    // debugger
+
+                    // Change out old ground
+                    // this.removeObject(this.state.oldGround);
                     this.state.oldGround = this.state.ground;
+                    this.state.oldObstacles = this.state.ground.state.objects;
+                    this.state.oldGround.state.current = false;
+
+                    // Change out ground
                     this.state.ground = this.state.nextGround;
                     this.state.nextGround = null;
+                    this.state.nextObstacles = [];
+
+                    // Move old obstacles to current ground 
+                    // for (let child of this.state.oldGround.state.objects) {
+                    //     debugger
+                    //     var pos = child.position.z;
+                    //     this.state.ground.add(child);
+                    //     child.position.z = pos;
+                    //     this.state.ground.state.objects.push(child);
+                    //     this.state.ground.state.updateList.push(child);
+                    // }
+
+                    // this.state.ground.state.current = true;
                 }
                 else if (obj.position.z > 20 && this.state.nextGround == null) {
                     const ground = new Ground(this);
@@ -155,21 +183,22 @@ class GameScene extends Scene {
                     ground.add(gap);
                     this.state.nextGround = ground;
                     this.state.nextObstacles = ground.state.objects;
-                    this.removeObject(this.state.oldGround);
-                    this.state.oldGround = null;
+                    // console.log("NEW ground: ", ground);
+                } else if (obj.position.z > 30 && !obj.state.current) {
+                    this.state.ground.state.current = true;
                 }
 
-                // Collect obstacles
-                if (this.state.nextGround != null) {
-                    this.state.nextObstacles = this.state.nextGround.state.objects;
-                }
-                if (this.state.oldGround != null) {
-                    this.state.oldObstacles = this.state.oldGround.state.objects;
-                }
-                var temp = this.state.ground.state.objects.concat(this.state.nextObstacles);
-                this.state.obstacles = this.state.oldObstacles.concat(temp);
+                if (this.state.oldGround != null) this.state.oldObstacles = this.state.oldGround.state.objects;
+                this.state.obstacles = this.state.oldObstacles.concat(this.state.ground.state.objects.concat(this.state.nextObstacles));
+                // this.state.obstacles = this.state.oldObstacles.concat(temp);
+                first = true;
             }
         }
+
+        // if (this.clock.getElapsedTime() > 1.5) {
+        //     this.clock.start();
+        //     console.log(this.state.obstacles);
+        // }
     }
 }
 

@@ -19,7 +19,7 @@ class Airbend extends Group {
         var material = new MeshBasicMaterial({ transparent: true, opacity: 0 });
         var air = new Mesh(geometry, material);
 
-        this.position.z = 5.5;
+        this.position.z = 4;
         this.position.y = 2;
         this.position.x = xpos;
         this.state.distance = this.position.z;
@@ -57,6 +57,7 @@ class Airbend extends Group {
                 else {
                     obstacles[obs].state.direction = 1;
                 }
+                // console.log("AIR HIT ", obstacles[obs]);
                 obstacles[obs].state.bend = true;
                 this.parent.removeObject(this);
                 return;
