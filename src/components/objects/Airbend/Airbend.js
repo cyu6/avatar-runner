@@ -67,7 +67,6 @@ class Airbend extends Group {
                 else {
                     obstacles[obs].state.direction = 1;
                 }
-                // console.log("AIR HIT ", obstacles[obs]);
                 obstacles[obs].state.bend = true;
                 this.parent.removeObject(this);
                 return;

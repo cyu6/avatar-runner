@@ -69,17 +69,6 @@ class Ground extends Group {
         const index2 = this.state.objects.indexOf(object);
         if (index2 > -1) this.state.objects.splice(index2, 1);
         this.remove( object );
-        this.clean(object);
-    }
-    
-    clean() {
-        var mesh = this.children[0];
-        mesh.geometry.dispose();
-        mesh.material.map.dispose();
-        mesh.material.normalMap.dispose();
-        mesh.material.displacementMap.dispose();
-        mesh.material.dispose();
-        mesh = undefined;
     }
 
     spawnObstacles(temp) {

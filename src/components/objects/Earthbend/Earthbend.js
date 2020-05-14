@@ -1,5 +1,4 @@
 import { Group, BoxBufferGeometry, Geometry, Mesh, MeshStandardMaterial, TextureLoader, PositionalAudio, AudioLoader } from 'three';
-import * as THREE from 'three';
 import { TWEEN } from 'three/examples/jsm/libs/tween.module.min.js';
 import TEXTURE from '../../../textures/ground.jpg';
 import NORMAL from '../../../textures/ground_normal.jpg';
@@ -92,7 +91,6 @@ class Earthbend extends Group {
             if (collision && (obstacles[obs] instanceof Gap)) {
                 obstacles[obs].parent.removeObject(obstacles[obs]);
                 // this.parent.removeObject(this);
-                // console.log("EARTH HIT ", obstacles[obs]);
                 return;
             }
         }
